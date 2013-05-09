@@ -165,6 +165,7 @@ class Usermodel extends CI_Model {
 		$res = $query->row_array();
 		return $res['user_realname'];
 	}
+<<<<<<< HEAD
 
 	public function getHistoryScan(){
 		$res = array();
@@ -179,6 +180,8 @@ class Usermodel extends CI_Model {
 		return $result;
 	}
 
+=======
+>>>>>>> 0c8e80f4f880af6b0917356900646d24ad02c9bd
 /*
 | -------------------------------------------------------------------
 |  User Validate Functions

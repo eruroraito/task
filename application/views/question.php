@@ -12,6 +12,7 @@
 	<script type="text/javascript" src="../common/jquery-1.6.2.min.js"></script>
 	<script type="text/javascript" src="../common/jquery.form.js"></script>
 	<link type="text/css" rel="stylesheet" href="../common/style.css" />
+<<<<<<< HEAD
 	<link type="text/css" rel="stylesheet" href="../css/header.css" />
 	<link type="text/css" rel="stylesheet" href="../css/question.css" />
 </head>
@@ -38,6 +39,21 @@
 		<form  action="question/addQuestion" enctype="multipart/form-data" method="post" id="myForm" >
 			<h4>添加题目</h4>
 			<label for="question_type" class="question_type">请选择题目类型:</label>
+=======
+	<style type="text/css">
+		nav {text-align: center;}
+		nav a{text-decoration: none; font-size:20px;margin:0 10px 0 0;}
+		nav a:hover{text-decoration: underline;}
+	</style>
+
+</head>
+<body>
+<?php require_once 'header.php';?>
+<article id="container">
+	<section id="body">
+		<form  action="question/addQuestion" enctype="multipart/form-data" method="post" id="myForm" >
+			<label for="question_type">请选择题目类型</label>
+>>>>>>> 0c8e80f4f880af6b0917356900646d24ad02c9bd
 			<select id="question_type" name="question_type">
 				<option value ="0">文字题</option>
 				<option value ="1">看图题</option>
@@ -45,6 +61,7 @@
 				<option value="3">触摸题</option>
 			</select>
 			<br />
+<<<<<<< HEAD
 			<label for="question_name" class="question_name">问题:</label>
 			<textarea class="first" name="question_name" id="question_name" placeholder="请输入问题" maxlength="42"></textarea>
   				<div id="question_image" style="display:none;">
@@ -89,6 +106,51 @@
 	  			<input type="text" name="fill_option_eight" id="fill_optin_8" placeholder="请输入" maxlength="1"/>
 	 			<br />
 		 		<label for="true_num" class="true_num">正确答案字数</label>
+=======
+			<label for="question_name">问题</label>
+			<textarea name="question_name" id="question_name" placeholder="请输入问题" maxlength="42"></textarea>
+  			<div id="question_image" style="display:none;">
+  				<label for="upload_iamge">请上传图片</label>
+  				<input id="upload_iamge" type="file" name="image" />
+  			</div>
+  			<br />
+  			<div id="optionfour">
+	  			<label class="login" for="optin_1">选项1</label>
+	  			<input class="login" type="text" name="option_one" id="optin_1" placeholder="请输入"  maxlength="12" />
+	 			<br />
+	  			<label class="login" for="optin_2">选项2</label>
+	  			<input class="login" type="text" name="option_two" id="optin_2" placeholder="请输入"  maxlength="12" />
+	 			<br />
+	 			<label class="login" for="optin_3">选项3</label>
+	  			<input class="login" type="text" name="option_three" id="optin_3" placeholder="请输入"  maxlength="12" />
+	 			<br />
+	 			<label class="login" for="optin_4">选项4</label>
+	  			<input class="login" type="text" name="option_four" id="optin_4" placeholder="请输入"  maxlength="12" />
+	 			<br />
+  			</div>
+  			<div id="optioneight" style="display:none">
+	  			<label class="login" for="fill_optin_1">选项1</label>
+	  			<input class="login" type="text" name="fill_option_one" id="fill_optin_1" placeholder="请输入" maxlength="1"/>
+	  			<label class="login" for="fill_optin_5">选项5</label>
+	  			<input class="login" type="text" name="fill_option_five" id="fill_optin_5" placeholder="请输入" maxlength="1"/>
+	 			<br />
+	 			<label class="login" for="fill_optin_2">选项2</label>
+	  			<input class="login" type="text" name="fill_option_two" id="fill_optin_2" placeholder="请输入" maxlength="1"/>
+	 			<label class="login" for="fill_optin_6">选项6</label>
+	  			<input class="login" type="text" name="fill_option_six" id="fill_optin_6" placeholder="请输入" maxlength="1"/>
+	 			<br />
+	 			<label class="login" for="fill_optin_3">选项3</label>
+	  			<input class="login" type="text" name="fill_option_three" id="fill_optin_3" placeholder="请输入" maxlength="1"/>
+	  			<label class="login" for="fill_optin_7">选项7</label>
+	  			<input class="login" type="text" name="fill_option_seven" id="fill_optin_7" placeholder="请输入" maxlength="1"/>
+	 			<br />
+	 			<label class="login" for="fill_optin_4">选项4</label>
+	  			<input class="login" type="text" name="fill_option_four" id="fill_optin_4" placeholder="请输入" maxlength="1"/>
+	 			<label class="login" for="fill_optin_8">选项8</label>
+	  			<input class="login" type="text" name="fill_option_eight" id="fill_optin_8" placeholder="请输入" maxlength="1"/>
+	 			<br />
+		 		<label for="true_num">正确答案字数</label>
+>>>>>>> 0c8e80f4f880af6b0917356900646d24ad02c9bd
 	  			<select id="true_num" name="true_num">
 					<option value ="1">1</option>
 					<option value ="2">2</option>
@@ -102,14 +164,23 @@
 				</br />
   			</div>
 
+<<<<<<< HEAD
  			<label for="question_difficulty" class="question_difficulty">题目难度:</label>
+=======
+
+ 			<label for="question_difficulty">难度</label>
+>>>>>>> 0c8e80f4f880af6b0917356900646d24ad02c9bd
   			<select id="question_difficulty" name="question_difficulty">
 				<option value ="1">新手</option>
 				<option value ="2">熟练</option>
 				<option value ="3">高手</option>
 			</select>
 			<br />
+<<<<<<< HEAD
 			<label for="type" class="type">题库类型:</label>
+=======
+			<label for="type">请选择题库类型</label>
+>>>>>>> 0c8e80f4f880af6b0917356900646d24ad02c9bd
 			<select id="type" name="type">
 				<?php foreach ($type as $key => $value) {
 					$option_value = $key+1;
@@ -118,6 +189,7 @@
 				?>					
 			</select>
 			<br />
+<<<<<<< HEAD
 			<label for="exam_use" class="exam_use">题库用途:</label>
 			<select disabled="disabled" id="exam_use">
 				<option value ="0">关卡</option>
@@ -197,6 +269,22 @@
 			$('#two').text('');
 			$('#three').text('');
 			$('#four').text('');
+=======
+			<label for="exam_use">题库用途</label>
+			<select disabled="disabled" id="exam_use">
+				<option value ="0">0</option>
+			</select>
+			<br />
+			<input class="submit" type="submit" value="添加" />
+
+	    </form>
+	</section>
+</article>
+</body>
+<script type="text/javascript">
+	$("#question_type").change( 
+		function() { 
+>>>>>>> 0c8e80f4f880af6b0917356900646d24ad02c9bd
 			$('#optin_1').val('');
 			$('#optin_2').val('');
 			$('#optin_3').val('');
@@ -216,10 +304,15 @@
 				$("#optionfour").hide();
 				$("#optioneight").show();
 				$('#question_name').attr('maxlength','42');		
+<<<<<<< HEAD
 				$('#new_preview').css('background-image','url(../pics/eight.jpg)');
 			}else
 			{
 				$('#new_preview').css('background-image','url(../pics/four.jpg)');
+=======
+			}else
+			{
+>>>>>>> 0c8e80f4f880af6b0917356900646d24ad02c9bd
 				$("#optionfour").show();
 				$("#optioneight").hide();	
 				if($(this).val()==1||$(this).val()==3)

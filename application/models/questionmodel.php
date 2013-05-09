@@ -86,7 +86,11 @@ class Questionmodel extends CI_Model {
 			if($info['user']!=SEARCH_SUPER_ALL) 		$this->db->where('name_origin',$info['user']);
 			if($info['auditer']!=SEARCH_SUPER_ALL) 		$this->db->where('name_audit',$info['auditer']);
 			if($info['status']!=SEARCH_ALL) 			$this->db->where('status',$info['status']);
+<<<<<<< HEAD
 			else $this->db->where_in('status',array(0,1,2,3,-1));
+=======
+			else $this->db->where_in('status',array(0,1,2));
+>>>>>>> 0c8e80f4f880af6b0917356900646d24ad02c9bd
 			if($info['difficult']!=SEARCH_ALL) 			$this->db->where('difficulty',$info['difficult']);
 			if($info['date_start']!='')					$this->db->where('time_update >=',$info['date_start']);
 			if($info['date_end']!='')					$this->db->where('time_update <=',$info['date_end']);
@@ -117,7 +121,11 @@ class Questionmodel extends CI_Model {
 				if($info['user']!=SEARCH_SUPER_ALL) 	  $this->db->where('name_origin',$info['user']);
 				if($info['auditer']!=SEARCH_SUPER_ALL) 	  $this->db->where('name_audit',$info['auditer']);
 				if($info['status']!=SEARCH_ALL) 		  $this->db->where('status',$info['status']);
+<<<<<<< HEAD
 				else $this->db->where_in('status',array(0,1,2,3,-1));
+=======
+				else $this->db->where_in('status',array(0,1,2));
+>>>>>>> 0c8e80f4f880af6b0917356900646d24ad02c9bd
 				if($info['difficult']!=SEARCH_ALL) 		  $this->db->where('difficulty',$info['difficult']);
 				//print_r($info);die();
 				if($info['date_start']!='')					$this->db->where('time_update >=',$info['date_start']);
@@ -155,7 +163,25 @@ class Questionmodel extends CI_Model {
 			$res[$key]['name_origin']  = $date['name_origin']['user_realname'];
 			$date['type'] =  $this->getTypeId($res[$key]['type']);
 			$res[$key]['type']  = $date['type'];	
+<<<<<<< HEAD
 	
+=======
+			switch ($res[$key]['status']) {
+						case 0:
+							$res[$key]['status'] = "未审核";
+							break;
+						case 1:							
+							$res[$key]['status'] = "审核不通过";
+							break;
+						case 2:						
+							$res[$key]['status'] = "审核通过";
+							break;
+						
+						default:
+							$res[$key]['status'] = "未审核";
+							break;
+					}	
+>>>>>>> 0c8e80f4f880af6b0917356900646d24ad02c9bd
 			$date['name_update'] = $this->m_user->getUserRealNameByUserName($res[$key]['name_update']);
 			$res[$key]['name_update'] = $date['name_update'];
 		}

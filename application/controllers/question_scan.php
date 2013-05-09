@@ -19,7 +19,10 @@ class Question_scan extends PC_controller {
 		$data['auditerlist'] = $this->m_user->getAuditerList();
 		$data['permission'] = $this->m_app->getPermission();
 		$data['current_user'] = $this->m_app->getCurrentUserRealName();
+<<<<<<< HEAD
 		$data['scan'] = $this->m_user->getHistoryScan();
+=======
+>>>>>>> 0c8e80f4f880af6b0917356900646d24ad02c9bd
 		$this->load->view('question_scan',$data);
 	}
 

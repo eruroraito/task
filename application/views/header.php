@@ -7,5 +7,9 @@
 	echo 	'<a href="download">资料下载</a>';
 	echo 	'<a href="personal">个人账号</a>';
 	echo 	'<a href="system">系统</a>';
+<<<<<<< HEAD
+=======
+	echo 	'<a href="login/logout">注销</a>';
+>>>>>>> 0c8e80f4f880af6b0917356900646d24ad02c9bd
 	echo '</nav>';
 ?>
