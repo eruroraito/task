@@ -17,7 +17,6 @@
 	
 	<link type="text/css" rel="stylesheet" href="../common/style.css" />
 	<link rel="stylesheet" href="../common/date_input.css" type="text/css">
-<<<<<<< HEAD
 	<link type="text/css" rel="stylesheet" href="../css/header.css" />
 	<link rel="stylesheet" href="../common/jquery.lightbox-0.5.css" type="text/css">
 	<style type="text/css">
@@ -63,26 +62,12 @@
 		div.table_footer{border:1px solid #000;border-right: none;position: absolute;bottom:15px;left:10px;width:523px;height:26px;}
 
 
-=======
-	<link rel="stylesheet" href="../common/jquery.lightbox-0.5.css" type="text/css">
-	<style type="text/css">
-		div.select{ float:left;margin-right:20px;}
-		table,table th,table td {border:1px solid;}
-		table tr:hover{background:yellow;}
->>>>>>> 0c8e80f4f880af6b0917356900646d24ad02c9bd
 		table td.hidden {display: none;}
 		#preview {display: none;position:relative;}
 		#edit {background:#000; position:absolute;z-index:999;width:100px;height:200px;}
 		input.preview_submit{display: none;}
 		#question_type_title{display: none;}
 		#question_id{display: none;}
-<<<<<<< HEAD
-=======
-
-		nav {text-align: center;}
-		nav a{text-decoration: none; font-size:20px;margin:0 10px 0 0;}
-		nav a:hover{text-decoration: underline;}
->>>>>>> 0c8e80f4f880af6b0917356900646d24ad02c9bd
 		#redirect {width:30px;}
 		span{cursor: default;}
 		#final_preview{background:url(../pics/iphone5_bg.jpg) no-repeat;width:319px;height:508px;position: relative;}
@@ -112,7 +97,6 @@
 
 </head>
 <body>
-<<<<<<< HEAD
 <article id="container">
 	<header>
 		<div id="div_logout">
@@ -134,14 +118,6 @@
 		<form action="question_scan/getQuestionList" method="post" id="myForm" class="myForm">
 			<div class="select">
 				<label for="tk_type">题库类型:</label>
-=======
-<?php require_once 'header.php';?>
-<article id="container">
-	<section>
-		<form action="question_scan/getQuestionList" method="post" id="myForm">
-			<div class="select">
-				<label for="tk_type">题库类型</label><br />
->>>>>>> 0c8e80f4f880af6b0917356900646d24ad02c9bd
 				<select id="tk_type" name="type">
 					<option value ="9999">全部</option>
 					<?php foreach ($type as $key => $value) {
@@ -152,11 +128,7 @@
 				</select>
 			</div>
 			<div class="select">
-<<<<<<< HEAD
 				<label for="question_type">题目类型:</label>
-=======
-				<label for="question_type">题目类型</label><br />
->>>>>>> 0c8e80f4f880af6b0917356900646d24ad02c9bd
 				<select id="question_type" name="question_type">
 					<option value ="9999">全部</option>
 					<option value ="0">文字题</option>
@@ -166,7 +138,6 @@
 				</select>
 			</div>
 			<div class="select">
-<<<<<<< HEAD
 				<label for="difficult">难度:</label>
 				<select id="difficult" name="difficult">
 					<option value ="9999">全部</option>
@@ -177,9 +148,6 @@
 			</div>
 			<div class="select">
 				<label for="user">出题人:</label>
-=======
-				<label for="user">出题人</label><br />
->>>>>>> 0c8e80f4f880af6b0917356900646d24ad02c9bd
 				<select id="user" name="user">
 					<option value ="all">全部</option>
 					<?php foreach ($userlist as $key => $value) {
@@ -189,28 +157,18 @@
 					?>	
 				</select>
 			</div>
-<<<<<<< HEAD
 			<br />
 			<div class="select last" >
 				<label for="auditer">审核人:</label>
 				<select id="auditer" name="auditer">
 					<option value ="all">全部</option>
 					<?php foreach ($auditerlist as $key => $value) {
-=======
-			<div class="select">
-				<label for="auditer">审核人</label><br />
-				<select id="auditer" name="auditer">
-					<option value ="all">全部</option>
-					<?php foreach ($auditerlist as $key => $value) {
-						//$option_value = $key+1;
->>>>>>> 0c8e80f4f880af6b0917356900646d24ad02c9bd
 						echo "<option value =".$value['user_name'].">".$value['user_realname']."</option>";
 					}
 					?>	
 				</select>
 			</div>
 			<div class="select">
-<<<<<<< HEAD
 				<label for="date_start">起始日期:</label>
 				<input id="date_start" type="text" class="biuuu1" name="date_start" />
 				<label for="date_end">结束日期:</label>
@@ -219,15 +177,11 @@
 			<br />
 			<div class="select last" id="select_status">
 				<label for="status">状态:</label>
-=======
-				<label for="status">状态</label><br />
->>>>>>> 0c8e80f4f880af6b0917356900646d24ad02c9bd
 				<select id="status" name="status">
 					<option value ="9999">全部</option>
 					<option value ="0">未审核</option>
 					<option value ="1">审核通过</option>
 					<option value ="2">审核不通过</option>
-<<<<<<< HEAD
 					<option value ="3">已上架</option>
 					<option value ="-1">已删除</option>
 				</select>
@@ -239,63 +193,25 @@
 			</div>
 			-->
 			<div class="select" id="select_condition">				
-=======
-				</select>
-			</div>
-			<div class="select">
-				<label for="difficult">难度</label><br />
-				<select id="difficult" name="difficult">
-					<option value ="9999">全部</option>
-					<option value ="1">新手</option>
-					<option value ="2">熟练</option>
-					<option value ="3">高手</option>
-				</select>
-			</div>
-			<div class="select" style="width:40px;">
-				<label for="pagination">显示</label><br />
-				<input id="pagination" name="pagination" placeholder="20" maxlength="2" style="width:40px;">
-			</div>
-			<br />
-			<div class="select">
-				<input id="search" name="search" />
->>>>>>> 0c8e80f4f880af6b0917356900646d24ad02c9bd
 				<select id="condition" name="condition">
 					<option value ="1">文字题目</option>
 					<option value ="2">图片编号</option>
 					<option value ="3">题目编号</option>
 				</select>
-<<<<<<< HEAD
 				<input id="search" name="search" />
 			</div>
 			<div class="select" id="select_order">
 				<label for="order_status">排序方式:</label>
-=======
-			</div>
-			<div class="select">
-				<label for="date_start">起始日期</label>
-				<input id="date_start" type="text" class="biuuu1" name="date_start" />
-				<label for="date_end">结束日期</label>
-				<input id="date_end" type="text" class="biuuu2" name="date_end" />
-			</div>
-
-			<div class="select">
->>>>>>> 0c8e80f4f880af6b0917356900646d24ad02c9bd
 				<select id="order_item" name="order_item">
 					<option value ="1">上次更新</option>
 					<option value ="2">题目编号</option>
 				</select>
-<<<<<<< HEAD
-=======
-			</div>
-			<div class="select">
->>>>>>> 0c8e80f4f880af6b0917356900646d24ad02c9bd
 				<select id="order" name="order">
 					<option value ="1">升序</option>
 					<option value ="2">降序</option>
 				</select>
 			</div>
 
-<<<<<<< HEAD
 			<input class="submit" type="submit" value="确定筛选" />
 		</form>
 
@@ -368,12 +284,6 @@
 
 
 		<table id="table_content" class="table_content">
-=======
-
-			<input class="submit" type="submit" value="搜索" />
-		</form>
-		<table id="table_content">
->>>>>>> 0c8e80f4f880af6b0917356900646d24ad02c9bd
 		</table>
 		<section id="footer" style="display:none;">
 			<label for="redirect" >跳转到第</label>
@@ -387,14 +297,11 @@
 		</section>
 	</section>
 
-<<<<<<< HEAD
 
 
 
 
 
-=======
->>>>>>> 0c8e80f4f880af6b0917356900646d24ad02c9bd
 	<section id="preview">
 		<span id="pre_pre">上一条</span>
 		<span id="pre_next">下一条</span>
@@ -1080,11 +987,7 @@
 		//var s = $('#date_start').val();
 		//alert(s);
 		//location.reload();
-<<<<<<< HEAD
 		//return false;
-=======
-		return false;
->>>>>>> 0c8e80f4f880af6b0917356900646d24ad02c9bd
 	});
 	
 	$('#edit_button').click(function(){

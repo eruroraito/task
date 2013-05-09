@@ -11,7 +11,6 @@
 
 	<script type="text/javascript" src="../common/jquery-1.6.2.min.js"></script>
 	<link type="text/css" rel="stylesheet" href="../common/style.css" />
-<<<<<<< HEAD
 	<link type="text/css" rel="stylesheet" href="../css/header.css" />
 	<style type="text/css">
 		section {width:946px;height:480px;margin:0 auto; background:#cfcfcf;padding-top: 60px;position: relative;}
@@ -28,17 +27,10 @@
 		footer{width:948px;margin:10px auto -10px;text-align: center;}
 		span.left{float:left;width:160px;height: 600px;background:url(../pics/home_side.jpg);}
 		span.right{float:right;width:160px;height: 600px;background:url(../pics/home_side.jpg);}
-=======
-	<style type="text/css">
-		nav {text-align: center;}
-		nav a{text-decoration: none; font-size:20px;margin:0 10px 0 0;}
-		nav a:hover{text-decoration: underline;}
->>>>>>> 0c8e80f4f880af6b0917356900646d24ad02c9bd
 	</style>
 </head>
 <body>
 
-<<<<<<< HEAD
 <article id="container">
 	<header>
 		<div id="div_logout">
@@ -74,36 +66,6 @@
 		<p>Copyright 2007-2010上海佳游网络 Corporation All rights reserved.</p>
 	</footer>
 	
-=======
-<?php require_once 'header.php';?>
-
-<article id="container">
-	<section id="body">
-	<!--
-	<nav>
-		<a href="home">首页</a>
-		<a href="question">添加题目</a>
-		<a href="question_scan">浏览题目</a>
-		<a href="statistics">统计数据</a>
-		<a href="download">资料下载</a>
-		<a href="personal">个人账号</a>
-		<a href="system">系统</a>
-		<a href="login/logout">注销</a>
-	</nav>
-	-->
-
-	<dl>
-		<dt>审核通过的题目数量:<?php echo $user_detail['pass'];?></dt>
-		<dd></dd>
-		<dt>审核未通过的题目数量:<?php echo $user_detail['not_pass'];?></dt>
-		<dd></dd>
-		<dt>需要审核的题目数量:<?php echo $user_detail['need'];?></dt>
-		<dd></dd>
-		<dt>最后一次登录:<?php echo $user_detail['time'];?></dt>
-		<dd></dd>
-	</dl>	
-	</section>
->>>>>>> 0c8e80f4f880af6b0917356900646d24ad02c9bd
 </article>
 </body>
 </html>
