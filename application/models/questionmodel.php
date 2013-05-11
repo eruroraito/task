@@ -16,6 +16,14 @@ class Questionmodel extends CI_Model {
 |  User Basic Functions
 | -------------------------------------------------------------------
 */
+	public function editHistory($info){
+		//print_r($info);die();
+		$info['pagination'] = 1;
+		$user_name = $this->m_app->getCurrentUserName();
+		$this->db->where('user_name',$user_name);
+		$this->db->update('history',$info);
+	}
+
 	public function deleteQuestion($info){
 		$db_name = 'question_'.$info['type'];
 		$this->db->where('id',$info['question_id']);
@@ -75,10 +83,11 @@ class Questionmodel extends CI_Model {
 	}
 
 
-	public function getQuestionListSection($info){
+	public function getQuestionListSection($info,$pagination){
 		$res = array();
-		$limit = 0;
+		$pagination_start = SCAN_PERPAGE*($pagination-1);
 		if($info['type']!=SEARCH_ALL){
+			$this->db->start_cache();
 			$db_name = 'question_'.$info['type'];
 			$this->db->select('id,question,time_update,status,name_origin,name_audit,question_type,answer_num,answer_1,answer_2,answer_3,answer_4,answer_5,answer_6,answer_7,answer_8,difficulty,type,name_update,icon');			
 			$this->db->from($db_name);
@@ -88,8 +97,8 @@ class Questionmodel extends CI_Model {
 			if($info['status']!=SEARCH_ALL) 			$this->db->where('status',$info['status']);
 			else $this->db->where_in('status',array(0,1,2,3,-1));
 			if($info['difficult']!=SEARCH_ALL) 			$this->db->where('difficulty',$info['difficult']);
-			if($info['date_start']!='')					$this->db->where('time_update >=',$info['date_start']);
-			if($info['date_end']!='')					$this->db->where('time_update <=',$info['date_end']);
+			if($info['date_start']!='0000-00-00 00:00:00')					$this->db->where('time_update >=',$info['date_start']);
+			if($info['date_end']!='0000-00-00 00:00:00')					$this->db->where('time_update <=',$info['date_end']);
 
 			if($info['search']!=''){
 				if($info['condition']==2){
@@ -105,14 +114,19 @@ class Questionmodel extends CI_Model {
 			if($info['order_item']==SEARCH_QUESTION_ID) $item_sort = 'id';
 			if($info['order']==SEARCH_DESC) $order_sort = 'desc';
 			$this->db->order_by($item_sort,$order_sort);
+			$this->db->stop_cache();
+			$count = $this->db->count_all_results();	
+			//print_r($count);die();
+			$this->db->limit(SCAN_PERPAGE,$pagination_start);
 			$query = $this->db->get();
-			$res = $query->result_array();
+			$this->db->flush_cache(); 
+			$res['list'] = $query->result_array();
 		}else{
-			for($i=1;$i<=TYPE_TOTAL;$i++){
-				$result[$i] = array();
-				$db_name = 'question_'.$i;
+				//$result[$i] = array();
+				//$db_name = 'question_'.$i;
+				$this->db->start_cache();
 				$this->db->select('id,question,time_update,status,name_origin,name_audit,question_type,answer_num,answer_1,answer_2,answer_3,answer_4,answer_5,answer_6,answer_7,answer_8,difficulty,type,name_update,icon');			
-				$this->db->from($db_name);
+				$this->db->from('total');
 				if($info['question_type']!=SEARCH_ALL)    $this->db->where('question_type',$info['question_type']);
 				if($info['user']!=SEARCH_SUPER_ALL) 	  $this->db->where('name_origin',$info['user']);
 				if($info['auditer']!=SEARCH_SUPER_ALL) 	  $this->db->where('name_audit',$info['auditer']);
@@ -120,8 +134,8 @@ class Questionmodel extends CI_Model {
 				else $this->db->where_in('status',array(0,1,2,3,-1));
 				if($info['difficult']!=SEARCH_ALL) 		  $this->db->where('difficulty',$info['difficult']);
 				//print_r($info);die();
-				if($info['date_start']!='')					$this->db->where('time_update >=',$info['date_start']);
-				if($info['date_end']!='')					$this->db->where('time_update <=',$info['date_end']);
+				if($info['date_start']!='0000-00-00 00:00:00')					$this->db->where('time_update >=',$info['date_start']);
+				if($info['date_end']!='0000-00-00 00:00:00')					$this->db->where('time_update <=',$info['date_end']);
 
 				if($info['search']!=''){
 					if($info['condition']==2){
@@ -139,27 +153,40 @@ class Questionmodel extends CI_Model {
 				if($info['order_item']==SEARCH_QUESTION_ID) $item_sort = 'id';
 				if($info['order']==SEARCH_DESC) $order_sort = 'desc';
 				$this->db->order_by($item_sort,$order_sort);
+				$this->db->stop_cache();
+				$count = $this->db->count_all_results();
+				$this->db->limit(SCAN_PERPAGE,$pagination_start);	
 				$query = $this->db->get();
-				$result[$i] = $query->result_array();
-				$res = array_merge($res,$result[$i]);
-			}
-
+				$this->db->flush_cache();
+				//$result[$i] = $query->result_array();
+				//$res = array_merge($res,$result[$i]);
+				$res['list'] = $query->result_array();
 		}
 		
-		foreach ($res as $key => $value) {
-			if($res[$key]['name_audit']=='')  $date['name_audit']['user_realname'] = '';
-			else $date['name_audit'] =  $this->getRealNameByAuditName($res[$key]['name_audit']);
+		foreach ($res['list'] as $key => $value) {
+			if($res['list'][$key]['name_audit']=='')  $date['name_audit']['user_realname'] = '';
+			else $date['name_audit'] =  $this->getRealNameByAuditName($res['list'][$key]['name_audit']);
 
-			$res[$key]['name_audit']  = $date['name_audit']['user_realname'];
-			$date['name_origin'] =  $this->getRealNameByAuditName($res[$key]['name_origin']);
-			$res[$key]['name_origin']  = $date['name_origin']['user_realname'];
-			$date['type'] =  $this->getTypeId($res[$key]['type']);
-			$res[$key]['type']  = $date['type'];	
+			$res['list'][$key]['name_audit']  = $date['name_audit']['user_realname'];
+			$date['name_origin'] =  $this->getRealNameByAuditName($res['list'][$key]['name_origin']);
+			$res['list'][$key]['name_origin']  = $date['name_origin']['user_realname'];
+			//$date['type'] =  $this->getTypeId($res['list'][$key]['type']);
+			//$res['list'][$key]['type']  = $date['type'];	
 	
-			$date['name_update'] = $this->m_user->getUserRealNameByUserName($res[$key]['name_update']);
-			$res[$key]['name_update'] = $date['name_update'];
+			$date['name_update'] = $this->m_user->getUserRealNameByUserName($res['list'][$key]['name_update']);
+			$res['list'][$key]['name_update'] = $date['name_update'];
 		}
 		//print_r($res);die();
+		$res['count'] = $count/SCAN_PERPAGE;
+		$temp = intval($count/SCAN_PERPAGE);
+		if($res['count']>$temp) $temp = $temp+1;
+		if($temp==0) $temp =1;
+		$res['count'] = $temp;
+		$this->db->set('total_pagination',$res['count']);
+		$user_name = $this->m_app->getCurrentUserName();
+		$this->db->where('user_name',$user_name);
+		$this->db->update('history');
+		$res['pagination'] = $pagination;
 		return $res;
 	}
 
@@ -403,12 +430,6 @@ class Questionmodel extends CI_Model {
 		}elseif(!isset($input['difficult']) || !validate($input['difficult'])){
 			$this->_CI->response->setSuccess(false);
 			$this->_CI->response->setDetail($this->lang->line('error_parameter'));
-		}elseif(!isset($input['pagination'])){
-			$this->_CI->response->setSuccess(false);
-			$this->_CI->response->setDetail($this->lang->line('error_parameter'));
-		}elseif(!isset($input['pagination'])){
-			$this->_CI->response->setSuccess(false);
-			$this->_CI->response->setDetail($this->lang->line('error_parameter'));
 		}elseif(!isset($input['search']) || !validate($input['condition'])){
 			$this->_CI->response->setSuccess(false);
 			$this->_CI->response->setDetail($this->lang->line('error_parameter'));
@@ -425,7 +446,6 @@ class Questionmodel extends CI_Model {
 			$result['auditer']       = strval($input['auditer']);
 			$result['status']        = intval($input['status']);
 			$result['difficult']     = intval($input['difficult']);
-			$result['pagination']    = intval($input['pagination']);
 			$result['search']        = strval($input['search']);
 			$result['condition']     = intval($input['condition']);
 			$result['order_item']    = intval($input['order_item']);

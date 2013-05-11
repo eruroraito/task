@@ -32,11 +32,13 @@ class Question_scan extends PC_controller {
 */
 	function getQuestionList(){
 		
-		$info = $this->m_question->validateGetQuestionListInfo($this->input->post());//print_r($info);die();
+		$info = $this->m_question->validateGetQuestionListInfo($this->input->post());//print_r($this->input->post());die();
 		if($this->response->isSuccess()){
-			$list = $this->m_question->getQuestionListSection($info);
+			
+			//$this->m_question->getQuestionListSection($info,$pagination);
+			$this->m_question->editHistory($info);
 			//print_r($list);die();
-			$this->response->setAddon($list);
+			//$this->response->setAddon($list);
 			$this->response->setSuccess(true);
 			$this->response->setDetail($this->lang->line('success_update'));
 		}
@@ -107,9 +109,56 @@ class Question_scan extends PC_controller {
 			$this->response->setDetail($this->lang->line('success_update'));
 		}
 		echo $this->response->generate_json_response();
-
 	}
 	
+	function first_page(){
+		$info = $this->m_user->validatePaginationFirst($this->input->post());
+		if($this->response->isSuccess()){
+			$this->m_user->editHistory($info);
+			$this->response->setSuccess(true);
+			$this->response->setDetail($this->lang->line('success_update'));
+		}
+		echo $this->response->generate_json_response();
+	}
+
+	function pre_page(){
+		$info = $this->m_user->validatePaginationPre($this->input->post());
+		if($this->response->isSuccess()){
+			$this->m_user->editHistory($info);
+			$this->response->setSuccess(true);
+			$this->response->setDetail($this->lang->line('success_update'));
+		}
+		echo $this->response->generate_json_response();
+	}
+
+	function next_page(){
+		$info = $this->m_user->validatePaginationNext($this->input->post());
+		if($this->response->isSuccess()){
+			$this->m_user->editHistory($info);
+			$this->response->setSuccess(true);
+			$this->response->setDetail($this->lang->line('success_update'));
+		}
+		echo $this->response->generate_json_response();
+	}
+
+	function last_page(){
+		$info = $this->m_user->validatePaginationLast($this->input->post());
+		if($this->response->isSuccess()){
+			$this->m_user->editHistory($info);
+			$this->response->setSuccess(true);
+			$this->response->setDetail($this->lang->line('success_update'));
+		}
+		echo $this->response->generate_json_response();
+	}
+	function redirect(){
+		$info = $this->m_user->validatePaginationRedirect($this->input->post());
+		if($this->response->isSuccess()){
+			$this->m_user->editHistoryRedirect($info);
+			$this->response->setSuccess(true);
+			$this->response->setDetail($this->lang->line('success_update'));
+		}
+		echo $this->response->generate_json_response();
+	}
 }
 
 /* End of file Question_scan.php */

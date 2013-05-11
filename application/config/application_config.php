@@ -46,5 +46,9 @@ define('STATUS_DELETE', -2);
 //response code
 define('RESPONSE_CODE_UNAUTHORIZED', 401);
 
+
+define('SCAN_PERPAGE', 17);
+
+
 /* End of file application_config.php */
 /* Location: ./application/config/application_config.php */

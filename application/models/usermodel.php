@@ -15,6 +15,51 @@ class Usermodel extends CI_Model {
 |  User Basic Functions
 | -------------------------------------------------------------------
 */
+	public function editHistory($info){
+		$user_name = $this->m_app->getCurrentUserName();
+		if($info=='first'){
+			$this->db->set('pagination',1);
+		}elseif($info=='last'){
+			$this->db->select('total_pagination');
+			$this->db->from('history');
+			$query = $this->db->get();
+			$total = $query->row_array();
+			$this->db->set('pagination',$total['total_pagination']);
+		}elseif($info=='pre'){
+			$this->db->select('pagination');
+			$this->db->from('history');
+			$query = $this->db->get();
+			$pagination = $query->row_array();
+			if($pagination['pagination']>1) $pagination['pagination'] = $pagination['pagination']-1;
+			$this->db->set('pagination',$pagination['pagination']);
+		}
+		elseif($info=='next'){
+			$this->db->select('pagination,total_pagination');
+			$this->db->from('history');
+			$query = $this->db->get();
+			$pagination = $query->row_array();
+			if($pagination['pagination']<$pagination['total_pagination']) $pagination['pagination'] = $pagination['pagination']+1;
+			$this->db->set('pagination',$pagination['pagination']);
+		}
+		$this->db->where('user_name',$user_name);
+		$this->db->update('history');
+	}
+
+	public function editHistoryRedirect($info){
+		$user_name = $this->m_app->getCurrentUserName();
+		$this->db->select('total_pagination');
+		$this->db->from('history');
+		$query = $this->db->get();
+		$total = $query->row_array();
+
+		if($info<1) $info = 1;
+		elseif($info>$total['total_pagination']) $info = $total['total_pagination'];
+
+		$this->db->set('pagination',$info);
+		$this->db->where('user_name',$user_name);
+		$this->db->update('history');
+	}
+
 	public function getUserList(){
 		$this->db->select('user_name,user_realname');
 		$this->db->from('user');
@@ -58,6 +103,9 @@ class Usermodel extends CI_Model {
 
 	public function addUser($info){
 		$this->db->insert('user',$info);
+
+		$data['user_name'] = $info['user_name'];
+		$this->db->insert('history',$data);
 		return true;
 	}
 
@@ -173,8 +221,16 @@ class Usermodel extends CI_Model {
 		$this->db->from('history');
 		$query = $this->db->get();
 		$res = $query->row_array();	
+		$data = array();
+		$pagination = 1;
+		foreach ($res as $key => $value) {
+			if($key=='pagination') $pagination= $value;
+			elseif($key=='total_pagination') $total_pagination= $value;
+			else $data[$key] = $value;
+		}
+
 		$result = array();
-		$result = $this->m_question->getQuestionListSection($res);
+		$result = $this->m_question->getQuestionListSection($data,$pagination);
 		
 		return $result;
 	}
@@ -184,6 +240,64 @@ class Usermodel extends CI_Model {
 |  User Validate Functions
 | -------------------------------------------------------------------
 */
+	public function validatePaginationFirst($input){
+		$result = array();
+		if(!isset($input['pagination_first']) || !validate($input['pagination_first'])){
+			$this->_CI->response->setSuccess(false);
+			$this->_CI->response->setDetail($this->lang->line('error_username'));
+		}else{
+			$result = strval($input['pagination_first']);
+		}
+		return $result;
+	}
+
+	public function validatePaginationRedirect($input){
+		$result = array();
+		if(!isset($input['pagination']) || !validate($input['pagination'])){
+			$this->_CI->response->setSuccess(false);
+			$this->_CI->response->setDetail($this->lang->line('error_pagination'));
+		}else{
+			$result = intval($input['pagination']);
+		}
+		return $result;
+	}
+
+	public function validatePaginationPre($input){
+		$result = array();
+		if(!isset($input['pagination_pre']) || !validate($input['pagination_pre'])){
+			$this->_CI->response->setSuccess(false);
+			$this->_CI->response->setDetail($this->lang->line('error_username'));
+		}else{
+			$result = strval($input['pagination_pre']);
+		}
+
+		return $result;
+	}
+
+	public function validatePaginationNext($input){
+		$result = array();
+		if(!isset($input['pagination_next']) || !validate($input['pagination_next'])){
+			$this->_CI->response->setSuccess(false);
+			$this->_CI->response->setDetail($this->lang->line('error_username'));
+		}else{
+			$result = strval($input['pagination_next']);
+		}
+
+		return $result;
+	}
+
+	public function validatePaginationLast($input){
+		$result = array();
+		if(!isset($input['pagination_last']) || !validate($input['pagination_last'])){
+			$this->_CI->response->setSuccess(false);
+			$this->_CI->response->setDetail($this->lang->line('error_username'));
+		}else{
+			$result = strval($input['pagination_last']);
+		}
+
+		return $result;
+	}
+
 	public function validateLoginInfo($input){
 		$result = array();
 		if(!isset($input['user_name']) || !validate($input['user_name'])){

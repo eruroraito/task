@@ -26,11 +26,11 @@ class Script extends PC_controller {
 		$objReader = PHPExcel_IOFactory::createReader('Excel5');
 		$objPHPExcel = $objReader->load('information/config.xls');
 
-		$sheet = $objPHPExcel->getSheet(6);
+		$sheet = $objPHPExcel->getSheet(1);
 		$rowCount = $sheet->getHighestRow();
 
 		$update_info = array();
-		for($i=2;$i<=305;$i++){
+		for($i=11;$i<=99;$i++){
 			$id = $sheet->getCell('A'.$i)->getValue();
 			$type = 1;
 			$difficulty = $sheet->getCell('B'.$i)->getValue();
@@ -101,6 +101,7 @@ class Script extends PC_controller {
 				//'question' => $question,
 				'icon' => $icon,
 				'question_type' => $question_type,
+				'id'=>$id,
 				//'answer_num' => $answer_num,
 				//'answer_1' => $answer_1,
 				//'answer_2' => $answer_2,
@@ -112,10 +113,15 @@ class Script extends PC_controller {
 				//'answer_8' => $answer_8,
 			);
 
-			$this->db->insert('question_6',$info['insert']);
+			$this->db->insert('total',$info['insert']);
+			$this->db->select_max('total_id');
+			$this->db->from('total');
+			$query = $this->db->get();
+			$num = $query->row_array();
+			
 
-			$this->db->where('id',$id);
-			$this->db->update('question_6',$info['update']);
+			$this->db->where('total_id',$num['total_id']);
+			$this->db->update('total',$info['update']);
 
 		}
 	}

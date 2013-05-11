@@ -20,19 +20,19 @@
 	<link type="text/css" rel="stylesheet" href="../css/header.css" />
 	<link rel="stylesheet" href="../common/jquery.lightbox-0.5.css" type="text/css">
 	<style type="text/css">
-		section.que_fliter{width:926px;height:860px;margin:0 auto; background:#cfcfcf;padding: 10px;position: relative;}
+		section.que_fliter{width:926px;height:860px;margin:0 auto; background:#c0c0c0;padding: 10px;}
 		span.left{float:left;width:160px;height:940px;background:url(../pics/home_side.jpg) no-repeat #093d86;}
 		span.right{float:right;width:160px;height:940px;background:url(../pics/home_side.jpg) no-repeat #093d86;}
 		form.myForm{background:url(../pics/scan_fliter.png) no-repeat;width:853px;height:144px;margin:0 auto;}
-		form label{font-size:14px;color:#115c0a;margin-right:5px;}
+		form.myForm label{font-size:15px;margin-right:5px;font-weight: bold;}
 		div.select{ float:left;margin:16px 16px 10px 60px;}
-		#select_status{position: absolute;top:100px;left:48px;}
-		#select_condition{position: absolute;top:100px;left:240px;}
-		#select_order{position: absolute;top:100px;left:512px;}
+		#select_status{position: absolute;top:240px;left:283px;}
+		#select_condition{position: absolute;top:241px;left:496px;}
+		#select_order{position: absolute;top:240px;left:780px;}
 		input.biuuu1,input.biuuu2{width:100px;}
 		input.biuuu1{margin-right:65px;}
 		input.submit{margin:66px 362px;background: url(../pics/canvas.png) 0 -52px no-repeat;width:126px;height:40px;border:none;color:#fff;font-size:20px;line-height: 20px;font-weight:bold;}
-		section.scan{background: url(../pics/question_scan.png) no-repeat;width:551px;height:594px;margin-top: 50px;position:relative;}
+		section.scan{background: url(../pics/question_scan.png) no-repeat;width:551px;height:594px;margin-top: 50px;position:relative;float:left;}
 		table.scan{width:527px;}
 		table.scan,table.scan th,table.scan td {border:1px solid #fff;padding:0 3px;text-align: center;font-weight:bold;}
 		table.scan{position:absolute;top:39px;left:11px;}
@@ -51,16 +51,36 @@
 		.use{background: #cceedd;}
 		.delete{background: #c8c8ff;}
 		table.scan tr.th{border-bottom: 5px solid #fff;}
-		span.first,span.last,span.pre,span.next,span.redirect{position:absolute;width:44px;bottom:45px;}
-		span.first{left:20px;}
-		span.last{left:246px;}
-		span.pre{left:66px;}
-		span.next{left:192px;}
-		span.redirect{left:150px;}
+		input.first,input.last,input.pre,input.next,input.redirect,span.current,span.total{position:absolute;width:44px;bottom:45px;}
+		input.first{left:20px;border:none;background:none;}
+		input.last{left:246px;border:none;background:none;}
+		input.pre{left:66px;border:none;background:none;width:54px;}
+		input.next{left:192px;border:none;background:none;width:54px;}
+		input.redirect{left:150px;border:none;background:none;}
+		span.current{left:438px;}
+		span.total{left:484px;}
 		table.footer{hieght:24px;line-height: 24px;width:523px;}
 		table.footer tr th{border:1px solid #fff;text-align: center;}
 		div.table_footer{border:1px solid #000;border-right: none;position: absolute;bottom:15px;left:10px;width:523px;height:26px;}
-
+		section.question_scan{background: url(../pics/four.jpg) no-repeat;width:371px;height:605px;float:right;margin:42px 0 0 0px;position: relative;color:#4d2828;font-weight:bold;}
+		h4{width:94px;margin:0 auto;font-weight:normal;font-size:16px;height:20px;line-height:20px;}
+		input.pagination{position:absolute;bottom:45px;width:20px;left:126px;height:12px;}
+		div.hidden{position:absolute;width:100px;height:20px;bottom:45px;left:126px;background: #fafafa;}
+		div.answer1,div.answer2,div.answer3,div.answer4,div.answer5,div.answer6,div.answer7,div.answer8{position:absolute;text-align: center;}
+		div.question{width:14em;height:110px;position:absolute;top:186px;left:90px;font-size:14px;line-height: 24px;}
+		div.answer1{top:375px;left:67px;}
+		div.answer2{top:375px;left:142px;}
+		div.answer3{top:375px;left:217px;}
+		div.answer4{top:375px;left:291px;}
+		div.answer5{top:433px;left:67px;}
+		div.answer6{top:433px;left:142px;}
+		div.answer7{top:433px;left:217px;}
+		div.answer8{top:433px;left:291px;}
+		div.one,div.two,div.three,div.four{position:absolute;width:6em;text-align: center;}
+		div.one{top:375px;left:77px;}
+		div.two{top:375px;left:219px;}
+		div.three{top:431px;left:77px;}
+		div.four{top:431px;left:219px;}
 
 		table td.hidden {display: none;}
 		#preview {display: none;position:relative;}
@@ -186,12 +206,6 @@
 					<option value ="-1">已删除</option>
 				</select>
 			</div>
-			<!--
-			<div class="select" style="width:40px;display:none">
-				<label for="pagination">显示</label><br />
-				<input id="pagination" name="pagination" placeholder="20" maxlength="2" style="width:40px;">
-			</div>
-			-->
 			<div class="select" id="select_condition">				
 				<select id="condition" name="condition">
 					<option value ="1">文字题目</option>
@@ -216,8 +230,9 @@
 		</form>
 
 		<section class="scan">
+			<h4>筛选的题目</h4>
 			<table class="scan">
-				<tr class="th">
+				<tr class="th" id="tr0">
 					<th class="first">编号</th>
 					<th class="second">题目概要</th>
 					<th class="third">更新时间</th>
@@ -225,48 +240,80 @@
 					<th class="fifth">出题人</th>
 					<th class="sixth">审核人</th>
 				</tr>
-				<?php foreach ($scan as $key => $value) {
+				<?php foreach ($scan['list'] as $key => $value) {
+					$key = $key+1;
+					$tr_id = 'tr'.$key;
 					switch ($value['status']) {
 							case 0:
 								$value['status'] = "待审核";
-								echo '<tr class="need_audit">';
+								echo '<tr class="need_audit preview" id='.$tr_id.'>';
 								break;
 							case 1:							
 								$value['status'] = "审核不通过";
-								echo '<tr class="not_audit">';
+								echo '<tr class="not_audit preview" id='.$tr_id.'>';
 								break;
 							case 2:						
 								$value['status'] = "审核通过";
-								echo '<tr class="pass_audit">';
+								echo '<tr class="pass_audit preview" id='.$tr_id.'>';
 								break;
 							case 3:							
 								$value['status'] = "已上架";
-								echo '<tr class="use">';
+								echo '<tr class="use preview" id='.$tr_id.'>';
 								break;
 							case -1:						
 								$value['status'] = "已删除";
-								echo '<tr class="delete">';
+								echo '<tr class="delete preview" id='.$tr_id.'>';
 								break;
 							default:
 								$value['status'] = "已删除";
-								echo '<tr class="delete">';
+								echo '<tr class="delete preview" id='.$tr_id.'>';
 								break;
 						}
 						echo '<td>'.$value['id'].'</td>';
+						$question_rogin = $value['question'];
 						if(mb_strlen($value['question'])>10) $value['question'] = mb_substr($value['question'], 0,9).'...';
 						echo '<td>'.$value['question'].'</td>';
 						echo '<td>'.substr($value['time_update'],0,10).'</td>';
 						echo '<td class="">'.$value['status'].'</td>';
 						echo '<td>'.$value['name_origin'].'</td>';
 						echo '<td>'.$value['name_audit'].'</td>';
+						echo '<td style="display:none;">'.$value['question_type'].'</td>';
+						echo '<td style="display:none;">'.$value['type'].'</td>';
+						echo '<td style="display:none;">'.$value['answer_1'].'</td>';
+						echo '<td style="display:none;">'.$value['answer_2'].'</td>';
+						echo '<td style="display:none;">'.$value['answer_3'].'</td>';
+						echo '<td style="display:none;">'.$value['answer_4'].'</td>';
+						echo '<td style="display:none;">'.$value['answer_5'].'</td>';
+						echo '<td style="display:none;">'.$value['answer_6'].'</td>';
+						echo '<td style="display:none;">'.$value['answer_7'].'</td>';
+						echo '<td style="display:none;">'.$value['answer_8'].'</td>';
+						echo '<td style="display:none;">'.$question_rogin.'</td>';
 					echo '</tr>';
 				}?>
 			</table>
-			<span class="first">[首页]</span>
-			<span class="pre">[上一页]</span>
-			<span class="redirect">[跳转]</span>
-			<span class="next">[下一页]</span>
-			<span class="last">[末页]</span>
+			<form class="form_pagination" action="question_scan/first_page" method="post" id="first_page_form">
+				<input type="hidden" name="pagination_first" value="first" />
+				<input type="submit" class="first" value="[首页]" />
+			</form>
+			<form class="form_pagination" action="question_scan/pre_page" method="post" id="pre_page_form">
+				<input type="hidden" name="pagination_pre" value="pre" />
+				<input type="submit" class="pre" value="[上一页]" />
+			</form>
+			<form class="form_pagination" action="question_scan/redirect" method="post" id="redirect_form">
+				<input class="pagination" name="pagination" /> 
+				<input type="submit" class="redirect" value="[跳转]" />
+			</form>
+			<form class="form_pagination" action="question_scan/next_page" method="post" id="next_page_form">
+				<input type="hidden" name="pagination_next" value="next" />
+				<input type="submit" class="next" value="[下一页]" />
+			</form>
+			<form class="form_pagination" action="question_scan/last_page" method="post" id="last_page_form">
+				<input type="hidden" name="pagination_last" value="last" />
+				<input type="submit" class="last" value="[末页]" />
+				<span class="current">第<?php echo $scan['pagination']?>页</span>
+				<span class="total">共<?php echo $scan['count']?>页</span>
+			</form>
+
 			<div class="table_footer">
 				<table class="footer">
 					<tr>
@@ -280,27 +327,51 @@
 			</div>
 		</section>
 
+		<section class="question_scan" id="new_question_scan">
+			<div class="question" id="new_question">点击预览可以预览</div>
+	    	<div id="new_four">
+	    		<div class="one" id="as1"></div>
+	    		<div class="two" id="as2"></div>
+	    		<div class="three" id="as3"></div>
+	    		<div class="four" id="as4"></div>
+	    	</div>
+	    	<div id="new_eight" style="display:none;">
+		    	<div class="answer1" id="answer1">我</div>
+		    	<div class="answer2" id="answer2">我</div>
+		    	<div class="answer3" id="answer3">我</div>
+		    	<div class="answer4" id="answer4">我</div>
+		    	<div class="answer5" id="answer5">我</div>
+		    	<div class="answer6" id="answer6">我</div>
+		    	<div class="answer7" id="answer7">我</div>
+		    	<div class="answer8" id="answer8">我</div>
+	    	</div>
 
 
 
-		<table id="table_content" class="table_content">
-		</table>
-		<section id="footer" style="display:none;">
-			<label for="redirect" >跳转到第</label>
-			<input type="text" id="redirect" />
-			<em>页</em>
-			<span id="redirect_direct">跳转</span>
-		    <span id="first">首页</span>
-		    <span id="pre" style="display:none;">上一页</span>
-		    <span id="next">下一页</span>
-		    <span id="last">末页</span>
+			<div class="hidden"></div>
 		</section>
+
 	</section>
 
 
 
 
 
+
+
+	<!--
+	<table id="table_content" class="table_content">
+	</table>
+	<section id="footer" style="display:none;">
+		<label for="redirect" >跳转到第</label>
+		<input type="text" id="redirect" />
+		<em>页</em>
+		<span id="redirect_direct">跳转</span>
+	    <span id="first">首页</span>
+	    <span id="pre" style="display:none;">上一页</span>
+	    <span id="next">下一页</span>
+	    <span id="last">末页</span>
+	</section>
 
 	<section id="preview">
 		<span id="pre_pre">上一条</span>
@@ -421,11 +492,128 @@
 			<input type="submit" value="确认审核" />
 		</form>
 	</section>
-
+	-->
 
 </article>
 
 <script type="text/javascript">
+	$('#first_page_form').submit(function() {
+		var options = { success: function(responseText) { 
+			var response = eval('(' + responseText + ')'); 
+			if(response.success) {
+				window.location.reload();
+			}
+		} }; 
+		$('#first_page_form').ajaxSubmit(options); 		
+		return false;
+	}); 
+	$('#pre_page_form').submit(function() {
+		var options = { success: function(responseText) { 
+			var response = eval('(' + responseText + ')'); 
+			if(response.success) {
+				window.location.reload();
+			}
+		} }; 
+		$('#pre_page_form').ajaxSubmit(options); 		
+		return false;
+	}); 
+	$('#next_page_form').submit(function() {
+		var options = { success: function(responseText) { 
+			var response = eval('(' + responseText + ')'); 
+			if(response.success) {
+				window.location.reload();
+			}
+		} }; 
+		$('#next_page_form').ajaxSubmit(options); 		
+		return false;
+	}); 
+	$('#last_page_form').submit(function() {
+		var options = { success: function(responseText) { 
+			var response = eval('(' + responseText + ')'); 
+			if(response.success) {
+				window.location.reload();
+			}
+		} }; 
+		$('#last_page_form').ajaxSubmit(options); 		
+		return false;
+	}); 
+	$('#redirect_form').submit(function() {
+		var options = { success: function(responseText) { 
+			var response = eval('(' + responseText + ')'); 
+			if(response.success) {
+				window.location.reload();
+			}
+		} }; 
+		$('#redirect_form').ajaxSubmit(options); 		
+		return false;
+	}); 
+
+	$('#myForm').submit(function() {
+		var options = { success: function(responseText) { 
+			var response = eval('(' + responseText + ')'); 
+			if(response.success) {
+				window.location.reload();
+			}
+		} }; 
+		$('#myForm').ajaxSubmit(options); 		
+		return false;
+	}); 
+
+	$('.preview').click(function(){
+		var data = new Array();
+		$(this).children().each(function(i){
+			data[i] = $(this).text();
+		});
+		var question_id = data[0];
+		var question_type = data[6];
+		var type = data[7];
+		var answer = new Array();
+		for(var i=1;i<=8;i++){
+			answer[i] = data[i+7];
+		}
+		var question = data[16];
+		if(question_type==2){
+			$('#new_question_scan').css('background-image','url(../pics/eight.jpg)');
+			$('#new_eight').show();
+			$('#new_four').hide();
+			for(var y=1;y<=8;y++){
+				var answer_name = "#answer"+y.toString();
+				$(answer_name).text(answer[y]);
+			}
+		}else{
+			$('#new_question_scan').css('background-image','url(../pics/four.jpg)');
+			$('#new_four').show();
+			$('#new_eight').hide();
+			for(var j=1;j<=4;j++){
+				var answer_name = "#as"+j.toString();
+				$(answer_name).text(answer[j]);
+			}
+		}
+		$('#new_question').text(question);
+
+
+	});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/*
 	$(function() {
 		$('#final_preview a').lightBox({fixedNavigation:true});
 	});
@@ -987,7 +1175,7 @@
 		//var s = $('#date_start').val();
 		//alert(s);
 		//location.reload();
-		//return false;
+		return false;
 	});
 	
 	$('#edit_button').click(function(){
@@ -1050,7 +1238,7 @@
 	$('#date_end').focus(function(){
 		$(this).attr("readonly",'readonly');
 	});
-
+	*/
 </script>
 </body>
 

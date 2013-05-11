@@ -1,5 +1,5 @@
 	section.body {width:866px;height:660px;margin:0 auto; background:#c0c0c0;padding: 40px;}
-	section.new_preview{font-weight:bold;position:relative;background: url(../pics/four.jpg) no-repeat;width:371px;height:605px;float:right;margin-bottom: 10px;}
+	section.new_preview{color:#4d2828;font-weight:bold;position:relative;background: url(../pics/four.jpg) no-repeat;width:371px;height:605px;float:right;margin-bottom: 10px;}
 	span.left{float:left;width:160px;height: 794px;background:url(../pics/home_side.jpg) no-repeat #093d86;}
 	span.right{float:right;width:160px;height: 794px;background:url(../pics/home_side.jpg) no-repeat #093d86;}
 	form{background: url(../pics/question_add_bg.png) no-repeat;width:417px;height:594px;position: relative;float:left;margin-top: 6px;}
