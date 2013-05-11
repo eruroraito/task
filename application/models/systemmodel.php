@@ -31,6 +31,10 @@ class Systemmodel extends CI_Model {
 		$db_name = 'question_'.$info['type'];
 		$this->db->where('id',$info['id']);
 		$this->db->update($db_name,$info);
+
+		$this->db->where('id',$info['id']);
+		$this->db->where('type',$info['type']);
+		$this->db->update('total',$info);
 	}
 
 	public function getSubmitLog(){
@@ -678,12 +682,7 @@ class Systemmodel extends CI_Model {
 		}
 
 		if($input['audit']==1){
-			if(!isset($input['suggestion']) || !validate($input['suggestion'])){
-				$this->_CI->response->setSuccess(false);
-				$this->_CI->response->setDetail($this->lang->line('error_change_password'));
-			}else{
-				$result['suggestion'] = strval($input['suggestion']);
-			}
+			$result['suggestion'] = strval($input['suggestion']);
 		}
 
 		if(!isset($input['type']) || !validate($input['type'])){

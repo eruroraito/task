@@ -16,6 +16,17 @@ class Questionmodel extends CI_Model {
 |  User Basic Functions
 | -------------------------------------------------------------------
 */
+	public function getEditQuestion($info){
+		$res = array();
+		$db_name = 'question_'.$info['type'];
+		$this->db->where('id',$info['id']);
+		$this->db->from($db_name);
+		$query = $this->db->get();
+		$res = $query->row_array();
+		//print_r($res);die();
+		return $res;
+	}
+
 	public function editHistory($info){
 		//print_r($info);die();
 		$info['pagination'] = 1;
@@ -24,10 +35,11 @@ class Questionmodel extends CI_Model {
 		$this->db->update('history',$info);
 	}
 
-	public function deleteQuestion($info){
+	public function deleteQuestion($info){//print_r($info);die();
 		$db_name = 'question_'.$info['type'];
-		$this->db->where('id',$info['question_id']);
-		$this->db->set('status',-1);
+		$this->db->where('id',$info['id']);
+		$this->db->set('status','-1');
+		$this->db->set('name_update',$info['name_update']);
 		$this->db->update($db_name);
 	}
 
@@ -57,13 +69,27 @@ class Questionmodel extends CI_Model {
 		$info['update']['time_update'] = NOW;
 		$this->db->update($question_table_name,$info['update']);
 
-		if($info['update']['icon']>=100){
+
+		$this->db->insert('total', $info['info']); 
+		$this->db->select_max('total_id');
+		$this->db->from('total');
+		$query = $this->db->get();
+		$t_num = $query->row_array();
+
+		$this->db->where('total_id', $t_num['total_id']);
+		$info['update']['name_origin'] = $info['user_name'];
+		$info['update']['name_update'] = $info['user_name'];
+		$info['update']['time_update'] = NOW;
+		$info['update']['type'] = $info['type'];
+		$info['update']['id'] = $num['id'];
+		$this->db->update('total',$info['update']);
+
+		if($info['update']['icon']>=10000){
 			$this->db->where('global_id',1);
 			$new_global_pic_index = $info['update']['icon']+1;
 			$this->db->set('global_pic_index',$new_global_pic_index);
 			$this->db->update('global');
 		}
-
 	}
 
 	public function editQuestion($info,$user_name){
@@ -466,23 +492,7 @@ class Questionmodel extends CI_Model {
 			$this->_CI->response->setSuccess(false);
 			$this->_CI->response->setDetail($this->lang->line('error_parameter'));
 		}else{
-			//$result['question_type'] = intval($input['question_type']);
-			if(isset($data['upload_data']['raw_name'])) $result['icon'] = intval($data['upload_data']['raw_name']);
-			/*
-			if($input['question_type']==1||$input['question_type']==3){
-				if(!isset($data['upload_data']['raw_name']) || !validate($data['upload_data']['raw_name'])){
-					$this->_CI->response->setSuccess(false);
-					$this->_CI->response->setDetail($this->lang->line('error_username'));
-				}else{
-					$result['icon'] = intval($data['upload_data']['raw_name']);
-				}
-			}elseif($input['question_type']==2){
-				if(isset($data['upload_data']['raw_name'])) $result['icon'] = intval($data['upload_data']['raw_name']);
-				else $result['icon'] = 0;
-			}else{
-				$result['icon'] = 0;
-			}
-			*/
+			if(isset($data['upload_data']['raw_name'])) $result['icon']=intval($data['upload_data']['raw_name']);
 		}
 
 		if($input['question_type']==2){
@@ -576,13 +586,13 @@ class Questionmodel extends CI_Model {
 		if(!isset($input['type']) || !validate($input['type'])){
 			$this->_CI->response->setSuccess(false);
 			$this->_CI->response->setDetail($this->lang->line('error_change_password'));
-		}elseif(!isset($input['question_id']) || !validate($input['question_id'])){
+		}elseif(!isset($input['id']) || !validate($input['id'])){
 			$this->_CI->response->setSuccess(false);
 			$this->_CI->response->setDetail($this->lang->line('error_change_password'));
 		}else{
 			$result['type'] = strval($input['type']);	
-			$result['type'] = $this->getTypeIdByTypeName($result['type']);
-			$result['question_id'] = intval($input['question_id']);		
+			//$result['type'] = $this->getTypeIdByTypeName($result['type']);
+			$result['id'] = intval($input['id']);		
 		}
 		//print_r($result);die();
 		return $result;
