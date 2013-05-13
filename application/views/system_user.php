@@ -14,25 +14,19 @@
 	<link type="text/css" rel="stylesheet" href="../common/style.css" />
 	<link type="text/css" rel="stylesheet" href="../css/header.css" />
 	<style type="text/css">
-		span.left{float:left;width:160px;height:680px;background:url(../pics/home_side.jpg) no-repeat #093d86;}
-		span.right{float:right;width:160px;height:680px;background:url(../pics/home_side.jpg) no-repeat #093d86;}
+		span.left{float:left;width:160px;height:940px;background:url(../pics/home_side.jpg) no-repeat #093d86;}
+		span.right{float:right;width:160px;height:940px;background:url(../pics/home_side.jpg) no-repeat #093d86;}
 		section.middle {background:#cfcfcf;padding:55px;}
-		section.content{background:url(../pics/system.png) no-repeat;width:853px;height:494px;margin:0 auto;}
+		section.content{background:url(../pics/system.png) no-repeat;width:853px;height:394px;margin:0 auto;padding-top:100px;}
 		section.middle ul{width:520px;margin:0 auto;}
 		section.middle ul li{float:left;background:url(../pics/canvas.png) 0 -407px no-repeat;height:28px;width:115px;margin:-27px 0 0 10px;text-align: center;line-height: 28px;font-size:16px;font-weight:bold;}
-		section.logsec,section.subsec,section.offsec{padding: 15px 15px;}
-		table{width:100%;margin-top:10px;}
-		table th{background:#4f81bd;border-bottom:5px solid #fff;height:24px;line-height:24px;padding:0 8px;color:#fff;font-weight:bold;}
-		table td{border-bottom: 2px solid #fff;height:20px;line-height: 20px;padding:0 8px;}
-		table tr.odd{background:#d0d8e8;}
-		table tr.even{background:#e9edf4;}
-		button {background: url(../pics/canvas.png) -959px -37px no-repeat;width:51px;height:22px;border:none;text-align: center;padding:0px;line-height: 22px;color:#fff;}
 		button.selected,button:hover{background: url(../pics/canvas.png) -959px -3px no-repeat;}
-		div.touse{width:100%;text-align: center;}
-		input.touse{background: url(../pics/canvas.png) 0 -52px no-repeat;width:126px;height:40px;border:none;color:#fff;margin:9px auto;}
+		section.setting{background: url(../pics/add_user.png) no-repeat;width:292px;height:229px;margin:0 auto;}
+		h2{margin: 0 auto;width:100px;padding-top:10px;color:#fff;}
+		form label{width:58px;display: inline-block;margin:15px 0 0 30px;}
+		input.add_user{background: url(../pics/canvas.png) -190px 0px no-repeat;width:71px;height:31px;border:none;color:#fff;margin-left:20px;}
 		ul li a{color:#000;}
 		ul li a:hover{text-decoration: underline;}
-		footer{width:948px;margin:10px auto -10px;text-align: center;}
 	</style>
 
 </head>
@@ -56,7 +50,7 @@
 	<span class="right"></span>
 	<section class="middle">
 		<ul>
-			<li id="log" class="log"><a href="system">操作记录</a></li>	
+			<li id="log" class="log"><a href="system">操作记录</a></li>		
 			<?php 
 				if($permission['group_id'] ==1){
 					echo '<li id="submit" class="submit"><a href="system_sub">上架</a></li>';
@@ -70,41 +64,38 @@
 			?>			
 		</ul>
 		<section class="content">
-			<section id="logsec" class="logsec">
-				<table>
-					<tr>
-						<th>操作日志</th>
-						<th></th>
-						<th></th>
-						<th></th>
-						<th></th>
-					</tr>
-				<?php 
-					foreach ($log as $key => $value) {
-						$clasname = "odd";
-						if($key%2==0) $clasname = "even";
-						echo '<tr class='.$clasname.'>';
-							echo '<td>'.$value['time_submit'].'</td>';
-							echo '<td>'.$value['name_submit'].'</td>';
-							echo '<td>提交</td>';
-							echo '<td>'.$value['question_num'].'</td>';
-							echo '<td>道题到使用题库中</td>';
-						echo '</tr>';
-					}
-				?>
-				</table>
+			<section id="setsec" class="setting">
+				<h2>添加新用户</h2>
+				<form action="system/addUser" method="post" id="addUserForm">
+					<label for="user_name">用户名:</label>
+					<input id="user_name" type="text" name="user_name" placeholder="请输入用户名"/>
+					<br />
+					<label for="user_realname">昵称:</label>
+					<input id="user_realname" type="text" name="user_realname" placeholder="请输入昵称"/>
+					<br />
+					<label for="user_password">密码:</label>
+					<input id="user_password" type="password" autocomplete="off" name="user_password" placeholder="请输入密码"/>
+					<br />
+					<label for="user_rept_password">确认密码:</label>
+					<input id="user_rept_password" type="password" name="user_rept_password" placeholder="请再次输入密码"/>
+					<br />
+					<label for="permission">权限</label>
+					<select id="permission" name="permission">
+						<option value="3">出题者</option>
+						<?php 
+							if($permission['group_id']==1){
+								echo '<option value="2">审核员</option>';
+							}
+						?>
+					</select> 
+					<input type="submit"  value="创建" class="add_user" />
+			    </form>
 			</section>
 		</section>	
 	</section>
-	<footer>
-		<p>沪ICP备08009851号</p>
-		<p>Copyright 2007-2010上海佳游网络 Corporation All rights reserved.</p>
-	</footer>
 </article>
-
-
 <script type="text/javascript">
-
+	
 </script>
 </body>
 </html>

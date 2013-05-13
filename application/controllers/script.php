@@ -26,13 +26,13 @@ class Script extends PC_controller {
 		$objReader = PHPExcel_IOFactory::createReader('Excel5');
 		$objPHPExcel = $objReader->load('information/config.xls');
 
-		$sheet = $objPHPExcel->getSheet(1);
+		$sheet = $objPHPExcel->getSheet(2);
 		$rowCount = $sheet->getHighestRow();
 
 		$update_info = array();
-		for($i=11;$i<=99;$i++){
+		for($i=2;$i<=20;$i++){
 			$id = $sheet->getCell('A'.$i)->getValue();
-			$type = 1;
+			$type = 2;
 			$difficulty = $sheet->getCell('B'.$i)->getValue();
 			$purpose = $sheet->getCell('C'.$i)->getValue();
 			$question = $sheet->getCell('D'.$i)->getValue();
@@ -63,13 +63,13 @@ class Script extends PC_controller {
 			$answer_2 = trim($answer_2);
 			$answer_3 = trim($answer_3);
 			$answer_4 = trim($answer_4);
-			if($answer_5!=0) $answer_5 = trim($answer_5);
+			if($answer_5!='') $answer_5 = trim($answer_5);
 			else $answer_5 = "";
-			if($answer_6!=0) $answer_6 = trim($answer_6);
+			if($answer_6!='') $answer_6 = trim($answer_6);
 			else $answer_6 = "";
-			if($answer_7!=0) $answer_7 = trim($answer_7);
+			if($answer_7!='') $answer_7 = trim($answer_7);
 			else $answer_7 = "";
-			if($answer_8!=0) $answer_8 = trim($answer_8);
+			if($answer_8!='') $answer_8 = trim($answer_8);
 			else $answer_8 = "";
 
 			$info['insert'] = array(
@@ -95,13 +95,14 @@ class Script extends PC_controller {
 			);
 
 			$info['update'] = array(
+				'type' => $type,
 				'status' => 0,
 				'difficulty' => $difficulty,
 				'purpose' => $purpose,
 				//'question' => $question,
 				'icon' => $icon,
 				'question_type' => $question_type,
-				'id'=>$id,
+				//'id'=>$id,
 				//'answer_num' => $answer_num,
 				//'answer_1' => $answer_1,
 				//'answer_2' => $answer_2,
@@ -113,15 +114,14 @@ class Script extends PC_controller {
 				//'answer_8' => $answer_8,
 			);
 
-			$this->db->insert('total',$info['insert']);
-			$this->db->select_max('total_id');
-			$this->db->from('total');
+			$this->db->insert('question',$info['insert']);
+			$this->db->select_max('id');
+			$this->db->from('question');
 			$query = $this->db->get();
-			$num = $query->row_array();
-			
+			$num = $query->row_array();			
 
-			$this->db->where('total_id',$num['total_id']);
-			$this->db->update('total',$info['update']);
+			$this->db->where('id',$num['id']);
+			$this->db->update('question',$info['update']);
 
 		}
 	}

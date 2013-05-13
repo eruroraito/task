@@ -12,32 +12,76 @@
 	<script type="text/javascript" src="../common/jquery-1.6.2.min.js"></script>
 	<script type="text/javascript" src="../common/jquery.form.js"></script>
 	<link type="text/css" rel="stylesheet" href="../common/style.css" />
+	<link type="text/css" rel="stylesheet" href="../css/header.css" />
 	<style type="text/css">
-		nav {text-align: center;}
-		nav a{text-decoration: none; font-size:20px;margin:0 10px 0 0;}
-		nav a:hover{text-decoration: underline;}
+		section.body {width:946px;height:550px;margin:0 auto; background:#cfcfcf;padding-top: 20px;position:relative;}
+		section.upload{background:url(../pics/system_bg.png) no-repeat;width:780px;height:518px;margin:0 auto;padding:0 37px;}
+		span.left{float:left;width:160px;height: 670px;background:url(../pics/home_side.jpg) no-repeat #093d86;}
+		span.right{float:right;width:160px;height: 670px;background:url(../pics/home_side.jpg) no-repeat #093d86;}
+		footer{width:948px;margin:23px auto;text-align: center;}
+		h4{margin:0 auto;width:60px;line-height:24px;}
+		h3{color:#06574d;font-size:18px;line-height:16px;}
+		h3.upload{margin:17px 0px 5px;}
+		h3.information{margin:11px 0px 5px;}
+		input.submit{background: url(../pics/canvas.png) 0 -360px no-repeat;width:96px;height:31px;border:none;text-indent: -1000px;overflow: hidden;}
+		table{width:100%;margin-top:10px;}
+		table th{background:#4f81bd;border-bottom:5px solid #fff;height:24px;line-height:24px;padding:0 8px;color:#fff;font-weight:bold;}
+		table td{border-bottom: 2px solid #fff;height:20px;line-height: 20px;padding:0 8px;}
+		table td.odd{background:#d0d8e8;}
+		table td.even{background:#e9edf4;}
+		table td a:hover{text-decoration: underline;}
 	</style>
 </head>
 <body>
-<?php require_once 'header.php';?>
 <article id="container">
-	<section id="body">
-		<h3>资源列表</h3>
-		<?php 
-			foreach ($download_names as $key => $value) {
-				echo '<a href=../uploads/help/'.$value['file_name'].'>'.$value['file_name'].'</a><br />';
-			}
-		?>
+	<header>
+		<div id="div_logout">
+			<a href="login/logout" id="logout">注销</a>
+		</div>
+		<nav>
+			<a href="home" id="home">首页</a>
+			<a href="question" id="question">添加题目</a>
+			<a href="question_scan" id="question_scan">浏览题目</a>
+			<a href="statistics" id="statistics">统计数据</a>
+			<a href="download" id="download" class="selected">资料下载</a>
+			<a href="personal" id="personal">个人账号</a>
+			<a href="system" id="system">系统</a>
+		</nav>
+	</header>
+	<span class="left"></span>
+	<span class="right"></span>
+	<section class="body">
+		<section class="upload">
+			<h4>资料下载</h4>
+			<h3 class="upload">上传资源</h3>
+			<form action="download/do_upload" method="post" enctype="multipart/form-data" id="uploadform">
+				<input type="file" name="upload" id="filename"/>
+				<input type="hidden" name="filename" id="true_name"/>
+				<input type="submit" value="上传" class="submit" />
+			</form>
+			<h3 class="information">资料下载</h3>
+			<table>
+				<tr>
+					<th>点击下载资料</th>
+				</tr>
+				<?php 
+					foreach ($download_names as $key => $value) {
+						$class_name = 'odd';
+						if($key%2==0) $class_name = 'even';
+						echo '<tr>';
+						echo '<td class='.$class_name.'><a href=../uploads/help/'.$value['file_name'].'>'.$value['file_name'].'</a></td>';
+						echo '</tr>';
+					}
+				?>
+			</table>
+		</section>
 	</section>	
 
-	<section id="upload">
-		<h3>上传资源</h3>
-		<form action="download/do_upload" method="post" enctype="multipart/form-data" id="uploadform">
-			<input type="file" name="upload" id="filename"/>
-			<input type="hidden" name="filename" id="true_name"/>
-			<input type="submit" value="上传"/>
-		</form>
-	</section>
+
+	<footer>
+		<p>沪ICP备08009851号</p>
+		<p>Copyright 2007-2010上海佳游网络 Corporation All rights reserved.</p>
+	</footer>
 </article>
 
 <script type="text/javascript">

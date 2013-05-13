@@ -11,15 +11,31 @@
 
 	<script type="text/javascript" src="../common/jquery-1.6.2.min.js"></script>
 	<link type="text/css" rel="stylesheet" href="../common/style.css" />
+	<link type="text/css" rel="stylesheet" href="../css/header.css" />
 	<style type="text/css">
-		ul li {cursor: pointer;}
-		nav {text-align: center;}
-		nav a{text-decoration: none; font-size:20px;margin:0 10px 0 0;}
-		nav a:hover{text-decoration: underline;}
+		article {width:946px;height:550px;margin:0 auto; padding-top: 20px;position:relative;}
+		span.left{float:left;width:160px;height: 670px;background:url(../pics/home_side.jpg) no-repeat #093d86;}
+		span.right{float:right;width:160px;height: 670px;background:url(../pics/home_side.jpg) no-repeat #093d86;}
+		footer{width:948px;margin:23px auto;text-align: center;}
 	</style>
 </head>
-<body>
-	<?php require_once 'header.php';?>
+<body id="container">
+	<header>
+		<div id="div_logout">
+			<a href="login/logout" id="logout">注销</a>
+		</div>
+		<nav>
+			<a href="home" id="home">首页</a>
+			<a href="question" id="question">添加题目</a>
+			<a href="question_scan" id="question_scan">浏览题目</a>
+			<a href="statistics" id="statistics" class="selected">统计数据</a>
+			<a href="download" id="download" >资料下载</a>
+			<a href="personal" id="personal">个人账号</a>
+			<a href="system" id="system">系统</a>
+		</nav>
+	</header>
+	<span class="left"></span>
+	<span class="right"></span>
 	<ul>
 		<li>按照题库来分</li>
 		<li>按照日期来分</li>
@@ -31,7 +47,7 @@
 		<li>按照题目题材来分</li>
 		<li>图片题目统计信息</li>
 	</ul>
-	<article id="container">
+	<article id="body_container">
 
 		<section>
 			<h3>按照题库来分</h3>
@@ -49,17 +65,6 @@
 
 		<section>
 			<h3>按照日期来分</h3>
-			<!--
-			<label for="date">选择时间段</label>
-			<select id="date">
-				<option value="today">今天</option>
-				<option value="week">本周</option>
-				<option value="month">本月</option>
-				<option value="three_month">三个月内</option>
-				<option value="half_year">半年内</option>
-				<option value="year">今年</option>
-			</select>
-			-->
 			<table>
 				<tr>
 					<th></th>
@@ -415,13 +420,18 @@
 				?>
 			</table>
 		</section>
+
+		<footer>
+			<p>沪ICP备08009851号</p>
+			<p>Copyright 2007-2010上海佳游网络 Corporation All rights reserved.</p>
+		</footer>
 	</article>
 
 <script type="text/javascript">
-	$('#container').children().eq(0).show().siblings().hide();
+	$('#body_container').children().eq(0).show().siblings().hide();
 	$("li").click(function(){
 		var num =  $(this).index();
-	    $('#container').children().eq(num).show().siblings().hide();
+	    $('#body_container').children().eq(num).show().siblings().hide();
 
 	}); 
 	$("#use").hide();

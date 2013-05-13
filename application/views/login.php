@@ -10,18 +10,25 @@
 	<![endif]-->
 
 	<script type="text/javascript" src="../common/jquery-1.6.2.min.js"></script>
+	<script type="text/javascript" src="../common/jquery.form.js"></script>
 	<link type="text/css" rel="stylesheet" href="../common/style.css" />
+	<link type="text/css" rel="stylesheet" href="../css/header.css" />
 	<style type="text/css">
-		html{overflow: hidden;}
+		header{background-image:url(../pics/login_header.png);}
+		section.body {width:946px;height:472px;margin:0 auto; background:url(../pics/login_bg.jpg) no-repeat;padding-top: 30px;position: relative;}
 		h2 {color: #fff;font-size:30px;position: absolute;top:30px;left:45px;font-weight: normal;line-height: 30px;}
-		img {width:100%;}		
-		section {position:absolute;top:200px;left:510px;background: #f1f1f1;width:360px;height:160px;border-radius: 5px; -moz-border-radius: 5px;  -webkit-border-radius: 5px;}
+		img {width:100%;}	
+		h1{padding-top:108px;font-size:20px; line-height:20px;color:#fff;}
+		footer{width:948px;margin:10px auto -10px;text-align: center;}
+		span.left{float:left;width:160px;height: 560px;background:url(../pics/home_side.jpg);}
+		span.right{float:right;width:160px;height: 560px;background:url(../pics/home_side.jpg);}	
+		section.login {position:absolute;top:50%;left:50%;background: #f1f1f1;width:360px;height:160px;border-radius: 5px; -moz-border-radius: 5px;  -webkit-border-radius: 5px;margin:-80px 0 0 -180px;border:1px solid #bcdefd; }
 		h3 {background:#dcdcdc;height:25px;line-height:25px;padding-left:10px;border-radius: 5px; -moz-border-radius: 5px;  -webkit-border-radius: 5px;}
 		input.login {width:220px;height:20px;border:solid 1px #c1c1c1;padding: 0 3px;}
 		label.login {width:95px;height:20px;line-height:20px;text-align:right;display:inline-block;}
 		span {color:#ff0000;}
 		div.username {margin:25px 0 5px 0;}
-		input.submit {background: #5baa0f;border-radius: 5px; -moz-border-radius: 5px;  -webkit-border-radius: 5px;width:75px;height:20px;border:1px solid #8e8f8f;color:#fff;margin :32px 0 0 265px;}
+		input.submit {background: #0ca1cb;border-radius: 5px; -moz-border-radius: 5px;  -webkit-border-radius: 5px;width:75px;height:20px;border:1px solid #8e8f8f;color:#fff;margin :32px 0 0 265px;}
 		input.error {border:1px solid #cc3300;}
 		input.focus {border:1px solid #777;}
 		
@@ -34,32 +41,43 @@
 </head>
 <body>
 <article id="container">
-	<h2>佳游网络</h2>
-	<div id="bg">
-		<img src="../pics/login-bg.jpg" >
-	</div>
-	<section id="body">
+	<header>
+		<div id="div_logout">
+			<a href="login/logout" id="logout">注销</a>
+		</div>
+		<h1>题库管理系统-网页版</h1>
+	</header>
+	<span class="left"></span>
+	<span class="right"></span>
+	<section id="body" class="body">
+		<section class="login">
 		<h3>登录</h3>
-		<form action="login/authenticate" method="post" >
-			<div class="username">
-  				<label class="login" for="username">用户名<span>*</span>:</label>
-  				<input class="login" type="text" name="user_name" id="username" placeholder="请输入用户名"  />
-  			</div>
-  			<div class="password">
-  				<label class="login" for="password">密码<span>*</span>:</label>
-  				<input class="login" type="password" name="user_password" id="password" placeholder="请输入密码" />
-  			</div>
-  			<div id="captcha_div">
-  				<label class="login" for="captcha" id="captcha_label">验证码<span>*</span>:</label>
-  				<input class="login" type="text" maxlength="5" id="captcha_id" name="captcha">
-  				<img id="captcha" src='<?php echo "login/captcha?".time();?>'>
-  			</div>
-  			<input class="submit" type="submit" value="登录" id="submit"/>
-	    </form>
+			<form action="login/authenticate" method="post" id="loginform">
+				<div class="username">
+	  				<label class="login" for="username">用户名<span>*</span>:</label>
+	  				<input class="login" type="text" name="user_name" id="username" placeholder="请输入用户名"  />
+	  			</div>
+	  			<div class="password">
+	  				<label class="login" for="password">密码<span>*</span>:</label>
+	  				<input class="login" type="password" name="user_password" id="password" placeholder="请输入密码" />
+	  			</div>
+	  			<div id="captcha_div">
+	  				<label class="login" for="captcha" id="captcha_label">验证码<span>*</span>:</label>
+	  				<input class="login" type="text" maxlength="5" id="captcha_id" name="captcha">
+	  				<img id="captcha" src='<?php echo "login/captcha?".time();?>'>
+	  			</div>
+	  			<input class="submit" type="submit" value="登录" id="submit"/>
+		    </form>
+		</section>
 	</section>
+	<footer>
+		<p>沪ICP备08009851号</p>
+		<p>Copyright 2007-2010上海佳游网络 Corporation All rights reserved.</p>
+	</footer>
 </article>
 
 <script type="text/javascript">
+
 	$('#captcha').click(function(){
 		var src ="login/captcha?"+(new Date().getTime());
 		$(this).attr('src',src);

@@ -28,18 +28,14 @@ class Systemmodel extends CI_Model {
 
 	public function doAudit($info){
 		//print_r($info);die();
-		$db_name = 'question_'.$info['type'];
 		$this->db->where('id',$info['id']);
-		$this->db->update($db_name,$info);
-
-		$this->db->where('id',$info['id']);
-		$this->db->where('type',$info['type']);
-		$this->db->update('total',$info);
+		$this->db->update('question',$info);
 	}
 
 	public function getSubmitLog(){
 		$this->db->from('log');
-		$this->db->order_by('time_submit');
+		$this->db->limit(18);
+		$this->db->order_by('time_submit','desc');
 		$query = $this->db->get();
 		$res = $query->result_array();
 		//print_r($res);die();
@@ -64,21 +60,18 @@ class Systemmodel extends CI_Model {
 	public function submitQuestion($info){
 		$num = 0;//print_r($info);die();
 		$detail = '';
-		foreach ($info as $key => $value) {
 
-			$this->db->where_in('id',$value);
-			$this->db->set('status',3);
-			$this->db->update($key);
-			$num = $num + count($value);
-			$detail_value = '';
-			foreach ($value as $l_key => $l_value) {
-				if($detail_value=='')  $detail_value = $l_value;
-				else $detail_value = $detail_value.'/'.$l_value;
-			}
-			if($detail=='') $detail = '['.$key.'['.$detail_value.']]';
-			else $detail = $detail.','.'['.$key.'['.$detail_value.']]';
-
+		$this->db->where_in('id',$info['question']);
+		$this->db->set('status',3);
+		$this->db->update('question');
+		$num = count($info['question']);
+		$detail_value = '';
+		foreach ($info['question'] as $key => $value) {
+			if($detail_value=='')  $detail_value = $value;
+			else $detail_value = $detail_value.'/'.$value;
 		}
+		$detail = '['.$detail_value.']';
+		
 		//print_r($detail);die();
 		$user = $this->m_app->getCurrentUserName();
 		$log_info['name_submit'] = $user;
@@ -89,31 +82,11 @@ class Systemmodel extends CI_Model {
 	}
 
 	public function offQuestion($info){
-		//$num = 0;//print_r($info);die();
-		//$detail = '';
-		foreach ($info as $key => $value) {
 
-			$this->db->where_in('id',$value);
-			$this->db->set('status',0);
-			$db_name = "q".$key;
-			$this->db->update($db_name);
-			//$num = $num + count($value);
-			//$detail_value = '';
-			//foreach ($value as $l_key => $l_value) {
-			//	if($detail_value=='')  $detail_value = $l_value;
-			//	else $detail_value = $detail_value.'/'.$l_value;
-		//	}
-		//	if($detail=='') $detail = '['.$key.'['.$detail_value.']]';
-			//else $detail = $detail.','.'['.$key.'['.$detail_value.']]';
-
-		}
-		//print_r($detail);die();
-		//$user = $this->m_app->getCurrentUserName();
-		//$log_info['name_submit'] = $user;
-		///$log_info['question_num'] = $num;
-		//$log_info['time_submit'] = NOW;
-		//$log_info['question_detail'] = $detail;
-		//$this->db->insert('log',$log_info);
+		$this->db->where_in('id',$info['question']);
+		$this->db->set('status',0);
+		$this->db->update('question');
+		
 	}
 
 	//审核题库和使用题库中的题目数量

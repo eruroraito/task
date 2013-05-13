@@ -43,7 +43,7 @@
 	footer{width:948px;margin:10px auto -10px;text-align: center;}
 	button.button_preview{font-weight:bold;color:#fff;border:none;background: url(../pics/canvas.png) 0 -52px no-repeat;width:126px;height:40px;margin:10px 0 10px 104px;}
 	div.answer1,div.answer2,div.answer3,div.answer4,div.answer5,div.answer6,div.answer7,div.answer8{position:absolute;text-align: center;}
-	div.question{width:14em;height:110px;position:absolute;top:186px;left:90px;font-size:14px;line-height: 24px;}
+	div.question{width:14em;height:110px;position:absolute;top:173px;left:90px;font-size:14px;line-height: 24px;}
 	div.answer1{top:375px;left:67px;}
 	div.answer2{top:375px;left:142px;}
 	div.answer3{top:375px;left:217px;}
@@ -62,3 +62,4 @@
 	h3{color:#06574d;font-size:18px;height:20px;line-height: 20px;}
 	textarea.suggestion{margin-top:10px;width:780px;height:134px;border:1px solid #000;resize:none;background:#f0f0f0;padding:10px;line-height:30px;}
 	input.suggestion{margin:5px 0 0 662px;font-weight:bold;color:#fff;background: url(../pics/canvas.png) 0 -52px no-repeat;width:126px;height: 40px;border: none;}
+	img.img_preview{position:absolute;top:200px;left:78px;width:216px;height:110px;}

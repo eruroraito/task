@@ -129,10 +129,6 @@
 	    </form>
 	    <section class="new_preview" id="new_preview_section">
 	    	<div class="question" id="new_question">点击预览可以预览</div>
-	    	<a title="" href="file:///D:/programs/xampp/htdocs/task.gammate.com/uploads/1021.jpg" id="img_a">
-				<img class="img_preview" src="file:///D:/programs/xampp/htdocs/task.gammate.com/uploads/1021.jpg" width="216" height="110" id="img_img" />
-			</a>
-			<img class="img_preview" src="1021.jpg" width="216" height="110" id="img_img" />
 	    	<div id="new_four">
 	    		<div class="one" id="one"></div>
 	    		<div class="two" id="two"></div>
@@ -272,10 +268,17 @@
 			if($('#optin_4').val()=='') {alert('请输入选项4');return false;}
 
 		}
-		$(this).ajaxSubmit(); 
+		var options = { success: function(responseText) { 
+			var response = eval('(' + responseText + ')'); 
+			if(response.success) {
+				alert("添加成功");
+				window.location.reload();
+			}
+		} }; 
+		$(this).ajaxSubmit(options); 		
 		alert("添加成功");
 		return false;
-	}); 
+	});  
 
 </script>
 </body>

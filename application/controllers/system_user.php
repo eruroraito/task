@@ -2,7 +2,7 @@
 
 require_once './application/controllers/pc_controller.php';
 
-class System extends PC_controller {
+class System_user extends PC_controller {
 
 	public function __construct(){
 		parent::__construct();
@@ -14,13 +14,12 @@ class System extends PC_controller {
 	{
 		$user_id = $this->m_app->getCurrentUserId();
 		$data['permission'] = $this->m_permission->getUserPermission($user_id);
-		$data['log'] = $this->m_system->getSubmitLog();
-		$this->load->view('system',$data);
+		$this->load->view('system_user',$data);
 	}
 
 /*
 | -------------------------------------------------------------------
-|  System Basic Functions
+|  System_user Basic Functions
 | -------------------------------------------------------------------
 */
 	public function addUser(){
@@ -35,29 +34,9 @@ class System extends PC_controller {
 		echo $this->response->generate_json_response();
 	}
 
-	public function submitToUseExam(){
-		$info = $this->m_system->validateSubmitToUseExamInfo($this->input->post());
-		if($this->response->isSuccess()){
-			$this->m_system->submitQuestion($info);
-			$this->response->setSuccess(true);
-			$this->response->setDetail($this->lang->line('success_update'));
-		}
-		echo $this->response->generate_json_response();
-	}
-
-	public function offUseExam(){
-		$info = $this->m_system->validateOffUseExamInfo($this->input->post());
-		if($this->response->isSuccess()){
-			$this->m_system->offQuestion($info);
-			$this->response->setSuccess(true);
-			$this->response->setDetail($this->lang->line('success_update'));
-		}
-		echo $this->response->generate_json_response();
-	}
-
 }
-/* End of file System.php */
-/* Location: ./application/controllers/system.php */
+/* End of file System_user.php */
+/* Location: ./application/controllers/system_user.php */
 
 
 

@@ -15,6 +15,28 @@ class Usermodel extends CI_Model {
 |  User Basic Functions
 | -------------------------------------------------------------------
 */
+	public function getSystemSubHistory(){
+		$user_name = $this->m_app->getCurrentUserName();
+		$this->db->select('subindex');
+		$this->db->where('user_name',$user_name);
+		$this->db->from('system');
+		$query = $this->db->get();
+		$res = $query->row_array();
+
+		return $res['subindex'];
+	}
+
+	public function getSystemOffHistory(){
+		$user_name = $this->m_app->getCurrentUserName();
+		$this->db->select('offindex');
+		$this->db->where('user_name',$user_name);
+		$this->db->from('system');
+		$query = $this->db->get();
+		$res = $query->row_array();
+
+		return $res['offindex'];
+	}
+
 	public function editHistory($info){
 		$user_name = $this->m_app->getCurrentUserName();
 		if($info=='first'){
@@ -45,9 +67,70 @@ class Usermodel extends CI_Model {
 		$this->db->update('history');
 	}
 
+	public function editSubHistory($info){
+		$user_name = $this->m_app->getCurrentUserName();
+		if($info=='first'){
+			$this->db->set('subindex',1);
+		}elseif($info=='last'){
+			$this->db->select('subtotalindex');
+			$this->db->from('system');
+			$query = $this->db->get();
+			$total = $query->row_array();
+			$this->db->set('subindex',$total['subtotalindex']);
+		}elseif($info=='pre'){
+			$this->db->select('subindex');
+			$this->db->from('system');
+			$query = $this->db->get();
+			$pagination = $query->row_array();
+			if($pagination['subindex']>1) $pagination['subindex'] = $pagination['subindex']-1;
+			$this->db->set('subindex',$pagination['subindex']);
+		}
+		elseif($info=='next'){
+			$this->db->select('subindex,subtotalindex');
+			$this->db->from('system');
+			$query = $this->db->get();
+			$pagination = $query->row_array();
+			if($pagination['subindex']<$pagination['subtotalindex']) $pagination['subindex'] = $pagination['subindex']+1;
+			$this->db->set('subindex',$pagination['subindex']);
+		}
+		$this->db->where('user_name',$user_name);
+		$this->db->update('system');
+	}
+
+	public function editOffHistory($info){
+		$user_name = $this->m_app->getCurrentUserName();
+		if($info=='first'){
+			$this->db->set('offindex',1);
+		}elseif($info=='last'){
+			$this->db->select('offtotalindex');
+			$this->db->from('system');
+			$query = $this->db->get();
+			$total = $query->row_array();
+			$this->db->set('offindex',$total['offtotalindex']);
+		}elseif($info=='pre'){
+			$this->db->select('offindex');
+			$this->db->from('system');
+			$query = $this->db->get();
+			$pagination = $query->row_array();
+			if($pagination['offindex']>1) $pagination['offindex'] = $pagination['offindex']-1;
+			$this->db->set('offindex',$pagination['offindex']);
+		}
+		elseif($info=='next'){
+			$this->db->select('offindex,offtotalindex');
+			$this->db->from('system');
+			$query = $this->db->get();
+			$pagination = $query->row_array();
+			if($pagination['offindex']<$pagination['offtotalindex']) $pagination['offindex'] = $pagination['offindex']+1;
+			$this->db->set('offindex',$pagination['offindex']);
+		}
+		$this->db->where('user_name',$user_name);
+		$this->db->update('system');
+	}
+
 	public function editHistoryRedirect($info){
 		$user_name = $this->m_app->getCurrentUserName();
 		$this->db->select('total_pagination');
+		$this->db->where('user_name',$user_name);
 		$this->db->from('history');
 		$query = $this->db->get();
 		$total = $query->row_array();
@@ -58,6 +141,38 @@ class Usermodel extends CI_Model {
 		$this->db->set('pagination',$info);
 		$this->db->where('user_name',$user_name);
 		$this->db->update('history');
+	}
+
+	public function editSystemSubRedirect($info){
+		$user_name = $this->m_app->getCurrentUserName();
+		$this->db->select('subtotalindex');
+		$this->db->where('user_name',$user_name);
+		$this->db->from('system');
+		$query = $this->db->get();
+		$total = $query->row_array();
+
+		if($info<1) $info = 1;
+		elseif($info>$total['subtotalindex']) $info = $total['subtotalindex'];
+
+		$this->db->set('subindex',$info);
+		$this->db->where('user_name',$user_name);
+		$this->db->update('system');
+	}
+
+	public function editSystemOffRedirect($info){
+		$user_name = $this->m_app->getCurrentUserName();
+		$this->db->select('offtotalindex');
+		$this->db->where('user_name',$user_name);
+		$this->db->from('system');
+		$query = $this->db->get();
+		$total = $query->row_array();
+
+		if($info<1) $info = 1;
+		elseif($info>$total['offtotalindex']) $info = $total['offtotalindex'];
+
+		$this->db->set('offindex',$info);
+		$this->db->where('user_name',$user_name);
+		$this->db->update('system');
 	}
 
 	public function getUserList(){

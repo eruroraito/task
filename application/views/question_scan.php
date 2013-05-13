@@ -87,6 +87,8 @@
 		input.audit_not_pass{left:138px;}
 		input.audit_edit{left:247px;}
 		img.img_preview{position:absolute;top:200px;left:78px;width:216px;height:110px;}
+		footer{width:948px;margin:10px auto -10px;text-align: center;}
+		input.disabled{background: url(../pics/canvas.png) -188px -42px;color:#888888;}
 	</style>
 
 	<script>  
@@ -306,8 +308,8 @@
 			<form class="form_pagination" action="question_scan/last_page" method="post" id="last_page_form">
 				<input type="hidden" name="pagination_last" value="last" />
 				<input type="submit" class="last" value="[末页]" />
-				<span class="current">第<?php echo $scan['pagination']?>页</span>
-				<span class="total">共<?php echo $scan['count']?>页</span>
+				<span class="current">第<?php echo $scan['pagination'];?>页</span>
+				<span class="total">共<?php echo $scan['count'];?>页</span>
 			</form>
 
 			<div class="table_footer">
@@ -348,19 +350,22 @@
 	    		<input type="hidden" name="audit" value="2" />
 	    		<input type="hidden" name="type" id="audit_type" />
 	    		<input type="hidden" name="id" id="audit_question_id" />
-	    		<input type="submit" value="通过" class="audit_form_pass_submit">
+	    		<input type="submit" value="通过" class="audit_form_pass_submit disabled" id="pass_audit" disabled="disabled">
 	    	</form>
 	    	<form action="question_edit" method="post" >
 	    		<input type="hidden" name="type" id="audit_type_edit" />
 	    		<input type="hidden" name="id" id="audit_question_id_deit" />
-	    		<input type="submit" value="不通过" class="audit_not_pass">
-	    		<input type="submit" value="修改/删除" class="audit_edit">
+	    		<input type="submit" value="不通过" class="audit_not_pass disabled" id="notpass_audit" disabled="disabled">
+	    		<input type="submit" value="修改/删除" class="audit_edit disabled" id="edit_scan" disabled="disabled">
 	    	</form>
 			<div class="hidden"></div>
 		</section>
 
 	</section>
-
+	<footer>
+		<p>沪ICP备08009851号</p>
+		<p>Copyright 2007-2010上海佳游网络 Corporation All rights reserved.</p>
+	</footer>
 </article>
 
 <script type="text/javascript">
@@ -430,6 +435,12 @@
 	}); 
 
 	$('.preview').click(function(){
+		$('#pass_audit').removeClass('disabled');
+		$('#notpass_audit').removeClass('disabled');
+		$('#edit_scan').removeClass('disabled');
+		$('#pass_audit').removeAttr('disabled');
+		$('#notpass_audit').removeAttr('disabled');
+		$('#edit_scan').removeAttr('disabled');
 		$(this).addClass('selected').siblings().removeClass('selected');
 		var data = new Array();
 		$(this).children().each(function(i){
@@ -449,10 +460,12 @@
 			$('#img_a').attr('title',question);
 			$('#img_a').attr('href',imagepath);
 			$('#img_img').attr('src',imagepath);
+			$('#img_a').show();
 		}else{
 			$('#img_a').removeAttr('title');
 			$('#img_a').removeAttr('href');
 			$('#img_img').removeAttr('src');
+			$('#img_a').hide();
 		}
 		if(question_type==2){
 			$('#new_question_scan').css('background-image','url(../pics/eight.jpg)');

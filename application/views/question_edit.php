@@ -11,9 +11,12 @@
 
 	<script type="text/javascript" src="../common/jquery-1.6.2.min.js"></script>
 	<script type="text/javascript" src="../common/jquery.form.js"></script>
+	<script type="text/javascript" src="../common/jquery.lightbox-0.5.js"></script> 
+
 	<link type="text/css" rel="stylesheet" href="../common/style.css" />
 	<link type="text/css" rel="stylesheet" href="../css/header.css" />
 	<link type="text/css" rel="stylesheet" href="../css/question_edit.css" />
+	<link rel="stylesheet" href="../common/jquery.lightbox-0.5.css" type="text/css">
 </head>
 <body>
 
@@ -153,6 +156,9 @@
 	    <section class="new_preview" id="new_preview">
 
 	    	<div class="question" id="new_question">点击预览可以预览</div>
+	    	<a title="" href="" id="img_a">
+				<img class="img_preview" src="" width="216" height="110" id="img_img" />
+			</a>
 	    	<div id="new_four">
 	    		<div class="one" id="one"></div>
 	    		<div class="two" id="two"></div>
@@ -196,9 +202,27 @@
 	</footer>
 </article>
 <script type="text/javascript">
+	$('#img_a').hide();
+	$(function() {
+		$('#new_preview a').lightBox({fixedNavigation:true});
+	});
 	$('#new_eight').hide();
 	$('#button_preview').click(function(){
 		var type = $("#question_type").val();
+		var icon = <?php echo $edit['icon'];?>;
+		var question = "<?php echo $edit['question'];?>";
+		if(icon!=0){
+			var imagepath = '../uploads/'+icon+'.jpg';
+			$('#img_a').attr('title',question);
+			$('#img_a').attr('href',imagepath);
+			$('#img_img').attr('src',imagepath);
+			$('#img_a').show();
+		}else{
+			$('#img_a').removeAttr('title');
+			$('#img_a').removeAttr('href');
+			$('#img_img').removeAttr('src');
+			$('#img_a').hide();
+		}
 		if(type==2){
 			$('#new_four').hide();
 			$('#new_eight').show();
@@ -281,7 +305,6 @@
 	$('#deleteFrom').submit(function() {
 		var r=confirm("确认删除!?");
 		if (r==true){
-
 			$(this).ajaxSubmit();
 		 	alert("删除成功!");
 		 	window.location.href='question_scan';
@@ -292,6 +315,18 @@
 
 		return false;
 	});
+
+	$('#suggestion_form').submit(function() {
+		var options = { success: function(responseText) { 
+			var response = eval('(' + responseText + ')'); 
+			if(response.success) {
+				alert("审核成功");
+				window.location.href='question_scan';
+			}
+		} }; 
+		$(this).ajaxSubmit(options); 		
+		return false;
+	}); 
 </script>
 </body>
 
