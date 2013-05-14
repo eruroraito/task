@@ -18,7 +18,7 @@
 		span.right{float:right;width:160px;height:670px;background:url(../pics/home_side.jpg) no-repeat #093d86;}
 		footer{width:948px;margin:23px auto;text-align: center;}
 		section.middle {background:#cfcfcf;padding:55px;}
-		section.content{background:url(../pics/system.png) no-repeat;width:853px;height:494px;position:relative;margin:0 auto;padding:20px 20px 0 40px;}
+		section.content{background:url(../pics/system.png) no-repeat;width:853px;height:494px;position:relative;margin:0 auto;padding:12px 20px 0 40px;}
 		section.middle ul{width:115px;}
 		section.middle ul li{float:left;background:#093d86;height:28px;width:115px;text-align: center;line-height: 28px;font-size:14px;font-weight:bold;margin-bottom:5px;}
 		li.statistics{margin-top: 30px;}
@@ -62,7 +62,7 @@
 	<article id="body_container" >
 		<section class="middle">
 			<section class="content">
-				<h3>按照题库来分</h3>
+				<h3>按照题库类型</h3>
 				<ul>
 					<li class="statistics"><a href="statistics" >题库</a></li>
 					<li class="statistics_date"><a href="statistics_date" >日期</a></li>
@@ -76,13 +76,30 @@
 				</ul>				
 				<table>
 					<tr>
-						<th>审核题库中的题目总数</th>
-						<th>使用题库中的题目总数</th>
+						<th>题库</th>
+						<th>审核题库题目总数</th>
+						<th>待审核的题目总数</th>
+						<th>审核通过题目总数</th>
+						<th>审核未通过题目总数</th>
+						<th>上架题目总数</th>
 					</tr>
-					<tr class="odd">
-						<td><?php echo $exam['audit'];?></td>	
-						<td><?php echo $exam['use'];?></td>	
-					</tr>
+					<?php 
+						$i=0;
+						foreach ($details_in_all_exams as $key => $value) {
+							$name='odd';
+							$i++;
+							if($i%2!=0) $name='even';
+							echo '<tr class='.$name.'>';
+							echo '<td>'.$value['name'].'</td>';
+							$total_questions_in_audit_exam = $value['need']+$value['pass']+$value['not_pass'];
+							echo '<td>'.$total_questions_in_audit_exam.'</td>';
+							echo '<td>'.$value['need'].'</td>';
+							echo '<td>'.$value['pass'].'</td>';
+							echo '<td>'.$value['not_pass'].'</td>';
+							echo '<td>'.$value['use'].'</td>';
+							echo '</tr>';
+						}
+					?>
 				</table>
 			</section>
 		</section>

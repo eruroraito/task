@@ -24,6 +24,7 @@
 		<div id="div_logout">
 			<a href="login/logout" id="logout">注销</a>
 		</div>
+		<span class="current_user">您好!<?php echo $this->session->userdata('user')['user_realname']?></span>
 		<nav>
 			<a href="home" id="home">首页</a>
 			<a href="question" id="question" class="selected">添加题目</a>

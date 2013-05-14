@@ -74,12 +74,11 @@ class Questionmodel extends CI_Model {
 	}
 
 	public function editQuestion($info,$user_name){
-		$question_table_name = 'question_'.$info['type'];
-		//print_r($info);die();
 		$this->db->where('id', $info['id']);
 		$info['name_update'] = $user_name;
 		$info['time_update'] = NOW;
-		$this->db->update($question_table_name,$info);
+		$info['status'] = 0;
+		$this->db->update('question',$info);
 
 		if($info['icon']>=100){
 			$this->db->where('global_id',1);

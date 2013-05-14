@@ -19,9 +19,29 @@ class Home extends PC_controller {
 |  Home Basic Functions
 | -------------------------------------------------------------------
 */
+	public function auditPass(){
+		$info['status'] = 2;
+		$this->m_user->editUserHistory($info);
+		$this->response->setSuccess(true);
+		$this->response->setDetail($this->lang->line('success_update'));
+		echo $this->response->generate_json_response();
+	}
 
+	public function notPass(){
+		$info['status'] = 1;
+		$this->m_user->editUserHistory($info);
+		$this->response->setSuccess(true);
+		$this->response->setDetail($this->lang->line('success_update'));
+		echo $this->response->generate_json_response();
+	}
 
-
+	public function needAudit(){
+		$info['status'] = 0;
+		$this->m_user->editUserHistory($info);
+		$this->response->setSuccess(true);
+		$this->response->setDetail($this->lang->line('success_update'));
+		echo $this->response->generate_json_response();
+	}
 }
 /* End of file Home.php */
 /* Location: ./application/controllers/home.php */

@@ -19,78 +19,9 @@
 	<link rel="stylesheet" href="../common/date_input.css" type="text/css">
 	<link type="text/css" rel="stylesheet" href="../css/header.css" />
 	<link rel="stylesheet" href="../common/jquery.lightbox-0.5.css" type="text/css">
+	<link type="text/css" rel="stylesheet" href="../css/question_scan.css" />
 	<style type="text/css">
-		tr.selected{background:#f00;}
-		section.que_fliter{width:926px;height:860px;margin:0 auto; background:#c0c0c0;padding: 10px;}
-		span.left{float:left;width:160px;height:940px;background:url(../pics/home_side.jpg) no-repeat #093d86;}
-		span.right{float:right;width:160px;height:940px;background:url(../pics/home_side.jpg) no-repeat #093d86;}
-		form.myForm{background:url(../pics/scan_fliter.png) no-repeat;width:853px;height:144px;margin:0 auto;}
-		form.myForm label{font-size:15px;margin-right:5px;font-weight: bold;}
-		div.select{ float:left;margin:16px 16px 10px 60px;}
-		#select_status{position: absolute;top:240px;left:283px;}
-		#select_condition{position: absolute;top:241px;left:496px;}
-		#select_order{position: absolute;top:240px;left:780px;}
-		input.biuuu1,input.biuuu2{width:100px;}
-		input.biuuu1{margin-right:65px;}
-		input.submit{margin:66px 362px;background: url(../pics/canvas.png) 0 -52px no-repeat;width:126px;height:40px;border:none;color:#fff;font-size:20px;line-height: 20px;font-weight:bold;}
-		section.scan{background: url(../pics/question_scan.png) no-repeat;width:551px;height:594px;margin-top: 50px;position:relative;float:left;}
-		table.scan{width:527px;}
-		table.scan,table.scan th,table.scan td {border:1px solid #fff;padding:0 3px;text-align: center;font-weight:bold;}
-		table.scan{position:absolute;top:39px;left:11px;}
-		table.scan tr.th th{background:#4f81bd;color:#fff;height:24px;line-height: 24px;}
-		table.scan tr:hover{background:yellow;}
-		table.scan tr td{height:24px;line-height: 24px;}
-		table.scan tr.th th.first{width:50px;}
-		table.scan tr.th th.second{width:160px;}
-		table.scan tr.th th.third{width:80px;}
-		table.scan tr.th th.fourth{width:65px;}
-		table.scan tr.th th.fifth{width:65px;}
-		table.scan tr.th th.sixth{width:65px;}
-		.not_audit{background: #ff50a8;}
-		.pass_audit{background: #ffd850;}
-		.need_audit{background: #ffa0a0;}
-		.use{background: #cceedd;}
-		.delete{background: #c8c8ff;}
-		table.scan tr.th{border-bottom: 5px solid #fff;}
-		input.first,input.last,input.pre,input.next,input.redirect,span.current,span.total{position:absolute;width:44px;bottom:45px;}
-		input.first{left:20px;border:none;background:none;}
-		input.last{left:246px;border:none;background:none;}
-		input.pre{left:66px;border:none;background:none;width:54px;}
-		input.next{left:192px;border:none;background:none;width:54px;}
-		input.redirect{left:150px;border:none;background:none;}
-		span.current{left:438px;}
-		span.total{left:484px;}
-		table.footer{hieght:24px;line-height: 24px;width:523px;}
-		table.footer tr th{border:1px solid #fff;text-align: center;}
-		div.table_footer{border:1px solid #000;border-right: none;position: absolute;bottom:15px;left:10px;width:523px;height:26px;}
-		section.question_scan{background: url(../pics/four.jpg) no-repeat;width:371px;height:605px;float:right;margin:42px 0 0 0px;position: relative;color:#4d2828;font-weight:bold;}
-		h4{width:94px;margin:0 auto;font-weight:normal;font-size:16px;height:20px;line-height:20px;}
-		input.pagination{position:absolute;bottom:45px;width:20px;left:126px;height:12px;}
-		div.hidden{position:absolute;width:100px;height:20px;bottom:45px;left:126px;background: #fafafa;}
-		div.answer1,div.answer2,div.answer3,div.answer4,div.answer5,div.answer6,div.answer7,div.answer8{position:absolute;text-align: center;}
-		div.question{width:14em;height:110px;position:absolute;top:168px;left:90px;font-size:14px;line-height: 24px;}
-		div.answer1{top:375px;left:67px;}
-		div.answer2{top:375px;left:142px;}
-		div.answer3{top:375px;left:217px;}
-		div.answer4{top:375px;left:291px;}
-		div.answer5{top:433px;left:67px;}
-		div.answer6{top:433px;left:142px;}
-		div.answer7{top:433px;left:217px;}
-		div.answer8{top:433px;left:291px;}
-		div.one,div.two,div.three,div.four{position:absolute;width:6em;text-align: center;}
-		div.one{top:375px;left:77px;}
-		div.two{top:375px;left:219px;}
-		div.three{top:431px;left:77px;}
-		div.four{top:431px;left:219px;}
-		input.audit_form_pass_submit{position:absolute;left:32px;top:552px;background:url(../pics/canvas.png) 0 -288px no-repeat;width:96px;height:31px;border:none;color:#fff;line-height: 31px;font-weight:bold;padding-bottom:4px;}
-		input.audit_not_pass,input.audit_edit{background:url(../pics/canvas.png) 0 -288px no-repeat;width:96px;height:31px;color:#fff;position: absolute;left:100px;top:552px;z-index: 9;line-height: 30px;border:none;font-weight:bold;padding-bottom:4px;}
-		input.audit_not_pass{left:138px;}
-		input.audit_edit{left:247px;}
-		img.img_preview{position:absolute;top:200px;left:78px;width:216px;height:110px;}
-		footer{width:948px;margin:10px auto -10px;text-align: center;}
-		input.disabled{background: url(../pics/canvas.png) -188px -42px;color:#888888;}
 	</style>
-
 	<script>  
 		jQuery.extend(DateInput.DEFAULT_OPTS, {   
 		month_names: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],   
@@ -119,6 +50,7 @@
 		<div id="div_logout">
 			<a href="login/logout" id="logout">注销</a>
 		</div>
+		<span class="current_user">您好!<?php echo $this->session->userdata('user')['user_realname']?></span>
 		<nav>
 			<a href="home" id="home" >首页</a>
 			<a href="question" id="question">添加题目</a>
@@ -168,7 +100,6 @@
 				<select id="user" name="user">
 					<option value ="all">全部</option>
 					<?php foreach ($userlist as $key => $value) {
-						//$option_value = $key+1;
 						echo "<option value =".$value['user_name'].">".$value['user_realname']."</option>";
 					}
 					?>	
@@ -240,6 +171,7 @@
 				<?php foreach ($scan['list'] as $key => $value) {
 					$key = $key+1;
 					$tr_id = 'tr'.$key;
+					$origin_status = $value['status'];
 					switch ($value['status']) {
 							case 0:
 								$value['status'] = "待审核";
@@ -286,6 +218,7 @@
 						echo '<td style="display:none;">'.$value['answer_8'].'</td>';
 						echo '<td style="display:none;">'.$question_rogin.'</td>';
 						echo '<td style="display:none;">'.$value['icon'].'</td>';
+						echo '<td style="display:none;">'.$origin_status.'</td>';
 					echo '</tr>';
 				}?>
 			</table>
@@ -435,18 +368,13 @@
 	}); 
 
 	$('.preview').click(function(){
-		$('#pass_audit').removeClass('disabled');
-		$('#notpass_audit').removeClass('disabled');
-		$('#edit_scan').removeClass('disabled');
-		$('#pass_audit').removeAttr('disabled');
-		$('#notpass_audit').removeAttr('disabled');
-		$('#edit_scan').removeAttr('disabled');
 		$(this).addClass('selected').siblings().removeClass('selected');
 		var data = new Array();
 		$(this).children().each(function(i){
 			data[i] = $(this).text();
 		});
 		var question_id = data[0];
+		var name_origin = data[4];
 		var question_type = data[6];
 		var type = data[7];
 		var answer = new Array();
@@ -455,6 +383,38 @@
 		}
 		var question = data[16];
 		var icon = data[17];
+		var status = data[18];
+		var permission = <?php echo $permission;?>;
+		var current_user = "<?php echo $current_user;?>";
+		if(permission==1||permission==2){
+			if(status==0){
+				$('#pass_audit').removeClass('disabled');
+				$('#pass_audit').removeAttr('disabled');
+				$('#notpass_audit').removeClass('disabled');
+				$('#notpass_audit').removeAttr('disabled');
+			}else{
+				$('#pass_audit').addClass('disabled','disabled');
+				$('#pass_audit').attr('disabled','disabled');
+				$('#notpass_audit').addClass('disabled','disabled');
+				$('#notpass_audit').attr('disabled','disabled');
+			}
+			if(status==0||status==1){
+				$('#edit_scan').removeClass('disabled');				
+				$('#edit_scan').removeAttr('disabled');
+			}else{
+				$('#edit_scan').addClass('disabled','disabled');				
+				$('#edit_scan').attr('disabled','disabled');
+			}
+		}else if(current_user==name_origin){
+			if(status==0||status==1){
+				$('#edit_scan').removeClass('disabled');				
+				$('#edit_scan').removeAttr('disabled');
+			}else{
+				$('#edit_scan').addClass('disabled','disabled');				
+				$('#edit_scan').attr('disabled','disabled');
+			}
+		}				
+
 		if(icon!=0){
 			var imagepath = '../uploads/'+icon+'.jpg';
 			$('#img_a').attr('title',question);
@@ -489,8 +449,6 @@
 		$('#audit_question_id').val(question_id);
 		$('#audit_type_edit').val(type);
 		$('#audit_question_id_deit').val(question_id);
-		
-
 	});
 </script>
 </body>

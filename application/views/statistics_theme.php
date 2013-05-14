@@ -62,7 +62,7 @@
 	<article id="body_container" >
 		<section class="middle">
 			<section class="content">
-				<h3>按照题库来分</h3>
+				<h3>按照题目题材来分</h3>
 				<ul>
 					<li class="statistics"><a href="statistics" >题库</a></li>
 					<li class="statistics_date"><a href="statistics_date" >日期</a></li>
@@ -74,15 +74,99 @@
 					<li class="statistics_theme"><a href="statistics_theme">题目题材</a></li>
 					<li class="statistics_pics"><a href="statistics_pics">图片题目</a></li>
 				</ul>				
-				<table>
+				<label for="question_exam">选择题库</label>
+				<select id="question_exam">
+					<option value="0">审核题库</option>
+					<option value="3">使用题库</option>
+				</select>
+				
+				<table id="audit">
 					<tr>
-						<th>审核题库中的题目总数</th>
-						<th>使用题库中的题目总数</th>
+						<th></th>
+						<th>文字</th>
+						<th></th>
+						<th></th>
+						<th>看图</th>
+						<th></th>
+						<th></th>
+						<th>填空</th>
+						<th></th>
+						<th></th>
+						<th>看图</th>
+						<th></th>
+						<th></th>
 					</tr>
-					<tr class="odd">
-						<td><?php echo $exam['audit'];?></td>	
-						<td><?php echo $exam['use'];?></td>	
+					<tr>
+						<td>题材类型</td>
+						<td>新手</td>
+						<td>熟练</td>
+						<td>高手</td>
+						<td>新手</td>
+						<td>熟练</td>
+						<td>高手</td>
+						<td>新手</td>
+						<td>熟练</td>
+						<td>高手</td>
+						<td>新手</td>
+						<td>熟练</td>
+						<td>高手</td>
 					</tr>
+					<?php 
+						foreach ($question_type_and_type as $q_type => $q_value) {
+							echo '<tr>';
+							echo '<td>'.$q_type.'</td>';
+							foreach ($q_value as $key => $value) {
+								echo '<td>'.$value[1]['audit'].'</td>';
+								echo '<td>'.$value[2]['audit'].'</td>';
+								echo '<td>'.$value[3]['audit'].'</td>';
+							}
+							echo '</tr>';
+						}
+					?>
+				</table>
+				<table id="use">
+					<tr>
+						<th></th>
+						<th>文字</th>
+						<th></th>
+						<th></th>
+						<th>看图</th>
+						<th></th>
+						<th></th>
+						<th>填空</th>
+						<th></th>
+						<th></th>
+						<th>看图</th>
+						<th></th>
+						<th></th>
+					</tr>
+					<tr>
+						<td>题材类型</td>
+						<td>新手</td>
+						<td>熟练</td>
+						<td>高手</td>
+						<td>新手</td>
+						<td>熟练</td>
+						<td>高手</td>
+						<td>新手</td>
+						<td>熟练</td>
+						<td>高手</td>
+						<td>新手</td>
+						<td>熟练</td>
+						<td>高手</td>
+					</tr>
+					<?php 
+						foreach ($question_type_and_type as $q_type => $q_value) {
+							echo '<tr>';
+							echo '<td>'.$q_type.'</td>';
+							foreach ($q_value as $key => $value) {
+								echo '<td>'.$value[1]['use'].'</td>';
+								echo '<td>'.$value[2]['use'].'</td>';
+								echo '<td>'.$value[3]['use'].'</td>';
+							}
+							echo '</tr>';
+						}
+					?>
 				</table>
 			</section>
 		</section>

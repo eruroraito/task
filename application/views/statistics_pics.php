@@ -62,7 +62,7 @@
 	<article id="body_container" >
 		<section class="middle">
 			<section class="content">
-				<h3>按照题库来分</h3>
+				<h3>图片题目统计信息</h3>
 				<ul>
 					<li class="statistics"><a href="statistics" >题库</a></li>
 					<li class="statistics_date"><a href="statistics_date" >日期</a></li>
@@ -74,15 +74,70 @@
 					<li class="statistics_theme"><a href="statistics_theme">题目题材</a></li>
 					<li class="statistics_pics"><a href="statistics_pics">图片题目</a></li>
 				</ul>				
-				<table>
+				<label for="question_exam_image">选择题库</label>
+				<select id="question_exam_image">
+					<option value="0">审核题库</option>
+					<option value="3">使用题库</option>
+				</select>
+				<table id="pic_audit">
 					<tr>
-						<th>审核题库中的题目总数</th>
-						<th>使用题库中的题目总数</th>
+						<th>题库</th>
+						<th>题目编号</th>
+						<th>题目难度</th>
+						<th>题库用途</th>
+						<th>题目</th>
+						<th>图片编号</th>
+						<th>图片大小</th>
+						<th>出题人</th>
+						<th>最后修改人</th>
+						<th>最后修改时间</th>
 					</tr>
-					<tr class="odd">
-						<td><?php echo $exam['audit'];?></td>	
-						<td><?php echo $exam['use'];?></td>	
+					<?php 
+						foreach ($pic['audit'] as $key => $value) {
+							echo '<tr>';
+							echo '<td>'.$value['type'].'</td>';
+							echo '<td>'.$value['id'].'</td>';
+							echo '<td>'.$value['difficulty'].'</td>';
+							echo '<td>'.$value['purpose'].'</td>';
+							echo '<td>'.$value['question'].'</td>';
+							echo '<td>'.$value['icon'].'</td>';
+							echo '<td>'.''.'</td>';
+							echo '<td>'.$value['name_origin'].'</td>';
+							echo '<td>'.$value['name_update'].'</td>';
+							echo '<td>'.$value['time_update'].'</td>';
+							echo '</tr>';
+						}		
+					?>
+				</table>
+				<table id="pic_use">
+					<tr>
+						<th>题库</th>
+						<th>题目编号</th>
+						<th>题目难度</th>
+						<th>题库用途</th>
+						<th>题目</th>
+						<th>图片编号</th>
+						<th>图片大小</th>
+						<th>出题人</th>
+						<th>最后修改人</th>
+						<th>最后修改时间</th>
 					</tr>
+					<?php 
+						foreach ($pic['use'] as $key => $value) {
+							echo '<tr>';
+							echo '<td>'.$value['type'].'</td>';
+							echo '<td>'.$value['id'].'</td>';
+							echo '<td>'.$value['difficulty'].'</td>';
+							echo '<td>'.$value['purpose'].'</td>';
+							echo '<td>'.$value['question'].'</td>';
+							echo '<td>'.$value['icon'].'</td>';
+							echo '<td>'.''.'</td>';
+							echo '<td>'.$value['name_origin'].'</td>';
+							echo '<td>'.$value['name_update'].'</td>';
+							echo '<td>'.$value['time_update'].'</td>';
+							echo '</tr>';
+						}		
+					?>
 				</table>
 			</section>
 		</section>

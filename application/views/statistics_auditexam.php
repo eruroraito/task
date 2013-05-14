@@ -62,7 +62,7 @@
 	<article id="body_container" >
 		<section class="middle">
 			<section class="content">
-				<h3>按照题库来分</h3>
+				<h3>审核题库详情</h3>
 				<ul>
 					<li class="statistics"><a href="statistics" >题库</a></li>
 					<li class="statistics_date"><a href="statistics_date" >日期</a></li>
@@ -76,12 +76,14 @@
 				</ul>				
 				<table>
 					<tr>
-						<th>审核题库中的题目总数</th>
-						<th>使用题库中的题目总数</th>
+						<th>未审核的题目总数</th>
+						<th>已审核通过的题目总数</th>
+						<th>不通过的题目总数</th>
 					</tr>
 					<tr class="odd">
-						<td><?php echo $exam['audit'];?></td>	
-						<td><?php echo $exam['use'];?></td>	
+						<td><?php echo $audit_exam['need'];?></td>	
+						<td><?php echo $audit_exam['pass'];?></td>	
+						<td><?php echo $audit_exam['not_pass'];?></td>	
 					</tr>
 				</table>
 			</section>

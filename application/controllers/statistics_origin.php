@@ -2,7 +2,7 @@
 
 require_once './application/controllers/pc_controller.php';
 
-class Statistics extends PC_controller {
+class Statistics_origin extends PC_controller {
 
 	public function __construct(){
 		parent::__construct();
@@ -15,20 +15,25 @@ class Statistics extends PC_controller {
 
 	public function index()
 	{
-		$data['exam'] = $this->m_system->getQuestionNumInExam();
-		$this->load->view('statistics',$data);
+		$user['user_id'] = $this->m_app->getCurrentUserId();
+		$user['user_name'] = $this->m_app->getCurrentUserName();
+		$user['user_realname'] = $this->m_app->getCurrentUserRealName();
+		$user['users'] =$this->m_user->getUserNames();
+
+		$data['origin_user_audit_exam'] = $this->m_system->getUserDetailsInExam($user);
+		$this->load->view('statistics_origin',$data);
 	}
 
 /*
 | -------------------------------------------------------------------
-|  Statistics Basic Functions
+|  Statistics_origin Basic Functions
 | -------------------------------------------------------------------
 */
 
 
 }
-/* End of file Statistics.php */
-/* Location: ./application/controllers/statistics.php */
+/* End of file Statistics_origin.php */
+/* Location: ./application/controllers/statistics_origin.php */
 
 
 

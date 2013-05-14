@@ -23,8 +23,6 @@ class Question_scan extends PC_controller {
 		$this->load->view('question_scan',$data);
 	}
 
-
-
 /*
 | -------------------------------------------------------------------
 |  Personal Basic Functions
@@ -32,13 +30,9 @@ class Question_scan extends PC_controller {
 */
 	public function getQuestionList(){
 		
-		$info = $this->m_question->validateGetQuestionListInfo($this->input->post());//print_r($this->input->post());die();
+		$info = $this->m_question->validateGetQuestionListInfo($this->input->post());
 		if($this->response->isSuccess()){
-			
-			//$this->m_question->getQuestionListSection($info,$pagination);
 			$this->m_question->editHistory($info);
-			//print_r($list);die();
-			//$this->response->setAddon($list);
 			$this->response->setSuccess(true);
 			$this->response->setDetail($this->lang->line('success_update'));
 		}

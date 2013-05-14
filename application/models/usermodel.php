@@ -15,6 +15,25 @@ class Usermodel extends CI_Model {
 |  User Basic Functions
 | -------------------------------------------------------------------
 */
+	public function editUserHistory($info){
+		$info['type'] = SEARCH_ALL;
+		$info['question_type'] = SEARCH_ALL;
+		$info['difficult'] = SEARCH_ALL;
+		$info['user'] = SEARCH_SUPER_ALL;
+		$info['auditer'] = SEARCH_SUPER_ALL;
+		$info['date_start'] = '0000-00-00 00:00:00';
+		$info['date_end'] = '0000-00-00 00:00:00';
+		$info['condition'] = 1;
+		$info['search'] = '';
+		$info['order_item'] = 1;
+		$info['order'] = 1;
+		$info['pagination'] = 1;
+		$info['total_pagination'] = 1;
+		$user_name = $this->m_app->getCurrentUserName();
+		$this->db->where('user_name',$user_name);
+		$this->db->update('history',$info);
+	}
+
 	public function getSystemSubHistory(){
 		$user_name = $this->m_app->getCurrentUserName();
 		$this->db->select('subindex');
@@ -43,12 +62,14 @@ class Usermodel extends CI_Model {
 			$this->db->set('pagination',1);
 		}elseif($info=='last'){
 			$this->db->select('total_pagination');
+			$this->db->where('user_name',$user_name);
 			$this->db->from('history');
 			$query = $this->db->get();
 			$total = $query->row_array();
 			$this->db->set('pagination',$total['total_pagination']);
 		}elseif($info=='pre'){
 			$this->db->select('pagination');
+			$this->db->where('user_name',$user_name);
 			$this->db->from('history');
 			$query = $this->db->get();
 			$pagination = $query->row_array();
@@ -57,6 +78,7 @@ class Usermodel extends CI_Model {
 		}
 		elseif($info=='next'){
 			$this->db->select('pagination,total_pagination');
+			$this->db->where('user_name',$user_name);
 			$this->db->from('history');
 			$query = $this->db->get();
 			$pagination = $query->row_array();
@@ -73,12 +95,14 @@ class Usermodel extends CI_Model {
 			$this->db->set('subindex',1);
 		}elseif($info=='last'){
 			$this->db->select('subtotalindex');
+			$this->db->where('user_name',$user_name);
 			$this->db->from('system');
 			$query = $this->db->get();
 			$total = $query->row_array();
 			$this->db->set('subindex',$total['subtotalindex']);
 		}elseif($info=='pre'){
 			$this->db->select('subindex');
+			$this->db->where('user_name',$user_name);
 			$this->db->from('system');
 			$query = $this->db->get();
 			$pagination = $query->row_array();
@@ -87,6 +111,7 @@ class Usermodel extends CI_Model {
 		}
 		elseif($info=='next'){
 			$this->db->select('subindex,subtotalindex');
+			$this->db->where('user_name',$user_name);
 			$this->db->from('system');
 			$query = $this->db->get();
 			$pagination = $query->row_array();
@@ -103,12 +128,14 @@ class Usermodel extends CI_Model {
 			$this->db->set('offindex',1);
 		}elseif($info=='last'){
 			$this->db->select('offtotalindex');
+			$this->db->where('user_name',$user_name);
 			$this->db->from('system');
 			$query = $this->db->get();
 			$total = $query->row_array();
 			$this->db->set('offindex',$total['offtotalindex']);
 		}elseif($info=='pre'){
 			$this->db->select('offindex');
+			$this->db->where('user_name',$user_name);
 			$this->db->from('system');
 			$query = $this->db->get();
 			$pagination = $query->row_array();
@@ -117,6 +144,7 @@ class Usermodel extends CI_Model {
 		}
 		elseif($info=='next'){
 			$this->db->select('offindex,offtotalindex');
+			$this->db->where('user_name',$user_name);
 			$this->db->from('system');
 			$query = $this->db->get();
 			$pagination = $query->row_array();
@@ -235,46 +263,37 @@ class Usermodel extends CI_Model {
 		$res['pass']=0;
 		$res['not_pass']=0;
 		$res['name'] = $this->m_app->getCurrentUserName();
-		for($i=1;$i<=TYPE_TOTAL;$i++){
-			$db_name = 'question_'.$i;
-			$this->db->select('id');
-			$this->db->where('status',0);
-			$this->db->where('name_origin',$res['name']);
-			$this->db->from($db_name);
-			$num = $this->db->count_all_results();
-			$res['need'] = $res['need']+$num;
-		}
-		for($i=1;$i<=TYPE_TOTAL;$i++){
-			$db_name = 'question_'.$i;
-			$this->db->select('id');
-			$this->db->where('status',2);
-			$this->db->where('name_origin',$res['name']);
-			$this->db->from($db_name);
-			$num = $this->db->count_all_results();
-			$res['pass'] = $res['pass']+$num;
-		}
-		for($i=1;$i<=TYPE_TOTAL;$i++){
-			$db_name = 'question_'.$i;
-			$this->db->select('id');
-			$this->db->where('status',1);
-			$this->db->where('name_origin',$res['name']);
-			$this->db->from($db_name);
-			$num = $this->db->count_all_results();
-			$res['not_pass'] = $res['not_pass']+$num;
-		}
 
-		
+		$this->db->select('id');
+		$this->db->where('status',0);
+		$this->db->where('name_origin',$res['name']);
+		$this->db->from('question');
+		$num = $this->db->count_all_results();
+		$res['need'] = $res['need']+$num;
+
+		$this->db->select('id');
+		$this->db->where('status',1);
+		$this->db->where('name_origin',$res['name']);
+		$this->db->from('question');
+		$num = $this->db->count_all_results();
+		$res['not_pass'] = $res['not_pass']+$num;
+
+		$this->db->select('id');
+		$this->db->where('status',2);
+		$this->db->where('name_origin',$res['name']);
+		$this->db->from('question');
+		$num = $this->db->count_all_results();
+		$res['pass'] = $res['pass']+$num;
+
 		$this->db->select('user_name');
 		$this->db->from('user_details');
 		$this->db->where('user_name',$res['name']);
 		$user_name_num = $this->db->count_all_results();
-
 		
 		$user_data['user_name'] = $res['name'];
 		$user_data['user_details_audit_pass'] = $res['pass'];
 		$user_data['user_details_audit_not_pass'] = $res['not_pass'];
 		$user_data['user_details_audit_need'] = $res['need'];
-		//$user_data['user_details_record'] = NOW;
 
 		if($user_name_num){
 			$this->db->select('user_details_record');

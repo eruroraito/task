@@ -28,6 +28,8 @@
 		label.login {width:95px;height:20px;line-height:20px;text-align:right;display:inline-block;}
 		span {color:#ff0000;}
 		div.username {margin:25px 0 5px 0;}
+		form{position: relative;}
+		strong{position: absolute;top:82px;left:119px;color:#f00;font-size:14px;}
 		input.submit {background: #0ca1cb;border-radius: 5px; -moz-border-radius: 5px;  -webkit-border-radius: 5px;width:75px;height:20px;border:1px solid #8e8f8f;color:#fff;margin :32px 0 0 265px;}
 		input.error {border:1px solid #cc3300;}
 		input.focus {border:1px solid #777;}
@@ -63,9 +65,10 @@
 	  			</div>
 	  			<div id="captcha_div">
 	  				<label class="login" for="captcha" id="captcha_label">验证码<span>*</span>:</label>
-	  				<input class="login" type="text" maxlength="5" id="captcha_id" name="captcha">
+	  				<input class="login" type="text" maxlength="5" id="captcha_id" name="captcha" placeholder="请输入验证码">
 	  				<img id="captcha" src='<?php echo "login/captcha?".time();?>'>
 	  			</div>
+	  			<strong>错误</strong>
 	  			<input class="submit" type="submit" value="登录" id="submit"/>
 		    </form>
 		</section>
@@ -77,7 +80,19 @@
 </article>
 
 <script type="text/javascript">
-
+	$('strong').hide();
+	$('#loginform').submit(function() {
+		var options = { success: function(responseText) { 
+			var response = eval('(' + responseText + ')'); 
+			if(response.success) {
+				location.href='home';
+			}else{
+				$('strong').text(response.detail).show();
+			}
+		} }; 
+		$('#loginform').ajaxSubmit(options); 		
+		return false;
+	});
 	$('#captcha').click(function(){
 		var src ="login/captcha?"+(new Date().getTime());
 		$(this).attr('src',src);
@@ -107,18 +122,21 @@
 	$('#submit').click(function(){
 		if($('#username').val()==""){
 			$('#username').addClass('error');
+			$('strong').text("请输入用户名").show();
 			return false;
 		}else{
 			$('#username').removeClass('error');
 		}
 		if($('#password').val()==""){
 			$('#password').addClass('error');
+			$('strong').text("请输入密码").show();
 			return false;
 		}else{
 			$('#password').removeClass('error');
 		}
 		if($('#captcha_id').val()==""){
 			$('#captcha_id').addClass('error');
+			$('strong').text("请输入验证码").show();
 			return false;
 		}else{
 			$('#captcha_id').removeClass('error');

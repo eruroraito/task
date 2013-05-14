@@ -62,7 +62,7 @@
 	<article id="body_container" >
 		<section class="middle">
 			<section class="content">
-				<h3>按照题库来分</h3>
+				<h3>按照出题人</h3>
 				<ul>
 					<li class="statistics"><a href="statistics" >题库</a></li>
 					<li class="statistics_date"><a href="statistics_date" >日期</a></li>
@@ -76,13 +76,25 @@
 				</ul>				
 				<table>
 					<tr>
-						<th>审核题库中的题目总数</th>
-						<th>使用题库中的题目总数</th>
+						<th>人名</th>
+						<th>未审核的题目总数</th>
+						<th>已审核的题目总数</th>
+						<th>不通过的题目总数</th>
 					</tr>
-					<tr class="odd">
-						<td><?php echo $exam['audit'];?></td>	
-						<td><?php echo $exam['use'];?></td>	
-					</tr>
+					<?php 
+						$i = 0;
+						foreach ($origin_user_audit_exam as $key => $value) {
+							$i++;
+							$name = 'odd';
+							if($i%2!=0) $name='even';
+							echo '<tr class='.$name.'>';
+							echo '<td>'.$value['realname'].'</td>';
+							echo '<td>'.$value['need'].'</td>';
+							echo '<td>'.$value['pass'].'</td>';
+							echo '<td>'.$value['not_pass'].'</td>';
+							echo '</tr>';
+						}
+					?>
 				</table>
 			</section>
 		</section>

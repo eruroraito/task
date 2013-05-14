@@ -2,7 +2,7 @@
 
 require_once './application/controllers/pc_controller.php';
 
-class Statistics extends PC_controller {
+class Statistics_pics extends PC_controller {
 
 	public function __construct(){
 		parent::__construct();
@@ -15,20 +15,20 @@ class Statistics extends PC_controller {
 
 	public function index()
 	{
-		$data['exam'] = $this->m_system->getQuestionNumInExam();
-		$this->load->view('statistics',$data);
+		$data['pic'] = $this->m_system->getPicQuestionDetails();
+		$this->load->view('statistics_pics',$data);
 	}
 
 /*
 | -------------------------------------------------------------------
-|  Statistics Basic Functions
+|  Statistics_pics Basic Functions
 | -------------------------------------------------------------------
 */
 
 
 }
-/* End of file Statistics.php */
-/* Location: ./application/controllers/statistics.php */
+/* End of file Statistics_pics.php */
+/* Location: ./application/controllers/statistics_pics.php */
 
 
 

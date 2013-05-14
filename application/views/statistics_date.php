@@ -62,7 +62,7 @@
 	<article id="body_container" >
 		<section class="middle">
 			<section class="content">
-				<h3>按照题库来分</h3>
+				<h3>按照日期来分</h3>
 				<ul>
 					<li class="statistics"><a href="statistics" >题库</a></li>
 					<li class="statistics_date"><a href="statistics_date" >日期</a></li>
@@ -73,15 +73,42 @@
 					<li class="statistics_questiontype"><a href="statistics_questiontype" >题目类型</a></li>
 					<li class="statistics_theme"><a href="statistics_theme">题目题材</a></li>
 					<li class="statistics_pics"><a href="statistics_pics">图片题目</a></li>
-				</ul>				
+				</ul>			
 				<table>
-					<tr>
-						<th>审核题库中的题目总数</th>
-						<th>使用题库中的题目总数</th>
+					<tr class="even">
+						<th>时间段</th>
+						<th>增加到审核题库中的题目总数</th>
+						<th>增加到使用题库中的题目总数</th>
 					</tr>
 					<tr class="odd">
-						<td><?php echo $exam['audit'];?></td>	
-						<td><?php echo $exam['use'];?></td>	
+						<td>今天</td>
+						<td><?php echo $date['today_audit'];?></td>	
+						<td><?php echo $date['today_use'];?></td>	
+					</tr>
+					<tr class="even">
+						<td>本周</td>
+						<td><?php echo $date['week_audit_num'];?></td>	
+						<td><?php echo $date['week_use_num'];?></td>	
+					</tr>
+					<tr class="odd">
+						<td>本月</td>
+						<td><?php echo $date['month_audit_num'];?></td>	
+						<td><?php echo $date['month_use_num'];?></td>	
+					</tr>
+					<tr class="even">
+						<td>三个月内</td>
+						<td><?php echo $date['three_month_audit_num'];?></td>	
+						<td><?php echo $date['three_month_use_num'];?></td>	
+					</tr>
+					<tr class="odd">
+						<td>半年内</td>
+						<td><?php echo $date['half_year_audit_num'];?></td>	
+						<td><?php echo $date['half_year_use_num'];?></td>	
+					</tr>
+					<tr class="even">
+						<td>今年</td>
+						<td><?php echo $date['year_audit_num'];?></td>	
+						<td><?php echo $date['year_use_num'];?></td>	
 					</tr>
 				</table>
 			</section>

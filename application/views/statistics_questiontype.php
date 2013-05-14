@@ -38,6 +38,7 @@
 		table td{border-bottom: 2px solid #fff;height:20px;line-height: 20px;padding:0 8px;}
 		table tr.odd{background:#d0d8e8;}
 		table tr.even{background:#e9edf4;}
+		table tr th.question_type{width:55px;}
 	</style>
 </head>
 <body id="container">
@@ -62,7 +63,7 @@
 	<article id="body_container" >
 		<section class="middle">
 			<section class="content">
-				<h3>按照题库来分</h3>
+				<h3>按照题目类型来分</h3>
 				<ul>
 					<li class="statistics"><a href="statistics" >题库</a></li>
 					<li class="statistics_date"><a href="statistics_date" >日期</a></li>
@@ -76,12 +77,44 @@
 				</ul>				
 				<table>
 					<tr>
-						<th>审核题库中的题目总数</th>
-						<th>使用题库中的题目总数</th>
+						<th class="question_type">题目类型</th>
+						<th>待审核的题目总数</th>
+						<th>审核通过的题目总数</th>
+						<th>审核未通过的题目总数</th>
+						<th>审核题目总数</th>
+						<th>上架题目总数</th>
+					</tr>
+					<tr class="even">
+						<td>文字题</td>	
+						<td><?php echo $question_type[0]['need'];?></td>	
+						<td><?php echo $question_type[0]['pass'];?></td>
+						<td><?php echo $question_type[0]['not_pass'];?></td>	
+						<td><?php echo $question_type[0]['audit_total'];?></td>
+						<td><?php echo $question_type[0]['use'];?></td>
 					</tr>
 					<tr class="odd">
-						<td><?php echo $exam['audit'];?></td>	
-						<td><?php echo $exam['use'];?></td>	
+						<td>看图题</td>	
+						<td><?php echo $question_type[1]['need'];?></td>	
+						<td><?php echo $question_type[1]['pass'];?></td>
+						<td><?php echo $question_type[1]['not_pass'];?></td>	
+						<td><?php echo $question_type[1]['audit_total'];?></td>
+						<td><?php echo $question_type[1]['use'];?></td>
+					</tr>
+					<tr class="even">
+						<td>填空题</td>	
+						<td><?php echo $question_type[2]['need'];?></td>	
+						<td><?php echo $question_type[2]['pass'];?></td>
+						<td><?php echo $question_type[2]['not_pass'];?></td>	
+						<td><?php echo $question_type[2]['audit_total'];?></td>
+						<td><?php echo $question_type[2]['use'];?></td>	
+					</tr>
+					<tr class="odd">
+						<td>触摸题</td>	
+						<td><?php echo $question_type[3]['need'];?></td>	
+						<td><?php echo $question_type[3]['pass'];?></td>
+						<td><?php echo $question_type[3]['not_pass'];?></td>	
+						<td><?php echo $question_type[3]['audit_total'];?></td>
+						<td><?php echo $question_type[3]['use'];?></td>
 					</tr>
 				</table>
 			</section>

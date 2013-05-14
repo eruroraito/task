@@ -62,7 +62,7 @@
 	<article id="body_container" >
 		<section class="middle">
 			<section class="content">
-				<h3>按照题库来分</h3>
+				<h3>按照难度类型来分</h3>
 				<ul>
 					<li class="statistics"><a href="statistics" >题库</a></li>
 					<li class="statistics_date"><a href="statistics_date" >日期</a></li>
@@ -76,12 +76,36 @@
 				</ul>				
 				<table>
 					<tr>
-						<th>审核题库中的题目总数</th>
+						<th>题目难度值</th>
+						<th>题目总数(审核题库)</th>
+						<th>待审核题目总数(审核题库)</th>
+						<th>审核通过题目总数(审核题库)</th>
+						<th>审核不通过题目总数(审核题库)</th>
 						<th>使用题库中的题目总数</th>
 					</tr>
+					<tr class="even">
+						<td>新手</td>	
+						<td><?php echo $difficluty[1]['audit_total'];?></td>	
+						<td><?php echo $difficluty[1]['need'];?></td>	
+						<td><?php echo $difficluty[1]['pass'];?></td>	
+						<td><?php echo $difficluty[1]['not_pass'];?></td>	
+						<td><?php echo $difficluty[1]['use'];?></td>	
+					</tr>
 					<tr class="odd">
-						<td><?php echo $exam['audit'];?></td>	
-						<td><?php echo $exam['use'];?></td>	
+						<td>熟练</td>	
+						<td><?php echo $difficluty[2]['audit_total'];?></td>	
+						<td><?php echo $difficluty[2]['need'];?></td>	
+						<td><?php echo $difficluty[2]['pass'];?></td>	
+						<td><?php echo $difficluty[2]['not_pass'];?></td>	
+						<td><?php echo $difficluty[2]['use'];?></td>	
+					</tr>
+					<tr class="even">
+						<td>高手</td>	
+						<td><?php echo $difficluty[3]['audit_total'];?></td>	
+						<td><?php echo $difficluty[3]['need'];?></td>	
+						<td><?php echo $difficluty[3]['pass'];?></td>	
+						<td><?php echo $difficluty[3]['not_pass'];?></td>	
+						<td><?php echo $difficluty[3]['use'];?></td>	
 					</tr>
 				</table>
 			</section>

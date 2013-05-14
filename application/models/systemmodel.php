@@ -95,27 +95,20 @@ class Systemmodel extends CI_Model {
 		$res['audit'] = 0;
 		$res['use'] = 0;
 		$data =array(0,1,2);
-		for($i=1;$i<=TYPE_TOTAL;$i++){
-			$db_name = 'question_'.$i;
-			$this->db->select('id');
-			$this->db->where_in('status',$data);
-			$this->db->from($db_name);
-
-			$num = $this->db->count_all_results();
-			$res['audit'] = $res['audit']+$num;
-		}
-		for($i=1;$i<=TYPE_TOTAL;$i++){
-			$db_name = 'question_'.$i;
-			$this->db->select('id');
-			$this->db->where('status',3);
-			$this->db->from($db_name);
-
-			$num = $this->db->count_all_results();
-			$res['use'] = $res['use']+$num;
-		}
+	
+		$this->db->select('id');
+		$this->db->where_in('status',$data);
+		$this->db->from('question');
+		$num = $this->db->count_all_results();
+		$res['audit'] = $res['audit']+$num;
+		
+		$this->db->select('id');
+		$this->db->where('status',3);
+		$this->db->from('question');
+		$num = $this->db->count_all_results();
+		$res['use'] = $res['use']+$num;
 
 		return $res;
-		//print_r($res);die();
 	}
 
 	public function getQuestionNumInExamByDate(){
@@ -127,17 +120,14 @@ class Systemmodel extends CI_Model {
 		$today_use_num = 0;
 	    $beginTime = date('Y-m-d 00:00:00', $now);  
 	    $endTime = date('Y-m-d 23:59:59', $now);  
-	    for($i=1;$i<=TYPE_TOTAL;$i++){
-	    	$db_name = 'question_'.$i;
-	    	$this->db->select('id');
-	    	$this->db->where_in('status',array(0,1,2));
-	    	$this->db->where('time_update >',$beginTime);
-	    	$this->db->where('time_update <',$endTime);
-	    	$this->db->from($db_name);
-	    	$num = $this->db->count_all_results();
-	    	$today_audit_num = $today_audit_num + $num;	    	
-	    }
-	    $res['today_audit'] = $today_audit_num;
+
+    	$this->db->select('id');
+    	$this->db->where_in('status',array(0,1,2));
+    	$this->db->where('time_update >',$beginTime);
+    	$this->db->where('time_update <',$endTime);
+    	$this->db->from('question');
+    	$res['today_audit'] = $this->db->count_all_results();
+	    
 	    $this->db->select('question_num');
 	    $this->db->where('time_submit >',$beginTime);
 	    $this->db->where('time_submit <',$endTime);
@@ -155,17 +145,14 @@ class Systemmodel extends CI_Model {
 	    $time = '1' == date('w') ? strtotime('Monday', $now) : strtotime('last Monday', $now);  
 	    $beginTime = date('Y-m-d 00:00:00', $time);  
 	    $endTime = date('Y-m-d 23:59:59', strtotime('Sunday', $now));  
-	    for($i=1;$i<=TYPE_TOTAL;$i++){
-	    	$db_name = 'question_'.$i;
-	    	$this->db->select('id');
-	    	$this->db->where_in('status',array(0,1,2));
-	    	$this->db->where('time_update >',$beginTime);
-	    	$this->db->where('time_update <',$endTime);
-	    	$this->db->from($db_name);
-	    	$num = $this->db->count_all_results();
-	    	$week_audit_num = $week_audit_num + $num;	    	
-	    }
-	    $res['week_audit_num'] = $week_audit_num;
+
+    	$this->db->select('id');
+    	$this->db->where_in('status',array(0,1,2));
+    	$this->db->where('time_update >',$beginTime);
+    	$this->db->where('time_update <',$endTime);
+    	$this->db->from('question');
+    	$res['week_audit_num'] = $this->db->count_all_results();
+
 	    $this->db->select('question_num');
 	    $this->db->where('time_submit >',$beginTime);
 	    $this->db->where('time_submit <',$endTime);
@@ -182,17 +169,14 @@ class Systemmodel extends CI_Model {
 		$month_use_num = 0;
 	    $beginTime = date('Y-m-d 00:00:00', mktime(0, 0, 0, date('m', $now), '1', date('Y', $now)));  
 	    $endTime = date('Y-m-d 23:39:59', mktime(0, 0, 0, date('m', $now), date('t', $now), date('Y', $now))); 
-	    for($i=1;$i<=TYPE_TOTAL;$i++){
-	    	$db_name = 'question_'.$i;
-	    	$this->db->select('id');
-	    	$this->db->where_in('status',array(0,1,2));
-	    	$this->db->where('time_update >',$beginTime);
-	    	$this->db->where('time_update <',$endTime);
-	    	$this->db->from($db_name);
-	    	$num = $this->db->count_all_results();
-	    	$month_audit_num = $month_audit_num + $num;	    	
-	    }
-	    $res['month_audit_num'] = $month_audit_num;
+
+    	$this->db->select('id');
+    	$this->db->where_in('status',array(0,1,2));
+    	$this->db->where('time_update >',$beginTime);
+    	$this->db->where('time_update <',$endTime);
+    	$this->db->from('question');
+    	$res['month_audit_num'] = $this->db->count_all_results();
+	    
 	    $this->db->select('question_num');
 	    $this->db->where('time_submit >',$beginTime);
 	    $this->db->where('time_submit <',$endTime);
@@ -210,17 +194,14 @@ class Systemmodel extends CI_Model {
 	    $time = strtotime('-2 month', $now);  
 	    $beginTime = date('Y-m-d 00:00:00', mktime(0, 0,0, date('m', $time), 1, date('Y', $time)));  
 	    $endTime = date('Y-m-d 23:39:59', mktime(0, 0, 0, date('m', $now), date('t', $now), date('Y', $now)));  
-	    for($i=1;$i<=TYPE_TOTAL;$i++){
-	    	$db_name = 'question_'.$i;
-	    	$this->db->select('id');
-	    	$this->db->where_in('status',array(0,1,2));
-	    	$this->db->where('time_update >',$beginTime);
-	    	$this->db->where('time_update <',$endTime);
-	    	$this->db->from($db_name);
-	    	$num = $this->db->count_all_results();
-	    	$three_month_audit_num = $three_month_audit_num + $num;	    	
-	    }
-	    $res['three_month_audit_num'] = $three_month_audit_num;
+
+    	$this->db->select('id');
+    	$this->db->where_in('status',array(0,1,2));
+    	$this->db->where('time_update >',$beginTime);
+    	$this->db->where('time_update <',$endTime);
+    	$this->db->from('question');
+    	$res['three_month_audit_num'] = $this->db->count_all_results();
+
 	    $this->db->select('question_num');
 	    $this->db->where('time_submit >',$beginTime);
 	    $this->db->where('time_submit <',$endTime);
@@ -238,17 +219,14 @@ class Systemmodel extends CI_Model {
 	    $time = strtotime('-5 month', $now);  
 	    $beginTime = date('Y-m-d 00:00:00', mktime(0, 0,0, date('m', $time), 1, date('Y', $time)));  
 	    $endTime = date('Y-m-d 23:39:59', mktime(0, 0, 0, date('m', $now), date('t', $now), date('Y', $now)));  
-	    for($i=1;$i<=TYPE_TOTAL;$i++){
-	    	$db_name = 'question_'.$i;
-	    	$this->db->select('id');
-	    	$this->db->where_in('status',array(0,1,2));
-	    	$this->db->where('time_update >',$beginTime);
-	    	$this->db->where('time_update <',$endTime);
-	    	$this->db->from($db_name);
-	    	$num = $this->db->count_all_results();
-	    	$half_year_audit_num = $half_year_audit_num + $num;	    	
-	    }
-	    $res['half_year_audit_num'] = $half_year_audit_num;
+
+    	$this->db->select('id');
+    	$this->db->where_in('status',array(0,1,2));
+    	$this->db->where('time_update >',$beginTime);
+    	$this->db->where('time_update <',$endTime);
+    	$this->db->from('question');
+    	$res['half_year_audit_num'] = $this->db->count_all_results();
+ 	
 	    $this->db->select('question_num');
 	    $this->db->where('time_submit >',$beginTime);
 	    $this->db->where('time_submit <',$endTime);
@@ -265,17 +243,14 @@ class Systemmodel extends CI_Model {
 		$year_use_num = 0;
 	    $beginTime = date('Y-m-d 00:00:00', mktime(0, 0,0, 1, 1, date('Y', $now)));  
 	    $endTime = date('Y-m-d 23:39:59', mktime(0, 0, 0, 12, 31, date('Y', $now))); 
-	    for($i=1;$i<=TYPE_TOTAL;$i++){
-	    	$db_name = 'question_'.$i;
-	    	$this->db->select('id');
-	    	$this->db->where_in('status',array(0,1,2));
-	    	$this->db->where('time_update >',$beginTime);
-	    	$this->db->where('time_update <',$endTime);
-	    	$this->db->from($db_name);
-	    	$num = $this->db->count_all_results();
-	    	$year_audit_num = $year_audit_num + $num;	    	
-	    }
-	    $res['year_audit_num'] = $year_audit_num;
+
+    	$this->db->select('id');
+    	$this->db->where_in('status',array(0,1,2));
+    	$this->db->where('time_update >',$beginTime);
+    	$this->db->where('time_update <',$endTime);
+    	$this->db->from('question');
+    	$res['year_audit_num'] = $this->db->count_all_results();
+ 	
 	    $this->db->select('question_num');
 	    $this->db->where('time_submit >',$beginTime);
 	    $this->db->where('time_submit <',$endTime);
@@ -294,40 +269,23 @@ class Systemmodel extends CI_Model {
 	//审核题库详情
 	public function getQuestionDetailsInAuditExam(){
 		
-		$res['need'] = 0;
-		$res['pass'] = 0;
-		$res['not_pass'] = 0;
+		$this->db->select('id');
+		$this->db->where('status',0);
+		$this->db->from('question');
+		$res['need'] = $this->db->count_all_results();
 
-		for($i=1;$i<=TYPE_TOTAL;$i++){
-			$db_name = 'question_'.$i;
-			$this->db->select('id');
-			$this->db->where('status',0);
-			$this->db->from($db_name);
+		$this->db->select('id');
+		$this->db->where('status',2);
+		$this->db->from('question');
+		$res['pass']= $this->db->count_all_results();
 
-			$num = $this->db->count_all_results();
-			$res['need'] = $res['need']+$num;
-		}
-		for($i=1;$i<=TYPE_TOTAL;$i++){
-			$db_name = 'question_'.$i;
-			$this->db->select('id');
-			$this->db->where('status',2);
-			$this->db->from($db_name);
-
-			$num = $this->db->count_all_results();
-			$res['pass'] = $res['pass']+$num;
-		}
-		for($i=1;$i<=TYPE_TOTAL;$i++){
-			$db_name = 'question_'.$i;
-			$this->db->select('id');
-			$this->db->where('status',1);
-			$this->db->from($db_name);
-
-			$num = $this->db->count_all_results();
-			$res['not_pass'] = $res['not_pass']+$num;
-		}
+		$this->db->select('id');
+		$this->db->where('status',1);
+		$this->db->from('question');
+		$res['not_pass'] = $this->db->count_all_results();
 
 		return $res;
-		//print_r($res);die();
+
 	}
 
 	//出题人详情
@@ -337,39 +295,26 @@ class Systemmodel extends CI_Model {
 
 		foreach ($user['users'] as $key => $value) {
 			$origin_name = $value['user_name'];
-			$res[$origin_name]['need']=0;
-			$res[$origin_name]['pass']=0;
-			$res[$origin_name]['not_pass']=0;
 			$res[$origin_name]['realname'] = $this->m_user->getUserRealNameByUserName($origin_name);
-			for($i=1;$i<=TYPE_TOTAL;$i++){
-				$db_name = 'question_'.$i;
-				$this->db->select('id');
-				$this->db->where('status',0);
-				$this->db->where('name_origin',$value['user_name']);
-				$this->db->from($db_name);
-				$num = $this->db->count_all_results();
-				$res[$origin_name]['need'] = $res[$origin_name]['need']+$num;
-			}
-			for($i=1;$i<=TYPE_TOTAL;$i++){
-				$db_name = 'question_'.$i;
-				$this->db->select('id');
-				$this->db->where('status',2);
-				$this->db->where('name_origin',$value['user_name']);
-				$this->db->from($db_name);
-				$num = $this->db->count_all_results();
-				$res[$origin_name]['pass'] = $res[$origin_name]['pass']+$num;
-			}
-			for($i=1;$i<=TYPE_TOTAL;$i++){
-				$db_name = 'question_'.$i;
-				$this->db->select('id');
-				$this->db->where('status',1);
-				$this->db->where('name_origin',$value['user_name']);
-				$this->db->from($db_name);
-				$num = $this->db->count_all_results();
-				$res[$origin_name]['not_pass'] = $res[$origin_name]['not_pass']+$num;
-			}
-		}
 
+			$this->db->select('id');
+			$this->db->where('status',0);
+			$this->db->where('name_origin',$value['user_name']);
+			$this->db->from('question');
+			$res[$origin_name]['need'] = $this->db->count_all_results();
+		
+			$this->db->select('id');
+			$this->db->where('status',2);
+			$this->db->where('name_origin',$value['user_name']);
+			$this->db->from('question');
+			$res[$origin_name]['pass'] = $this->db->count_all_results();
+
+			$this->db->select('id');
+			$this->db->where('status',1);
+			$this->db->where('name_origin',$value['user_name']);
+			$this->db->from('question');
+			$res[$origin_name]['not_pass'] = $this->db->count_all_results();
+		}
 		return $res;
 	}
 
@@ -383,33 +328,33 @@ class Systemmodel extends CI_Model {
 			$res[$i]['use'] = 0;
 
 			$res[$i]['name'] = $this->m_type->getTypeNameByTypeId($i);
-			$db_name = 'question_'.$i;
+			
 			$this->db->select('id');
 			$this->db->where('status',0);
-			$this->db->from($db_name);
-			$num = $this->db->count_all_results();
-			$res[$i]['need'] = $res[$i]['need']+$num;
+			$this->db->where('type',$i);
+			$this->db->from('question');
+			$res[$i]['need'] = $this->db->count_all_results();
 
 			$db_name = 'question_'.$i;
 			$this->db->select('id');
 			$this->db->where('status',1);
-			$this->db->from($db_name);
-			$num = $this->db->count_all_results();
-			$res[$i]['not_pass'] = $res[$i]['not_pass']+$num;
+			$this->db->where('type',$i);
+			$this->db->from('question');
+			$res[$i]['not_pass'] = $this->db->count_all_results();
 
 			$db_name = 'question_'.$i;
 			$this->db->select('id');
 			$this->db->where('status',2);
-			$this->db->from($db_name);
-			$num = $this->db->count_all_results();
-			$res[$i]['pass'] = $res[$i]['pass']+$num;
+			$this->db->where('type',$i);
+			$this->db->from('question');
+			$res[$i]['pass'] = $this->db->count_all_results();
 
 			$db_name = 'question_'.$i;
 			$this->db->select('id');
 			$this->db->where('status',3);
-			$this->db->from($db_name);
-			$num = $this->db->count_all_results();
-			$res[$i]['use'] = $res[$i]['use']+$num;
+			$this->db->where('type',$i);
+			$this->db->from('question');
+			$res[$i]['use'] = $this->db->count_all_results();
 		}
 
 		return $res;
@@ -424,42 +369,33 @@ class Systemmodel extends CI_Model {
 			$res[$j]['not_pass'] = 0;
 			$res[$j]['audit_total'] = 0;
 			$res[$j]['use'] = 0;
+				
+			$this->db->select('id');
+			$this->db->where('status',0);
+			$this->db->where('difficulty',$j);
+			$this->db->from('question');
+			$res[$j]['need'] = $this->db->count_all_results();
 
-			for($i=1;$i<=TYPE_TOTAL;$i++){
-				$db_name = 'question_'.$i;
-				$this->db->select('id');
-				$this->db->where('status',0);
-				$this->db->where('difficulty',$j);
-				$this->db->from($db_name);
-				$num = $this->db->count_all_results();
-				$res[$j]['need'] = $res[$j]['need']+$num;
+			$this->db->select('id');
+			$this->db->where('status',1);
+			$this->db->where('difficulty',$j);
+			$this->db->from('question');
+			$res[$j]['not_pass']= $this->db->count_all_results();
 
-				$db_name = 'question_'.$i;
-				$this->db->select('id');
-				$this->db->where('status',1);
-				$this->db->where('difficulty',$j);
-				$this->db->from($db_name);
-				$num = $this->db->count_all_results();
-				$res[$j]['not_pass'] = $res[$j]['not_pass']+$num;
+			$this->db->select('id');
+			$this->db->where('status',2);
+			$this->db->where('difficulty',$j);
+			$this->db->from('question');
+			$res[$j]['pass'] = $this->db->count_all_results();
 
-				$db_name = 'question_'.$i;
-				$this->db->select('id');
-				$this->db->where('status',2);
-				$this->db->where('difficulty',$j);
-				$this->db->from($db_name);
-				$num = $this->db->count_all_results();
-				$res[$j]['pass'] = $res[$j]['pass']+$num;
+			$this->db->select('id');
+			$this->db->where('status',3);
+			$this->db->where('difficulty',$j);
+			$this->db->from('question');
+			$res[$j]['use']= $this->db->count_all_results();
 
-				$db_name = 'question_'.$i;
-				$this->db->select('id');
-				$this->db->where('status',3);
-				$this->db->where('difficulty',$j);
-				$this->db->from($db_name);
-				$num = $this->db->count_all_results();
-				$res[$j]['use'] = $res[$j]['use']+$num;
-
-				$res[$j]['audit_total'] = $res[$j]['need']+$res[$j]['not_pass']+$res[$j]['use'];
-			}
+			$res[$j]['audit_total'] = $res[$j]['need']+$res[$j]['not_pass']+$res[$j]['use'];
+			
 		}
 		//print_r($res);die();
 		return $res;
