@@ -15,6 +15,8 @@ class Statistics extends PC_controller {
 
 	public function index()
 	{
+		$user_id = $this->m_app->getCurrentUserId();
+		$data['permission'] = $this->m_permission->getUserPermission($user_id);
 		$data['exam'] = $this->m_system->getQuestionNumInExam();
 		$this->load->view('statistics',$data);
 	}

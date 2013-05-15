@@ -16,7 +16,7 @@ class System_sub extends PC_controller {
 		$data['submit'] = $this->m_question->getSubmitQuestionList($data['subindex']);
 		$user_id = $this->m_app->getCurrentUserId();
 		$data['permission'] = $this->m_permission->getUserPermission($user_id);
-		$this->load->view('system_sub',$data);
+		if($data['permission']['group_id']==1||$data['permission']['group_id']==2) $this->load->view('system_sub',$data);
 	}
 
 /*

@@ -16,7 +16,7 @@ class System_off extends PC_controller {
 		$data['off'] = $this->m_question->getOffQuestionList($data['offindex']);
 		$user_id = $this->m_app->getCurrentUserId();
 		$data['permission'] = $this->m_permission->getUserPermission($user_id);
-		$this->load->view('system_off',$data);
+		if($data['permission']['group_id']==1||$data['permission']['group_id']==2) $this->load->view('system_off',$data);
 	}
 
 /*

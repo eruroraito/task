@@ -13,28 +13,14 @@
 	<script type="text/javascript" src="../common/jquery.form.js"></script>
 	<script type="text/javascript" src="../common/jquery.lightbox-0.5.js"></script>
 	<link type="text/css" rel="stylesheet" href="../common/style.css" />
-	<link type="text/css" rel="stylesheet" href="../css/header.css" />
+	<link type="text/css" rel="stylesheet" href="../css/common/header.css" />
 	<link type="text/css" rel="stylesheet" href="../css/question.css" />
 	<link rel="stylesheet" href="../common/jquery.lightbox-0.5.css" type="text/css">
 </head>
 <body>
 
 <article id="container">
-	<header>
-		<div id="div_logout">
-			<a href="login/logout" id="logout">注销</a>
-		</div>
-		<span class="current_user">您好!<?php echo $this->session->userdata('user')['user_realname']?></span>
-		<nav>
-			<a href="home" id="home">首页</a>
-			<a href="question" id="question" class="selected">添加题目</a>
-			<a href="question_scan" id="question_scan">浏览题目</a>
-			<a href="statistics" id="statistics">统计数据</a>
-			<a href="download" id="download">资料下载</a>
-			<a href="personal" id="personal">个人账号</a>
-			<a href="system" id="system">系统</a>
-		</nav>
-	</header>
+	<?php require_once 'common/header.php';?>
 	<span class="left"></span>
 	<span class="right"></span>
 	<section class="body">
@@ -158,129 +144,6 @@
 	</footer>
 </article>
 
-<script type="text/javascript">
-	$(function() {
-		$('#new_preview_section a').lightBox({fixedNavigation:true});
-	});
-	$('#new_eight').hide();
-	$('#button_preview').click(function(){
-		var type = $("#question_type").val();
-		if(type==2){
-			$('#new_four').hide();
-			$('#new_eight').show();
-			$('#answer1').text($('#fill_optin_1').val());
-			$('#answer2').text($('#fill_optin_2').val());
-			$('#answer3').text($('#fill_optin_3').val());
-			$('#answer4').text($('#fill_optin_4').val());
-			$('#answer5').text($('#fill_optin_5').val());
-			$('#answer6').text($('#fill_optin_6').val());
-			$('#answer7').text($('#fill_optin_7').val());
-			$('#answer8').text($('#fill_optin_8').val());
-		}else{
-			$('#new_eight').hide();
-			$('#new_four').show();
-			$('#one').text($('#optin_1').val());
-			$('#two').text($('#optin_2').val());
-			$('#three').text($('#optin_3').val());
-			$('#four').text($('#optin_4').val());
-		}
-		$('#new_question').text($('#question_name').val());
-	});
-
-	$("#question_type").change( 				
-		function() { 
-			$('#new_question').text('点击预览可以预览');
-			$('#answer1').text('');
-			$('#answer2').text('');
-			$('#answer3').text('');
-			$('#answer4').text('');
-			$('#answer5').text('');
-			$('#answer6').text('');
-			$('#answer7').text('');
-			$('#answer8').text('');
-			$('#one').text('');
-			$('#two').text('');
-			$('#three').text('');
-			$('#four').text('');
-			$('#optin_1').val('');
-			$('#optin_2').val('');
-			$('#optin_3').val('');
-			$('#optin_4').val('');	
-			$('#fill_optin_1').val('');
-			$('#fill_optin_2').val('');
-			$('#fill_optin_3').val('');
-			$('#fill_optin_4').val('');
-			$('#fill_optin_5').val('');
-			$('#fill_optin_6').val('');
-			$('#fill_optin_7').val('');
-			$('#fill_optin_8').val('');
-			$('#question_name').val('');
-			$('#upload_iamge').val('');
-			if($(this).val()==2)
-			{
-				$("#optionfour").hide();
-				$("#optioneight").show();
-				$('#question_name').attr('maxlength','42');		
-				$('#new_preview').css('background-image','url(../pics/eight.jpg)');
-			}else
-			{
-				$('#new_preview').css('background-image','url(../pics/four.jpg)');
-				$("#optionfour").show();
-				$("#optioneight").hide();	
-				if($(this).val()==1||$(this).val()==3)
-				{
-					$('#question_name').attr('maxlength','14');			
-				}else{
-					$('#question_name').attr('maxlength','42');
-				}
-			}
-			if($(this).val()==1||$(this).val()==3||$(this).val()==2)
-			{
-				$("#question_image").show();				
-			}else
-			{
-				$("#question_image").hide();	
-			}
-		} 
-	); 
-
-	$('#myForm').submit(function() {
-		var type = $('#question_type').val();
-		if($('#question_name').val()=='') {alert('请输入问题');return false;}
-		if(type==1||type==3){
-			if($('#upload_iamge').val()=='') {alert('请上传图片');return false;}
-		}
-		if(type==2){
-			if($('#fill_optin_1').val()=='') {alert('请输入选项1');return false;}
-			if($('#fill_optin_2').val()=='') {alert('请输入选项2');return false;}
-			if($('#fill_optin_3').val()=='') {alert('请输入选项3');return false;}
-			if($('#fill_optin_4').val()=='') {alert('请输入选项4');return false;}
-			if($('#fill_optin_5').val()=='') {alert('请输入选项5');return false;}
-			if($('#fill_optin_6').val()=='') {alert('请输入选项6');return false;}
-			if($('#fill_optin_7').val()=='') {alert('请输入选项7');return false;}
-			if($('#fill_optin_8').val()=='') {alert('请输入选项8');return false;}
-			if(($('#upload_iamge').val()!='')&&($('#question_name').val().length>14)){
-				{alert('题目长度不能超过14');return false;}
-			}
-		}else{
-			if($('#optin_1').val()=='') {alert('请输入选项1');return false;}
-			if($('#optin_2').val()=='') {alert('请输入选项2');return false;}
-			if($('#optin_3').val()=='') {alert('请输入选项3');return false;}
-			if($('#optin_4').val()=='') {alert('请输入选项4');return false;}
-
-		}
-		var options = { success: function(responseText) { 
-			var response = eval('(' + responseText + ')'); 
-			if(response.success) {
-				alert("添加成功");
-				window.location.reload();
-			}
-		} }; 
-		$(this).ajaxSubmit(options); 		
-		alert("添加成功");
-		return false;
-	});  
-
-</script>
+<script type="text/javascript" src="../js/question.js"></script>
 </body>
 </html>

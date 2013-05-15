@@ -4,13 +4,11 @@
 		span.right{float:right;width:160px;height:940px;background:url(../pics/home_side.jpg) no-repeat #093d86;}
 		form.myForm{background:url(../pics/scan_fliter.png) no-repeat;width:853px;height:144px;margin:0 auto;}
 		form.myForm label{font-size:15px;margin-right:5px;font-weight: bold;}
-		div.select{ float:left;margin:16px 16px 10px 60px;}
-		#select_status{position: absolute;top:240px;left:283px;}
-		#select_condition{position: absolute;top:241px;left:496px;}
-		#select_order{position: absolute;top:240px;left:780px;}
+		div.select{ float:left;margin:0px 16px 0px 60px;height:50px;line-height:50px;}
+		div.date,div.condition{height: 33px;line-height: 33px;}
 		input.biuuu1,input.biuuu2{width:100px;}
 		input.biuuu1{margin-right:65px;}
-		input.submit{margin:66px 362px;background: url(../pics/canvas.png) 0 -52px no-repeat;width:126px;height:40px;border:none;color:#fff;font-size:20px;line-height: 20px;font-weight:bold;}
+		input.submit{margin:28px 362px;background: url(../pics/canvas.png) 0 -52px no-repeat;width:126px;height:40px;border:none;color:#fff;font-size:20px;line-height: 20px;font-weight:bold;}
 		section.scan{background: url(../pics/question_scan.png) no-repeat;width:551px;height:594px;margin-top: 50px;position:relative;float:left;}
 		table.scan{width:527px;}
 		table.scan,table.scan th,table.scan td {border:1px solid #fff;padding:0 3px;text-align: center;font-weight:bold;}
@@ -38,7 +36,7 @@
 		input.redirect{left:150px;border:none;background:none;}
 		span.current{left:438px;}
 		span.total{left:484px;}
-		table.footer{hieght:24px;line-height: 24px;width:523px;}
+		table.footer{height:24px;line-height: 24px;width:523px;}
 		table.footer tr th{border:1px solid #fff;text-align: center;}
 		div.table_footer{border:1px solid #000;border-right: none;position: absolute;bottom:15px;left:10px;width:523px;height:26px;}
 		section.question_scan{background: url(../pics/four.jpg) no-repeat;width:371px;height:605px;float:right;margin:42px 0 0 0px;position: relative;color:#4d2828;font-weight:bold;}
@@ -68,3 +66,4 @@
 		footer{width:948px;margin:10px auto -10px;text-align: center;}
 		input.disabled{background: url(../pics/canvas.png) -188px -42px;color:#888888;}
 		table tr:hover{cursor:default;}
+		html{position: relative;}

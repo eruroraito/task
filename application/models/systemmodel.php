@@ -410,44 +410,32 @@ class Systemmodel extends CI_Model {
 			$res[$j]['not_pass'] = 0;
 			$res[$j]['audit_total'] = 0;
 			$res[$j]['use'] = 0;
+				
+			$this->db->select('id');
+			$this->db->where('status',0);
+			$this->db->where('question_type',$j);
+			$this->db->from('question');
+			$res[$j]['need'] = $this->db->count_all_results();
 
-			for($i=1;$i<=TYPE_TOTAL;$i++){
-				$db_name = 'question_'.$i;
-				$this->db->select('id');
-				$this->db->where('status',0);
-				$this->db->where('question_type',$j);
-				$this->db->from($db_name);
-				$num = $this->db->count_all_results();
-				$res[$j]['need'] = $res[$j]['need']+$num;
+			$this->db->select('id');
+			$this->db->where('status',1);
+			$this->db->where('question_type',$j);
+			$this->db->from('question');
+			$res[$j]['not_pass'] = $this->db->count_all_results();
 
-				$db_name = 'question_'.$i;
-				$this->db->select('id');
-				$this->db->where('status',1);
-				$this->db->where('question_type',$j);
-				$this->db->from($db_name);
-				$num = $this->db->count_all_results();
-				$res[$j]['not_pass'] = $res[$j]['not_pass']+$num;
+			$this->db->where('status',2);
+			$this->db->where('question_type',$j);
+			$this->db->from('question');
+			$res[$j]['pass'] = $this->db->count_all_results();
 
-				$db_name = 'question_'.$i;
-				$this->db->select('id');
-				$this->db->where('status',2);
-				$this->db->where('question_type',$j);
-				$this->db->from($db_name);
-				$num = $this->db->count_all_results();
-				$res[$j]['pass'] = $res[$j]['pass']+$num;
+			$this->db->select('id');
+			$this->db->where('status',3);
+			$this->db->where('question_type',$j);
+			$this->db->from('question');
+			$res[$j]['use'] = $this->db->count_all_results();
 
-				$db_name = 'question_'.$i;
-				$this->db->select('id');
-				$this->db->where('status',3);
-				$this->db->where('question_type',$j);
-				$this->db->from($db_name);
-				$num = $this->db->count_all_results();
-				$res[$j]['use'] = $res[$j]['use']+$num;
-
-				$res[$j]['audit_total'] = $res[$j]['need']+$res[$j]['not_pass']+$res[$j]['use'];
-			}
+			$res[$j]['audit_total'] = $res[$j]['need']+$res[$j]['not_pass']+$res[$j]['use'];
 		}
-		//print_r($res);die();
 		return $res;
 	}
 
@@ -458,22 +446,22 @@ class Systemmodel extends CI_Model {
 			for($k=1;$k<=3;$k++){//题目难度
 				for($i=1;$i<=TYPE_TOTAL;$i++){//题库类型
 
-					$db_name = 'question_'.$i;
 					$this->db->select('id');
 					$data = array(0,1,2);
 					$this->db->where_in('status',$data);
 					$this->db->where('question_type',$j);
-					$this->db->from($db_name);
+					$this->db->where('type',$i);
+					$this->db->from('question');
 					$num = $this->db->count_all_results();
 					$type_name_info = $this->m_question->getTypeNameByTypeId($i);
 					$type_name = $type_name_info['type_name'];
 					$res[$type_name][$j][$k]['audit'] = $num;
 
-					$db_name = 'question_'.$i;
 					$this->db->select('id');
 					$this->db->where('status',3);
 					$this->db->where('question_type',$j);
-					$this->db->from($db_name);
+					$this->db->where('type',$i);
+					$this->db->from('question');
 					$num = $this->db->count_all_results();
 					$type_name_info = $this->m_question->getTypeNameByTypeId($i);
 					$type_name = $type_name_info['type_name'];
@@ -486,7 +474,46 @@ class Systemmodel extends CI_Model {
 		return $res;
 	}
 
+	//图片题目详情	
+	public function getPicQuestionDetails(){
+
+		for($j=1;$j<=3;$j++){//题目类型
+			for($k=1;$k<=3;$k++){//题目难度
+				for($i=1;$i<=TYPE_TOTAL;$i++){//题库类型
+
+					$this->db->select('id');
+					$data = array(0,1,2);
+					$this->db->where_in('status',$data);
+					$this->db->where('question_type',$j);
+					$this->db->where('type',$i);
+					$this->db->where('icon >',0);
+					$this->db->where('difficulty',$k);
+					$this->db->from('question');
+					$num = $this->db->count_all_results();
+					$type_name_info = $this->m_question->getTypeNameByTypeId($i);
+					$type_name = $type_name_info['type_name'];
+					$res[$type_name][$j][$k]['audit'] = $num;
+
+					$this->db->select('id');
+					$this->db->where('status',3);
+					$this->db->where('question_type',$j);
+					$this->db->where('type',$i);
+					$this->db->where('icon >',0);
+					$this->db->where('difficulty',$k);
+					$this->db->from('question');
+					$num = $this->db->count_all_results();
+					$type_name_info = $this->m_question->getTypeNameByTypeId($i);
+					$type_name = $type_name_info['type_name'];
+					$res[$type_name][$j][$k]['use'] = $num;
+
+				}
+			}
+		}
+		//print_r($res);die();
+		return $res;
+	}
 	//图片题目详情
+	/*
 	public function getPicQuestionDetails(){
 		$res = array();
 		$res['audit'] = array();
@@ -554,6 +581,7 @@ class Systemmodel extends CI_Model {
 		//print_r($res);die();
 		return $res;
 	}
+	*/
 
 /*
 | -------------------------------------------------------------------

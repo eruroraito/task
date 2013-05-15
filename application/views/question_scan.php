@@ -14,53 +14,18 @@
 	<script type="text/javascript" src="../common/jquery.confirm/jquery.confirm.js"></script>
 	<script type="text/javascript" src="../common/jquery.date_input.js"></script>  
 	<script type="text/javascript" src="../common/jquery.lightbox-0.5.js"></script> 
-	
+	<script type="text/javascript" src="../js/date_input.js"></script> 
+
 	<link type="text/css" rel="stylesheet" href="../common/style.css" />
 	<link rel="stylesheet" href="../common/date_input.css" type="text/css">
-	<link type="text/css" rel="stylesheet" href="../css/header.css" />
+	<link type="text/css" rel="stylesheet" href="../css/common/header.css" />
 	<link rel="stylesheet" href="../common/jquery.lightbox-0.5.css" type="text/css">
 	<link type="text/css" rel="stylesheet" href="../css/question_scan.css" />
-	<style type="text/css">
-	</style>
-	<script>  
-		jQuery.extend(DateInput.DEFAULT_OPTS, {   
-		month_names: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],   
-		short_month_names: ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"],   
-		short_day_names: ["一", "二", "三", "四", "五", "六", "日"],  
-		 dateToString: function(date) {  
-		    var month = (date.getMonth() + 1).toString();  
-		    var dom = date.getDate().toString();  
-		    if (month.length == 1) month = "0" + month;  
-		    if (dom.length == 1) dom = "0" + dom;  
-		    return date.getFullYear() + "-" + month + "-" + dom;  
-		  }  
-		  
-		});   
-		  
-		$(function() {   
-			$(".biuuu1").date_input();   
-			$(".biuuu2").date_input();   
-		});   
-	</script> 
 
 </head>
 <body>
 <article id="container">
-	<header>
-		<div id="div_logout">
-			<a href="login/logout" id="logout">注销</a>
-		</div>
-		<span class="current_user">您好!<?php echo $this->session->userdata('user')['user_realname']?></span>
-		<nav>
-			<a href="home" id="home" >首页</a>
-			<a href="question" id="question">添加题目</a>
-			<a href="question_scan" id="question_scan" class="selected">浏览题目</a>
-			<a href="statistics" id="statistics">统计数据</a>
-			<a href="download" id="download">资料下载</a>
-			<a href="personal" id="personal">个人账号</a>
-			<a href="system" id="system">系统</a>
-		</nav>
-	</header>
+	<?php require_once 'common/header.php';?>
 	<span class="left"></span>
 	<span class="right"></span>
 	<section class="que_fliter">
@@ -76,7 +41,7 @@
 					?>					
 				</select>
 			</div>
-			<div class="select">
+			<div class="select type">
 				<label for="question_type">题目类型:</label>
 				<select id="question_type" name="question_type">
 					<option value ="9999">全部</option>
@@ -86,7 +51,7 @@
 					<option value ="3">触摸题</option>
 				</select>
 			</div>
-			<div class="select">
+			<div class="select difficulty">
 				<label for="difficult">难度:</label>
 				<select id="difficult" name="difficult">
 					<option value ="9999">全部</option>
@@ -95,7 +60,7 @@
 					<option value ="3">高手</option>
 				</select>
 			</div>
-			<div class="select">
+			<div class="select user">
 				<label for="user">出题人:</label>
 				<select id="user" name="user">
 					<option value ="all">全部</option>
@@ -105,8 +70,7 @@
 					?>	
 				</select>
 			</div>
-			<br />
-			<div class="select last" >
+			<div class="select auditer" >
 				<label for="auditer">审核人:</label>
 				<select id="auditer" name="auditer">
 					<option value ="all">全部</option>
@@ -116,14 +80,8 @@
 					?>	
 				</select>
 			</div>
+
 			<div class="select">
-				<label for="date_start">起始日期:</label>
-				<input id="date_start" type="text" class="biuuu1" name="date_start" />
-				<label for="date_end">结束日期:</label>
-				<input id="date_end" type="text" class="biuuu2" name="date_end" />
-			</div>
-			<br />
-			<div class="select last" id="select_status">
 				<label for="status">状态:</label>
 				<select id="status" name="status">
 					<option value ="9999">全部</option>
@@ -134,15 +92,8 @@
 					<option value ="-1">已删除</option>
 				</select>
 			</div>
-			<div class="select" id="select_condition">				
-				<select id="condition" name="condition">
-					<option value ="1">文字题目</option>
-					<option value ="2">图片编号</option>
-					<option value ="3">题目编号</option>
-				</select>
-				<input id="search" name="search" />
-			</div>
-			<div class="select" id="select_order">
+
+			<div class="select">
 				<label for="order_status">排序方式:</label>
 				<select id="order_item" name="order_item">
 					<option value ="1">上次更新</option>
@@ -153,7 +104,21 @@
 					<option value ="2">降序</option>
 				</select>
 			</div>
+			<div class="select date">
+				<label for="date_start">起始日期:</label>
+				<input id="date_start" type="text" class="biuuu1" name="date_start" />
+				<label for="date_end">结束日期:</label>
+				<input id="date_end" type="text" class="biuuu2" name="date_end" />
+			</div>
 
+			<div class="select condition">				
+				<select id="condition" name="condition">
+					<option value ="1">文字题目</option>
+					<option value ="2">图片编号</option>
+					<option value ="3">题目编号</option>
+				</select>
+				<input id="search" name="search" />
+			</div>
 			<input class="submit" type="submit" value="确定筛选" />
 		</form>
 
@@ -301,72 +266,8 @@
 	</footer>
 </article>
 
+<script type="text/javascript" src="../js/question_scan.js"></script> 
 <script type="text/javascript">
-	$(function() {
-		$('#new_question_scan a').lightBox({fixedNavigation:true});
-	});
-	$('#first_page_form').submit(function() {
-		var options = { success: function(responseText) { 
-			var response = eval('(' + responseText + ')'); 
-			if(response.success) {
-				window.location.reload();
-			}
-		} }; 
-		$('#first_page_form').ajaxSubmit(options); 		
-		return false;
-	}); 
-	$('#pre_page_form').submit(function() {
-		var options = { success: function(responseText) { 
-			var response = eval('(' + responseText + ')'); 
-			if(response.success) {
-				window.location.reload();
-			}
-		} }; 
-		$('#pre_page_form').ajaxSubmit(options); 		
-		return false;
-	}); 
-	$('#next_page_form').submit(function() {
-		var options = { success: function(responseText) { 
-			var response = eval('(' + responseText + ')'); 
-			if(response.success) {
-				window.location.reload();
-			}
-		} }; 
-		$('#next_page_form').ajaxSubmit(options); 		
-		return false;
-	}); 
-	$('#last_page_form').submit(function() {
-		var options = { success: function(responseText) { 
-			var response = eval('(' + responseText + ')'); 
-			if(response.success) {
-				window.location.reload();
-			}
-		} }; 
-		$('#last_page_form').ajaxSubmit(options); 		
-		return false;
-	}); 
-	$('#redirect_form').submit(function() {
-		var options = { success: function(responseText) { 
-			var response = eval('(' + responseText + ')'); 
-			if(response.success) {
-				window.location.reload();
-			}
-		} }; 
-		$('#redirect_form').ajaxSubmit(options); 		
-		return false;
-	}); 
-
-	$('#myForm').submit(function() {
-		var options = { success: function(responseText) { 
-			var response = eval('(' + responseText + ')'); 
-			if(response.success) {
-				window.location.reload();
-			}
-		} }; 
-		$('#myForm').ajaxSubmit(options); 		
-		return false;
-	}); 
-
 	$('.preview').click(function(){
 		$(this).addClass('selected').siblings().removeClass('selected');
 		var data = new Array();
@@ -450,7 +351,7 @@
 		$('#audit_type_edit').val(type);
 		$('#audit_question_id_deit').val(question_id);
 	});
-</script>
+	</script> 
 </body>
 
 </html>

@@ -84,7 +84,6 @@ $db['testing']['autoinit'] = TRUE;
 $db['testing']['stricton'] = FALSE;
 
 
-
 $db['production']['hostname'] = '192.168.11.166';
 $db['production']['username'] = 'dbconn';
 $db['production']['password'] = 'DMLQdbconn';

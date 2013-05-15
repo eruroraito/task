@@ -12,43 +12,16 @@
 	<script type="text/javascript" src="../common/jquery-1.6.2.min.js"></script>
 	<script type="text/javascript" src="../common/jquery.form.js"></script>
 	<link type="text/css" rel="stylesheet" href="../common/style.css" />
-	<link type="text/css" rel="stylesheet" href="../css/header.css" />
+	<link type="text/css" rel="stylesheet" href="../css/common/header.css" />
+	<link type="text/css" rel="stylesheet" href="../css/home.css" />
 	<style type="text/css">
-		section {width:946px;height:480px;margin:0 auto; background:#cfcfcf;padding-top: 60px;position: relative;}
-		section dl{width:711px;height:327px;margin: auto;background:url(../pics/home_middle.png);}
-		section h3{color:#fff;font-size:18px;padding:12px 0 8px 40px;}
-		section dt{font-size: 22px;line-height:75px;margin:10px 0 10px 50px;}
-		section dt input{background:url(../pics/canvas.png) 0 -52px;color:#fff;position:absolute;width:123px;height:39px;right:224px;line-height:36px;padding-left:16px;text-decoration: none;border:none;text-indent: -10px;}
-		section dt input:hover{background-position: 0 0;cursor:pointer;}
-		#audit_pass{top:128px;}
-		#audit_not_pass{top:212px;}
-		#need_audit{top:295px;}
-		a.more{position:absolute;bottom:168px;left:153px;color:#fff;}
-		a.more:hover{cursor:pointer;text-decoration: underline;}
-		h4{width:220px;margin:0 auto;margin-top:124px;}
-		footer{width:948px;margin:10px auto -10px;text-align: center;}
-		span.left{float:left;width:160px;height: 600px;background:url(../pics/home_side.jpg);}
-		span.right{float:right;width:160px;height: 600px;background:url(../pics/home_side.jpg);}
+
 	</style>
 </head>
 <body>
 
 <article id="container">
-	<header>
-		<div id="div_logout">
-			<a href="login/logout" id="logout">注销</a>
-		</div>
-		<span class="current_user">您好!<?php echo $this->session->userdata('user')['user_realname']?></span>
-		<nav>
-			<a href="home" id="home" class="selected">首页</a>
-			<a href="question" id="question">添加题目</a>
-			<a href="question_scan" id="question_scan">浏览题目</a>
-			<a href="statistics" id="statistics">统计数据</a>
-			<a href="download" id="download">资料下载</a>
-			<a href="personal" id="personal">个人账号</a>
-			<a href="system" id="system">系统</a>
-		</nav>
-	</header>
+	<?php require_once 'common/header.php';?>
 	<span class="left"></span>
 	<span class="right"></span>
 	<section>
@@ -83,6 +56,7 @@
 	
 </article>
 <script type="text/javascript">
+	$('#home').addClass('selected');
 	$('form').submit(function() {
 		var options = { success: function(responseText) { 
 			var response = eval('(' + responseText + ')'); 

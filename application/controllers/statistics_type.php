@@ -15,8 +15,10 @@ class Statistics_type extends PC_controller {
 
 	public function index()
 	{
+		$user_id = $this->m_app->getCurrentUserId();
+		$data['permission'] = $this->m_permission->getUserPermission($user_id);
 		$data['details_in_all_exams'] = $this->m_system->getQuestionDetailsAllExams();
-		$this->load->view('statistics_type',$data);
+		if($data['permission']['group_id']==1||$data['permission']['group_id']==2) $this->load->view('statistics_type',$data);
 	}
 
 /*

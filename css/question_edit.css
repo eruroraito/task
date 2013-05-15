@@ -1,8 +1,8 @@
-	section.body {width:866px;height:918px;margin:0 auto; background:#c0c0c0;padding: 40px;}
-	section.new_preview{color:#4d2828;font-weight:bold;position:relative;background: url(../pics/four.jpg) no-repeat;width:371px;height:605px;float:right;margin-bottom: 10px;}
+	section.body {width:866px;height:918px;margin:0 auto; background:#c0c0c0;padding: 40px;position:relative;}
+	section.new_preview{color:#4d2828;font-weight:bold;position:relative;background: url(../pics/four.jpg) no-repeat;width:371px;height:605px;position:absolute;top:24px;right:44px;}
 	span.left{float:left;width:160px;height: 1052px;background:url(../pics/home_side.jpg) no-repeat #093d86;}
 	span.right{float:right;width:160px;height: 1052px;background:url(../pics/home_side.jpg) no-repeat #093d86;}
-	form.edit{background: url(../pics/question_add_bg.png) no-repeat;width:417px;height:594px;position: relative;float:left;margin-top: 6px;}
+	form.edit{background: url(../pics/question_add_bg.png) no-repeat;width:417px;height:594px;position: absolute;top:32px;left:44px;}
 	h4{margin:0 0 0 168px;width:70px;font-size:16px;line-height:24px;font-weight:normal;}
 	label{color:#06574d;font-size:18px;position:absolute;left:40px;top:100px;font-weight:bold;}
 	label.question_type{top:47px;}
@@ -39,9 +39,9 @@
 	label.fill_optin_8{top:73px;left:104px;}
 	label.true_num{top:-29px;left:-6px;}
 	#true_num{top:-29px;left:92px;width:40px;}
-	input.submit{color:#fff;font-weight:bold;background: url(../pics/canvas.png) 0 -52px;width:126px;height:40px;border:none;top:605px;left:620px;position: absolute;cursor:pointer;}
+	input.submit{color:#fff;font-weight:bold;background: url(../pics/canvas.png) 0 -52px;width:126px;height:40px;border:none;top:615px;left:620px;position: absolute;cursor:pointer;}
 	footer{width:948px;margin:10px auto -10px;text-align: center;}
-	button.button_preview{font-weight:bold;color:#fff;border:none;background: url(../pics/canvas.png) 0 -52px no-repeat;width:126px;height:40px;margin:10px 0 10px 104px;}
+	button.button_preview{font-weight:bold;color:#fff;border:none;background: url(../pics/canvas.png) 0 -52px no-repeat;width:126px;height:40px;position: absolute;top:618px;left:-365px;}
 	div.answer1,div.answer2,div.answer3,div.answer4,div.answer5,div.answer6,div.answer7,div.answer8{position:absolute;text-align: center;}
 	div.question{width:14em;height:110px;position:absolute;top:173px;left:90px;font-size:14px;line-height: 24px;}
 	div.answer1{top:375px;left:67px;}
@@ -57,8 +57,8 @@
 	div.two{top:375px;left:219px;}
 	div.three{top:431px;left:77px;}
 	div.four{top:431px;left:219px;}
-	section.suggestion{padding:20px 30px;background: url(../pics/suggestion_bg.png) no-repeat;width:861px;height:266px;position:relative;}
-	input.deleteSubmit{font-weight:bold;color:#fff;background: url(../pics/canvas.png) 0 -52px no-repeat;width:126px;height: 40px;position: absolute;top:791px;left:639px;border:none;}
+	section.suggestion{padding:20px 30px;background: url(../pics/suggestion_bg.png) no-repeat;width:861px;height:266px;position:absolute;top:706px;left:43px;}
+	input.deleteSubmit{font-weight:bold;color:#fff;background: url(../pics/canvas.png) 0 -52px no-repeat;width:126px;height: 40px;position: absolute;top:647px;left:430px;border:none;}
 	h3{color:#06574d;font-size:18px;height:20px;line-height: 20px;}
 	textarea.suggestion{margin-top:10px;width:780px;height:134px;border:1px solid #000;resize:none;background:#f0f0f0;padding:10px;line-height:30px;}
 	input.suggestion{margin:5px 0 0 662px;font-weight:bold;color:#fff;background: url(../pics/canvas.png) 0 -52px no-repeat;width:126px;height: 40px;border: none;}

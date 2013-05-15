@@ -1,0 +1,29 @@
+	span.left{float:left;width:160px;height:680px;background:url(../pics/home_side.jpg) no-repeat #093d86;}
+	span.right{float:right;width:160px;height:680px;background:url(../pics/home_side.jpg) no-repeat #093d86;}
+	section.middle {background:#cfcfcf;padding:55px;}
+	section.content{background:url(../pics/system.png) no-repeat;width:853px;height:494px;margin:0 auto;position: relative;}
+	section.middle ul{width:520px;margin:0 auto;}
+	section.middle ul li{float:left;background:url(../pics/canvas.png) 0 -407px no-repeat;height:28px;width:115px;margin:-27px 0 0 10px;text-align: center;line-height: 28px;font-size:16px;font-weight:bold;}
+	section.logsec,section.subsec,section.offsec{padding: 15px 15px;}
+	table{width:100%;margin-top:10px;}
+	table th{background:#4f81bd;border-bottom:5px solid #fff;height:24px;line-height:24px;padding:0 8px;color:#fff;font-weight:bold;}
+	table td{border-bottom: 2px solid #fff;height:20px;line-height: 20px;padding:0 8px;}
+	table tr.odd{background:#d0d8e8;}
+	table tr.even{background:#e9edf4;}
+	button {background: url(../pics/canvas.png) -959px -37px no-repeat;width:51px;height:22px;border:none;text-align: center;padding:0px;line-height: 22px;color:#fff;}
+	button.selected,button:hover{background: url(../pics/canvas.png) -959px -3px no-repeat;}
+	form{}
+	input.touse{background: url(../pics/canvas.png) 0 -52px no-repeat;width:126px;height:40px;border:none;color:#fff;position:absolute;bottom:10px;right:33px}
+	ul li a{color:#000;}
+	ul li a:hover{text-decoration: underline;}
+	input.first,input.last,input.pre,input.next,input.redirect,span.current,span.total{position:absolute;width:44px;bottom:22px;}
+	input.first{left:20px;border:none;background:none;}
+	input.last{left:246px;border:none;background:none;}
+	input.pre{left:66px;border:none;background:none;width:54px;}
+	input.next{left:192px;border:none;background:none;width:54px;}
+	input.redirect{left:150px;border:none;background:none;}
+	input.pagination{position:absolute;bottom:22px;width:20px;left:126px;height:12px;}
+	span.current{left:438px;}
+	span.total{left:484px;}
+	footer{width:948px;margin:10px auto -10px;text-align: center;}
+	li a.selected{color:#3ec1ef;}

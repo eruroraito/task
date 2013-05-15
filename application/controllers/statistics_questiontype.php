@@ -15,8 +15,10 @@ class Statistics_questiontype extends PC_controller {
 
 	public function index()
 	{
+		$user_id = $this->m_app->getCurrentUserId();
+		$data['permission'] = $this->m_permission->getUserPermission($user_id);
 		$data['question_type'] = $this->m_system->getQuestionDetailsByQuestionType();
-		$this->load->view('statistics_questiontype',$data);
+		if($data['permission']['group_id']==1||$data['permission']['group_id']==2) $this->load->view('statistics_questiontype',$data);
 	}
 
 /*

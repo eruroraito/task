@@ -19,9 +19,10 @@ class Statistics_origin extends PC_controller {
 		$user['user_name'] = $this->m_app->getCurrentUserName();
 		$user['user_realname'] = $this->m_app->getCurrentUserRealName();
 		$user['users'] =$this->m_user->getUserNames();
-
+		$user_id = $this->m_app->getCurrentUserId();
+		$data['permission'] = $this->m_permission->getUserPermission($user_id);
 		$data['origin_user_audit_exam'] = $this->m_system->getUserDetailsInExam($user);
-		$this->load->view('statistics_origin',$data);
+		if($data['permission']['group_id']==1||$data['permission']['group_id']==2) $this->load->view('statistics_origin',$data);
 	}
 
 /*

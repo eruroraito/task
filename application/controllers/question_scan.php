@@ -14,6 +14,7 @@ class Question_scan extends PC_controller {
 
 	public function index()
 	{
+		$data = array();
 		$data['type'] = $this->m_question->getQuestionType();
 		$data['userlist'] = $this->m_user->getUserList();
 		$data['auditerlist'] = $this->m_user->getAuditerList();

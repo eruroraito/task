@@ -16,10 +16,11 @@ class Usermodel extends CI_Model {
 | -------------------------------------------------------------------
 */
 	public function editUserHistory($info){
+		$user = $this->m_app->getCurrentUserName();
 		$info['type'] = SEARCH_ALL;
 		$info['question_type'] = SEARCH_ALL;
 		$info['difficult'] = SEARCH_ALL;
-		$info['user'] = SEARCH_SUPER_ALL;
+		$info['user'] = $user;
 		$info['auditer'] = SEARCH_SUPER_ALL;
 		$info['date_start'] = '0000-00-00 00:00:00';
 		$info['date_end'] = '0000-00-00 00:00:00';

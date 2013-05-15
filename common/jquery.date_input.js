@@ -221,7 +221,7 @@ DateInput.prototype = {
       top: offset.top + this.input.outerHeight(),
       left: offset.left
     });
-    
+
     if (this.ieframe) {
       this.ieframe.css({
         width: this.dateSelector.outerWidth(),
