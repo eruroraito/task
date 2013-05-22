@@ -11,6 +11,7 @@
 
 	<script type="text/javascript" src="../common/jquery-1.6.2.min.js"></script>
 	<script type="text/javascript" src="../common/jquery.form.js"></script>
+	<link rel="shortcut icon" type="image/x-icon" href="../pics/favicon.ico" media="screen" />
 	<link type="text/css" rel="stylesheet" href="../common/style.css" />
 	<link type="text/css" rel="stylesheet" href="../css/common/header.css" />
 	<link type="text/css" rel="stylesheet" href="../css/system_sub.css" />
@@ -22,26 +23,30 @@
 	<span class="left"></span>
 	<span class="right"></span>
 	<section class="middle">
-		<section class="content">
-			<ul>
-				<li id="log" class="log"><a href="system_log">操作记录</a></li>		
-				<?php 
-					if($permission['group_id'] ==1){
-						echo '<li id="submit" class="submit"><a href="system_sub" class="selected">上架</a></li>';
-						echo '<li id="off" class="off"><a href="system_off">下架</a></li>';
-						echo '<li id="setting" class="setting"><a href="system_user">账户设置</a></li>';	
-					}else if($permission['group_id'] ==2){
-						echo '<li id="setting" class="setting"><a href="system_user">账户设置</a></li>';	
-					}else{
+		<ul>
+			<li id="log" class="log"><a href="system_log">操作记录</a></li>		
+			<?php 
+				if($permission['group_id'] ==1){
+					echo '<li id="submit" class="submit"><a href="system_sub" class="selected">上架</a></li>';
+					echo '<li id="off" class="off"><a href="system_off">下架</a></li>';
+					echo '<li id="setting" class="setting"><a href="system_user">账户设置</a></li>';	
+					echo '<li id="add" class="add"><a href="system_add">添加类型</a></li>';
+				}else if($permission['group_id'] ==2){
+					echo '<li id="setting" class="setting"><a href="system_user">账户设置</a></li>';	
+				}else{
 
-					}
-				?>			
-			</ul>
+				}
+			?>			
+		</ul>
+		<section class="content">
 			<section id="subsec" class="subsec">
 				<button id="selectall">全选</button>
 				<button id="selectnone">全不选</button>
 				<button id="selectreverse">反选</button>
-				<form action="system/submitToUseExam" method="post" id="question_id" >
+				<form action="system_sub/export" method="post" id="exportForm" class="exportForm">
+						<input type="submit" value="导出到excel" id="exportSubmit" />
+				</form>
+				<form action="system_sub/submitToUseExam" method="post" id="question_id" >
 				<table>
 					<tr>
 						<th></th>

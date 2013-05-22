@@ -11,11 +11,12 @@
 
 	<script type="text/javascript" src="../common/jquery-1.6.2.min.js"></script>
 	<script type="text/javascript" src="../common/jquery.form.js"></script>
+	<link rel="shortcut icon" type="image/x-icon" href="../pics/favicon.ico" media="screen" />
 	<link type="text/css" rel="stylesheet" href="../common/style.css" />
 	<link type="text/css" rel="stylesheet" href="../css/common/header.css" />
 	<link type="text/css" rel="stylesheet" href="../css/statistics.css" />
 	<style type="text/css">
-		section.content{background-image:url(../pics/statics_bg.png);height:569px;padding-top:12px;}
+		section.content{background:#fff;padding-top:12px;border-radius: 5px; -moz-border-radius: 5px;  -webkit-border-radius: 5px;}
 		li.statistics{margin-top: 38px;}
 		span.left{height:738px;}
 		span.right{height:738px;}
@@ -29,7 +30,7 @@
 
 	<article id="body_container" >
 		<section class="middle">
-			<section class="content">
+			<section class="content" id="section_content">
 				<h3>图片题目信息</h3>
 				<ul>
 					<li class="statistics"><a href="statistics" >题库</a></li>
@@ -77,6 +78,7 @@
 					<?php 
 						$i = 1;
 						foreach ($pic as $q_type => $q_value) {
+							if($q_type=='not_active') continue;
 							$i++;
 							$name = 'odd';
 							if($i%2==0) $name = 'even';
@@ -119,6 +121,7 @@
 					<?php 
 						$i = 1;
 						foreach ($pic as $q_type => $q_value) {
+							if($q_type=='not_active') continue;
 							$i++;
 							$name = 'odd';
 							if($i%2==0) $name = 'even';
@@ -142,6 +145,12 @@
 	</article>
 
 <script type="text/javascript">
+	var section_content_height = ($('#audit').height()+50)+'px';
+	$('#section_content').height(section_content_height);
+
+	var middle_height = ($('#section_content').height()+170)+'px';
+	$('span').height(middle_height);
+
 	$('#statistics').addClass('selected');
 	$('#use').hide();
 	$('#question_exam_image').change(function(){

@@ -11,6 +11,7 @@
 
 	<script type="text/javascript" src="../common/jquery-1.6.2.min.js"></script>
 	<script type="text/javascript" src="../common/jquery.form.js"></script>
+	<link rel="shortcut icon" type="image/x-icon" href="../pics/favicon.ico" media="screen" />
 	<link type="text/css" rel="stylesheet" href="../common/style.css" />
 	<link type="text/css" rel="stylesheet" href="../css/common/header.css" />
 	<link type="text/css" rel="stylesheet" href="../css/system_off.css" />
@@ -22,26 +23,32 @@
 	<span class="left"></span>
 	<span class="right"></span>
 	<section class="middle">
-		<section class="content">
-			<ul>
-				<li id="log" class="log"><a href="system_log">操作记录</a></li>		
-				<?php 
-					if($permission['group_id'] ==1){
-						echo '<li id="submit" class="submit"><a href="system_sub">上架</a></li>';
-						echo '<li id="off" class="off"><a href="system_off" class="selected">下架</a></li>';
-						echo '<li id="setting" class="setting"><a href="system_user">账户设置</a></li>';	
-					}else if($permission['group_id'] ==2){
-						echo '<li id="setting" class="setting"><a href="system_user">账户设置</a></li>';	
-					}else{
+		<ul>
+			<li id="log" class="log"><a href="system_log">操作记录</a></li>		
+			<?php 
+				if($permission['group_id'] ==1){
+					echo '<li id="submit" class="submit"><a href="system_sub">上架</a></li>';
+					echo '<li id="off" class="off"><a href="system_off" class="selected">下架</a></li>';
+					echo '<li id="setting" class="setting"><a href="system_user">账户设置</a></li>';
+					echo '<li id="add" class="add"><a href="system_add">添加类型</a></li>';	
+				}else if($permission['group_id'] ==2){
+					echo '<li id="setting" class="setting"><a href="system_user">账户设置</a></li>';	
+				}else{
 
-					}
-				?>			
-			</ul>
+				}
+			?>			
+		</ul>
+		<section class="content">
 			<section id="offsec" class="offsec">
 				<button id="selectall">全选</button>
 				<button id="selectnone">全不选</button>
 				<button id="selectreverse">反选</button>
-				<form action="system/offUseExam" method="post" id="question_id" >
+				<form action="system_off/offSearch" method="post" id="offSearchForm" class="search">
+					<label for="search_question">搜索题目</label>
+					<input type="text" name="keyword" id="search_question" maxlength="10" />
+					<input type="submit" value="搜索" class="search_submit" />
+				</form>
+				<form action="system_off/offUseExam" method="post" id="question_id" >
 				<table>
 					<tr>
 						<th></th>
@@ -89,7 +96,7 @@
 			<form class="form_pagination" action="system_off/last_page" method="post" id="last_page_form">
 				<input type="hidden" name="pagination_last" value="last" />
 				<input type="submit" class="last" value="[末页]" />
-				<span class="current">第<?php echo $offindex;?>页</span>
+				<span class="current">第<?php echo $offindex['offindex'];?>页</span>
 				<span class="total">共<?php echo $off['count'];?>页</span>
 			</form>
 			</section>

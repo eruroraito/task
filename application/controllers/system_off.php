@@ -8,6 +8,7 @@ class System_off extends PC_controller {
 		parent::__construct();
 		$this->load->model('Questionmodel','m_question',true);
 		$this->load->model('Systemmodel','m_system',true);
+		$this->load->model('Typemodel','m_type',true);
 	}
 
 	public function index()
@@ -24,6 +25,16 @@ class System_off extends PC_controller {
 |  System_off Basic Functions
 | -------------------------------------------------------------------
 */
+	public function offSearch(){
+		$info = $this->m_system->validateOffSearchInfo($this->input->post());
+		if($this->response->isSuccess()){
+			$this->m_system->offSearchInfo($info);
+			$this->response->setSuccess(true);
+			$this->response->setDetail($this->lang->line('success_update'));
+		}
+		echo $this->response->generate_json_response();
+	}
+
 	public function offUseExam(){
 		$info = $this->m_system->validateOffUseExamInfo($this->input->post());
 		if($this->response->isSuccess()){

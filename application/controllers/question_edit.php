@@ -13,6 +13,7 @@ class Question_edit extends PC_controller {
 	public function index()
 	{
 		$post_info = $this->input->post();
+		$data['permission'] = $this->m_app->getPermission();
 		$data['edit'] = $this->m_question->getEditQuestion($post_info);
 		$data['type'] = $this->m_question->getQuestionType();
 		$this->load->view('question_edit',$data);

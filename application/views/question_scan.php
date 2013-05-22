@@ -15,7 +15,7 @@
 	<script type="text/javascript" src="../common/jquery.date_input.js"></script>  
 	<script type="text/javascript" src="../common/jquery.lightbox-0.5.js"></script> 
 	<script type="text/javascript" src="../js/date_input.js"></script> 
-
+	<link rel="shortcut icon" type="image/x-icon" href="../pics/favicon.ico" media="screen" />
 	<link type="text/css" rel="stylesheet" href="../common/style.css" />
 	<link rel="stylesheet" href="../common/date_input.css" type="text/css">
 	<link type="text/css" rel="stylesheet" href="../css/common/header.css" />
@@ -33,10 +33,13 @@
 			<div class="select">
 				<label for="tk_type">题库类型:</label>
 				<select id="tk_type" name="type">
-					<option value ="9999">全部</option>
+					<?php if($history['type']==9999) echo '<option value ="9999" selected="selected">全部</option>';
+						  else echo '<option value ="9999">全部</option>';
+					?>					
 					<?php foreach ($type as $key => $value) {
-						$option_value = $key+1;
-						echo "<option value =".$option_value.">".$value['type_name']."</option>";
+						$option_value = $value['type_id'];
+						if($option_value==$history['type']) echo '<option selected="selected" value ='.$option_value.'>'.$value['type_name'].'</option>';
+						else echo '<option value ='.$option_value.'>'.$value['type_name'].'</option>';
 					}
 					?>					
 				</select>
@@ -44,20 +47,33 @@
 			<div class="select type">
 				<label for="question_type">题目类型:</label>
 				<select id="question_type" name="question_type">
-					<option value ="9999">全部</option>
-					<option value ="0">文字题</option>
-					<option value ="1">图片题</option>
-					<option value ="2">填空题</option>
-					<option value ="3">触摸题</option>
+					<?php 
+						if($history['question_type']==9999) echo '<option value ="9999" selected="selected">全部</option>';
+						else echo '<option value ="9999">全部</option>';
+						if($history['question_type']==0) echo '<option value ="0" selected="selected">文字题</option>';
+						else echo '<option value ="0">文字题</option>';
+						if($history['question_type']==1) echo '<option value ="1" selected="selected">图片题</option>';
+						else echo '<option value ="1">图片题</option>';
+						if($history['question_type']==2) echo '<option value ="2" selected="selected">填空题</option>';
+						else echo '<option value ="2">填空题</option>';
+						if($history['question_type']==3) echo '<option value ="3" selected="selected">触摸题</option>';
+						else echo '<option value ="3">触摸题</option>';
+					?>
 				</select>
 			</div>
 			<div class="select difficulty">
 				<label for="difficult">难度:</label>
 				<select id="difficult" name="difficult">
-					<option value ="9999">全部</option>
-					<option value ="1">新手</option>
-					<option value ="2">熟练</option>
-					<option value ="3">高手</option>
+					<?php 
+						if($history['difficult']==9999) echo '<option value ="9999" selected="selected">全部</option>';
+						else echo '<option value ="9999">全部</option>';
+						if($history['difficult']==1) echo '<option value ="1" selected="selected">新手</option>';
+						else echo '<option value ="1">新手</option>';
+						if($history['difficult']==2) echo '<option value ="2" selected="selected">熟练</option>';
+						else echo '<option value ="2">熟练</option>';
+						if($history['difficult']==3) echo '<option value ="3" selected="selected">高手</option>';
+						else echo '<option value ="3">高手</option>';
+					?>
 				</select>
 			</div>
 			<div class="select user">
@@ -65,7 +81,8 @@
 				<select id="user" name="user">
 					<option value ="all">全部</option>
 					<?php foreach ($userlist as $key => $value) {
-						echo "<option value =".$value['user_name'].">".$value['user_realname']."</option>";
+						if($history['user']==$value['user_name']) echo "<option selected='selected' value =".$value['user_name'].">".$value['user_realname']."</option>";
+						else echo "<option value =".$value['user_name'].">".$value['user_realname']."</option>";
 					}
 					?>	
 				</select>
@@ -75,7 +92,8 @@
 				<select id="auditer" name="auditer">
 					<option value ="all">全部</option>
 					<?php foreach ($auditerlist as $key => $value) {
-						echo "<option value =".$value['user_name'].">".$value['user_realname']."</option>";
+						if($history['auditer']==$value['user_name']) echo "<option selected='selected' value =".$value['user_name'].">".$value['user_realname']."</option>";
+						else echo "<option value =".$value['user_name'].">".$value['user_realname']."</option>";
 					}
 					?>	
 				</select>
@@ -84,40 +102,67 @@
 			<div class="select">
 				<label for="status">状态:</label>
 				<select id="status" name="status">
-					<option value ="9999">全部</option>
-					<option value ="0">未审核</option>
-					<option value ="1">审核通过</option>
-					<option value ="2">审核不通过</option>
-					<option value ="3">已上架</option>
-					<option value ="-1">已删除</option>
+					<?php 
+						if($history['status']==9999) echo '<option value ="9999" selected="selected">全部</option>';
+						else echo '<option value ="9999">全部</option>';
+						if($history['status']==0) echo '<option value ="0" selected="selected">未审核</option>';
+						else echo '<option value ="0">未审核</option>';
+						if($history['status']==1) echo '<option value ="1" selected="selected">审核不通过</option>';
+						else echo '<option value ="1">审核不通过</option>';
+						if($history['status']==2) echo '<option value ="2" selected="selected">审核通过</option>';
+						else echo '<option value ="2">审核通过</option>';
+						if($history['status']==3) echo '<option value ="3" selected="selected">已上架</option>';
+						else echo '<option value ="3">已上架</option>';
+						if($history['status']==-1) echo '<option value ="-1" selected="selected">已删除</option>';
+						else echo '<option value ="-1">已删除</option>';
+					?>
 				</select>
 			</div>
 
 			<div class="select">
 				<label for="order_status">排序方式:</label>
 				<select id="order_item" name="order_item">
-					<option value ="1">上次更新</option>
-					<option value ="2">题目编号</option>
+					<?php 
+						if($history['order_item']==1) echo '<option value ="1" selected="selected">上次更新</option>';
+						else echo '<option value ="1">上次更新</option>';
+						if($history['order_item']==2) echo '<option value ="2" selected="selected">题目编号</option>';
+						else echo '<option value ="2">题目编号</option>';
+					?>
 				</select>
 				<select id="order" name="order">
-					<option value ="1">升序</option>
-					<option value ="2">降序</option>
+					<?php 
+						if($history['order']==1) echo '<option value ="1" selected="selected">升序</option>';
+						else echo '<option value ="1">升序</option>';
+						if($history['order']==2) echo '<option value ="2" selected="selected">降序</option>';
+						else echo '<option value ="2">降序</option>';
+					?>
 				</select>
 			</div>
 			<div class="select date">
 				<label for="date_start">起始日期:</label>
-				<input id="date_start" type="text" class="biuuu1" name="date_start" />
+				<?php 
+					if($history['date_start']=='0000-00-00 00:00:00') echo '<input id="date_start" type="text" class="biuuu1" name="date_start" />';
+					else echo '<input value='.$history['date_start'].' id="date_start" type="text" class="biuuu1" name="date_start" />';
+				?>
 				<label for="date_end">结束日期:</label>
-				<input id="date_end" type="text" class="biuuu2" name="date_end" />
+				<?php 
+					if($history['date_end']=='0000-00-00 00:00:00') echo '<input id="date_end" type="text" class="biuuu2" name="date_end" />';
+					else echo '<input value='.$history['date_end'].' id="date_end" type="text" class="biuuu1" name="date_end" />';
+				?>
 			</div>
 
 			<div class="select condition">				
 				<select id="condition" name="condition">
-					<option value ="1">文字题目</option>
-					<option value ="2">图片编号</option>
-					<option value ="3">题目编号</option>
+					<?php 
+						if($history['condition']==1) echo '<option value ="1" selected="selected">文字题目</option>';
+						else echo '<option value ="1">文字题目</option>';
+						if($history['condition']==2) echo '<option value ="2" selected="selected">图片编号</option>';
+						else echo '<option value ="2">图片编号</option>';
+						if($history['condition']==3) echo '<option value ="3" selected="selected">题目编号</option>';
+						else echo '<option value ="3">题目编号</option>';
+					?>
 				</select>
-				<input id="search" name="search" />
+				<input value="<?php echo $history['search']?>"   id="search" name="search" />
 			</div>
 			<input class="submit" type="submit" value="确定筛选" />
 		</form>
@@ -184,6 +229,7 @@
 						echo '<td style="display:none;">'.$question_rogin.'</td>';
 						echo '<td style="display:none;">'.$value['icon'].'</td>';
 						echo '<td style="display:none;">'.$origin_status.'</td>';
+						echo '<td style="display:none;">'.$value['pic_size'].'</td>';
 					echo '</tr>';
 				}?>
 			</table>
@@ -268,7 +314,16 @@
 
 <script type="text/javascript" src="../js/question_scan.js"></script> 
 <script type="text/javascript">
+	$('#img_a').hide();
+
+	$('')
+
+
 	$('.preview').click(function(){
+		$('#as1').css('top','375px');
+		$('#as2').css('top','375px');
+		$('#as3').css('top','435px');
+		$('#as4').css('top','435px');
 		$(this).addClass('selected').siblings().removeClass('selected');
 		var data = new Array();
 		$(this).children().each(function(i){
@@ -285,6 +340,7 @@
 		var question = data[16];
 		var icon = data[17];
 		var status = data[18];
+		var pic_size = data[19];
 		var permission = <?php echo $permission;?>;
 		var current_user = "<?php echo $current_user;?>";
 		if(permission==1||permission==2){
@@ -318,7 +374,8 @@
 
 		if(icon!=0){
 			var imagepath = '../uploads/'+icon+'.jpg';
-			$('#img_a').attr('title',question);
+			var a_title = question+'(图片:'+pic_size+'K)';
+			$('#img_a').attr('title',a_title);
 			$('#img_a').attr('href',imagepath);
 			$('#img_img').attr('src',imagepath);
 			$('#img_a').show();
@@ -341,8 +398,24 @@
 			$('#new_four').show();
 			$('#new_eight').hide();
 			for(var j=1;j<=4;j++){
-				var answer_name = "#as"+j.toString();
-				$(answer_name).text(answer[j]);
+				var answer_name = "#as"+j.toString();				
+				if(answer[j].length>6) {
+					if(j==1||j==2) $(answer_name).css('top','367px');
+					if(j==3||j==4) $(answer_name).css('top','428px');
+					var str = new Array();
+					str = answer[j].split("");
+					var data = "";
+					for(var i=0;i<=5;i++){
+						data = data + str[i];
+					}
+					data = data +'<br />';
+					for(var k=6;k<answer[j].length;k++){
+						data = data + str[k];
+					}
+					$(answer_name).html(data);
+				}else{
+					$(answer_name).html(answer[j]);
+				}
 			}
 		}
 		$('#new_question').text(question);

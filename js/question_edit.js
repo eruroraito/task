@@ -34,15 +34,20 @@
 	$('#deleteFrom').submit(function() {
 		var r=confirm("确认删除!?");
 		if (r==true){
-			$(this).ajaxSubmit();
-		 	alert("删除成功!");
-		 	window.location.href='question_scan';
+			var options = { success: function(responseText) { 
+				var response = eval('(' + responseText + ')'); 
+				if(response.success) {
+					alert('删除成功');
+					window.location.href='question_scan';
+				}
+			} }; 
+			$(deleteFrom).ajaxSubmit(options); 		
+			return false;
 		}
 		else{
-		  	alert("取消删除!");
+			return false;
 		}
-
-		return false;
+		
 	});
 
 	$('#suggestion_form').submit(function() {

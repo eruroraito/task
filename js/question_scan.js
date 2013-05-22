@@ -63,3 +63,14 @@
 		$('#myForm').ajaxSubmit(options); 		
 		return false;
 	}); 
+
+	$('#audit_form_pass').submit(function() {
+		var options = { success: function(responseText) { 
+			var response = eval('(' + responseText + ')'); 
+			if(response.success) {
+				window.location.reload();
+			}
+		} }; 
+		$(this).ajaxSubmit(options); 		
+		return false;
+	}); 

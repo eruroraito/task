@@ -12,6 +12,7 @@
 	<script type="text/javascript" src="../common/jquery-1.6.2.min.js"></script>
 	<script type="text/javascript" src="../common/jquery.form.js"></script>
 	<script type="text/javascript" src="../common/jquery.lightbox-0.5.js"></script>
+	<link rel="shortcut icon" type="image/x-icon" href="../pics/favicon.ico" media="screen" />
 	<link type="text/css" rel="stylesheet" href="../common/style.css" />
 	<link type="text/css" rel="stylesheet" href="../css/common/header.css" />
 	<link type="text/css" rel="stylesheet" href="../css/question.css" />
@@ -24,7 +25,7 @@
 	<span class="left"></span>
 	<span class="right"></span>
 	<section class="body">
-		<form  action="question/addQuestion" enctype="multipart/form-data" method="post" id="myForm" >
+		<form action="question/addQuestion" enctype="multipart/form-data" method="post" id="myForm" >
 			<h4>添加题目</h4>
 			<label for="question_type" class="question_type">请选择题目类型:</label>
 			<select id="question_type" name="question_type">
@@ -88,7 +89,7 @@
 					<option value ="7">7</option>
 					<option value ="8">8</option>
 				</select>
-				</br />
+				<br />
   			</div>
 
  			<label for="question_difficulty" class="question_difficulty">题目难度:</label>
@@ -101,15 +102,10 @@
 			<label for="type" class="type">题库类型:</label>
 			<select id="type" name="type">
 				<?php foreach ($type as $key => $value) {
-					$option_value = $key+1;
+					$option_value = $value['type_id'];
 					echo "<option value =".$option_value.">".$value['type_name']."</option>";
 				}
 				?>					
-			</select>
-			<br />
-			<label for="exam_use" class="exam_use">题库用途:</label>
-			<select disabled="disabled" id="exam_use">
-				<option value ="0">关卡</option>
 			</select>
 			<br />
 			<input class="submit" type="submit" value="提交" />

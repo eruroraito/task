@@ -1,9 +1,9 @@
 	span.left{float:left;width:160px;height:680px;background:url(../pics/home_side.jpg) no-repeat #093d86;}
 	span.right{float:right;width:160px;height:680px;background:url(../pics/home_side.jpg) no-repeat #093d86;}
-	section.middle {background:#cfcfcf;padding:55px;}
+	section.middle {background:#cfcfcf;padding:40px 0 55px;}
 	section.content{background:url(../pics/system.png) no-repeat;width:853px;height:394px;margin:0 auto;padding-top:100px;}
-	section.middle ul{width:520px;margin:0 auto;}
-	section.middle ul li{float:left;background:url(../pics/canvas.png) 0 -407px no-repeat;height:28px;width:115px;margin:-27px 0 0 10px;text-align: center;line-height: 28px;font-size:16px;font-weight:bold;}
+	section.middle ul{width:625px;margin:0 auto;height:27px;}
+	section.middle ul li{float:left;background:url(../pics/canvas.png) 0 -407px no-repeat;height:28px;width:115px;margin-left:10px;text-align: center;line-height: 28px;font-size:16px;font-weight:bold;}
 	button.selected,button:hover{background: url(../pics/canvas.png) -959px -3px no-repeat;}
 	section.setting{background: url(../pics/add_user.png) no-repeat;width:292px;height:229px;margin:0 auto;}
 	h2{margin: 0 auto;width:100px;padding-top:10px;color:#fff;}
@@ -13,3 +13,4 @@
 	ul li a:hover{text-decoration: underline;}
 	footer{width:948px;margin:10px auto -10px;text-align: center;}
 	li a.selected{color:#3ec1ef;}
+	strong{width:100%;text-align: center;color:#f00;display: block;font-size:16px;line-height: 20px;}

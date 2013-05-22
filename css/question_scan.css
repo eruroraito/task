@@ -3,7 +3,7 @@
 		span.left{float:left;width:160px;height:940px;background:url(../pics/home_side.jpg) no-repeat #093d86;}
 		span.right{float:right;width:160px;height:940px;background:url(../pics/home_side.jpg) no-repeat #093d86;}
 		form.myForm{background:url(../pics/scan_fliter.png) no-repeat;width:853px;height:144px;margin:0 auto;}
-		form.myForm label{font-size:15px;margin-right:5px;font-weight: bold;}
+		form.myForm label{font-size:15px;font-weight: bold;}
 		div.select{ float:left;margin:0px 16px 0px 60px;height:50px;line-height:50px;}
 		div.date,div.condition{height: 33px;line-height: 33px;}
 		input.biuuu1,input.biuuu2{width:100px;}
@@ -29,6 +29,9 @@
 		.delete{background: #c8c8ff;}
 		table.scan tr.th{border-bottom: 5px solid #fff;}
 		input.first,input.last,input.pre,input.next,input.redirect,span.current,span.total{position:absolute;width:44px;bottom:45px;}
+		input.first:hover,input.last:hover,input.pre:hover,input.next:hover,input.redirect:hover{
+			text-decoration: underline;cursor: pointer;
+		}
 		input.first{left:20px;border:none;background:none;}
 		input.last{left:246px;border:none;background:none;}
 		input.pre{left:66px;border:none;background:none;width:54px;}
@@ -44,25 +47,25 @@
 		input.pagination{position:absolute;bottom:45px;width:20px;left:126px;height:12px;}
 		div.hidden{position:absolute;width:100px;height:20px;bottom:45px;left:126px;background: #fafafa;}
 		div.answer1,div.answer2,div.answer3,div.answer4,div.answer5,div.answer6,div.answer7,div.answer8{position:absolute;text-align: center;}
-		div.question{width:14em;height:110px;position:absolute;top:168px;left:90px;font-size:14px;line-height: 24px;}
-		div.answer1{top:375px;left:67px;}
-		div.answer2{top:375px;left:142px;}
-		div.answer3{top:375px;left:217px;}
+		div.question{width:14em;height:110px;position:absolute;top:160px;left:90px;font-size:14px;line-height: 24px;}
+		div.answer1{top:375px;left:82px;}
+		div.answer2{top:375px;left:152px;}
+		div.answer3{top:375px;left:225px;}
 		div.answer4{top:375px;left:291px;}
-		div.answer5{top:433px;left:67px;}
-		div.answer6{top:433px;left:142px;}
-		div.answer7{top:433px;left:217px;}
+		div.answer5{top:433px;left:82px;}
+		div.answer6{top:433px;left:152px;}
+		div.answer7{top:433px;left:225px;}
 		div.answer8{top:433px;left:291px;}
 		div.one,div.two,div.three,div.four{position:absolute;width:6em;text-align: center;}
 		div.one{top:375px;left:77px;}
 		div.two{top:375px;left:219px;}
-		div.three{top:431px;left:77px;}
-		div.four{top:431px;left:219px;}
+		div.three{top:435px;left:77px;}
+		div.four{top:435px;left:219px;}
 		input.audit_form_pass_submit{position:absolute;left:32px;top:552px;background:url(../pics/canvas.png) 0 -288px no-repeat;width:96px;height:31px;border:none;color:#fff;line-height: 31px;font-weight:bold;padding-bottom:4px;}
 		input.audit_not_pass,input.audit_edit{background:url(../pics/canvas.png) 0 -288px no-repeat;width:96px;height:31px;color:#fff;position: absolute;left:100px;top:552px;z-index: 9;line-height: 30px;border:none;font-weight:bold;padding-bottom:4px;}
 		input.audit_not_pass{left:138px;}
 		input.audit_edit{left:247px;}
-		img.img_preview{position:absolute;top:200px;left:78px;width:216px;height:110px;}
+		img.img_preview{position:absolute;top:190px;left:72px;width:230px;height:114px;}
 		footer{width:948px;margin:10px auto -10px;text-align: center;}
 		input.disabled{background: url(../pics/canvas.png) -188px -42px;color:#888888;}
 		table tr:hover{cursor:default;}

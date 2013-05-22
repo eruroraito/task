@@ -10,6 +10,8 @@
 	<![endif]-->
 
 	<script type="text/javascript" src="../common/jquery-1.6.2.min.js"></script>
+	<script type="text/javascript" src="../common/jquery.form.js"></script>
+	<link rel="shortcut icon" type="image/x-icon" href="../pics/favicon.ico" media="screen" />
 	<link type="text/css" rel="stylesheet" href="../common/style.css" />
 	<link type="text/css" rel="stylesheet" href="../css/common/header.css" />
 	<link type="text/css" rel="stylesheet" href="../css/personal.css" />
@@ -21,19 +23,22 @@
 	<span class="left"></span>
 	<span class="right"></span>
 	<section id="body" class="main">
-		<section class="password">
-			<form action="personal/changeUserPassword" method="post">
-	  			<label class="old" for="old_pass">原密码<span>*</span></label>
-	  			<input class="login" type="password" autocomplete = "off" name="old_user_password" id="old_pass" placeholder="请输入原密码"  />
-	 			<br />
-	  			<label class="new" for="password">新密码<span>*</span></label>
-	  			<input class="login" type="password" autocomplete="off" name="user_password" id="password" placeholder="请输入密码" />
-	  			<br />
-	  			<label class="new_rept" for="rept_password">新密码确认<span>*</span></label>
-	  			<input class="login" type="password" autocomplete="off" name="password_confirm" id="rept_password" placeholder="请再次输入密码" />
-	  			<br />
-	  			<input class="submit" type="submit" value="保存" />
-		    </form>
+		<section class="bg">
+			<strong>错误</strong>
+			<section class="password">
+				<form action="personal/changeUserPassword" method="post" id="changeForm">
+		  			<label class="old" for="old_pass">原密码<span>*</span></label>
+		  			<input class="login" type="password" autocomplete = "off" name="former_user_password" id="former_pass" placeholder="请输入原密码"  />
+		 			<br />
+		  			<label class="new" for="password">新密码<span>*</span></label>
+		  			<input class="login" type="password" autocomplete="off" name="user_password" id="password" placeholder="请输入密码" />
+		  			<br />
+		  			<label class="new_rept" for="rept_password">新密码确认<span>*</span></label>
+		  			<input class="login" type="password" autocomplete="off" name="password_confirm" id="rept_password" placeholder="请再次输入密码" />
+		  			<br />
+		  			<input class="submit" type="submit" value="保存" />
+			    </form>
+			</section>
 		</section>
 	</section>
 	<footer>
@@ -41,8 +46,6 @@
 		<p>Copyright 2007-2010上海佳游网络 Corporation All rights reserved.</p>
 	</footer>
 </article>
-<script type="text/javascript">
-	$('#personal').addClass('selected');
-</script>
+	<script type="text/javascript" src="../js/personal.js"></script>
 </body>
 </html>

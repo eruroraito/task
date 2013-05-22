@@ -26,13 +26,20 @@ class Script extends PC_controller {
 		$objReader = PHPExcel_IOFactory::createReader('Excel5');
 		$objPHPExcel = $objReader->load('information/config.xls');
 
-		$sheet = $objPHPExcel->getSheet(2);
+		$sheet = $objPHPExcel->getSheet(22);
+		$type = 3000;
+
+		$status = 5;
+		$name_origin ="admin";
+		$name_update ="admin";
+		$name_audit ="admin";
+
 		$rowCount = $sheet->getHighestRow();
 
 		$update_info = array();
-		for($i=2;$i<=20;$i++){
+		for($i=2;$i<=207;$i++){
 			$id = $sheet->getCell('A'.$i)->getValue();
-			$type = 2;
+			
 			$difficulty = $sheet->getCell('B'.$i)->getValue();
 			$purpose = $sheet->getCell('C'.$i)->getValue();
 			$question = $sheet->getCell('D'.$i)->getValue();
@@ -47,10 +54,7 @@ class Script extends PC_controller {
 			$answer_6 = $sheet->getCell('M'.$i)->getValue();
 			$answer_7 = $sheet->getCell('N'.$i)->getValue();
 			$answer_8 = $sheet->getCell('O'.$i)->getValue();
-			$status = 0;
-			$name_origin ="chensi";
-			$name_update ="chensi";
-			$name_audit ="admin";
+
 			$time_update = NOW;
 			$id = intval($id);
 			$difficulty = intval($difficulty);
@@ -96,12 +100,13 @@ class Script extends PC_controller {
 
 			$info['update'] = array(
 				'type' => $type,
-				'status' => 0,
+				'status' => $status,
 				'difficulty' => $difficulty,
 				'purpose' => $purpose,
 				//'question' => $question,
 				'icon' => $icon,
 				'question_type' => $question_type,
+				'pic_size' => 15,
 				//'id'=>$id,
 				//'answer_num' => $answer_num,
 				//'answer_1' => $answer_1,

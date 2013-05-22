@@ -16,6 +16,21 @@ class Questionmodel extends CI_Model {
 |  User Basic Functions
 | -------------------------------------------------------------------
 */
+	public function getQuestionNum(){
+		$total_type =  $this->m_system->getTypeTotalNum();
+
+		for($i=1;$i<=$total_type;$i++){
+			$res[$i] = 0;
+			$type_id = $this->getTypeIdByTypeConfigId($i);
+			$this->db->select('id');
+			$this->db->where('type',$type_id);
+			$this->db->from('question');
+			$res[$type_id] = $this->db->count_all_results();
+		}
+
+		return $res;
+	}
+
 	public function getEditQuestion($info){
 		$res = array();
 		$this->db->where('id',$info['id']);
@@ -43,7 +58,8 @@ class Questionmodel extends CI_Model {
 
 	public function getQuestionType(){
 		$res = array();
-		$this->db->select('type_name');
+		$this->db->select('type_id,type_name');
+		$this->db->where('status',1);
 		$this->db->from('type_config');
 		$query = $this->db->get();
 		$res = $query->result_array();
@@ -51,7 +67,7 @@ class Questionmodel extends CI_Model {
 		return $res;
 	}
 
-	public function addQuestion($info){
+	public function addQuestion($info){//print_r($info);die();
 		$this->db->insert('question', $info['info']); 
 
 		$this->db->select_max('id');
@@ -90,12 +106,21 @@ class Questionmodel extends CI_Model {
 
 
 	public function getQuestionListSection($info,$pagination){
+		$type_date = $this->getQuestionType();
+		$type_ids_date = array();
+		foreach ($type_date as $key => $value) {
+			array_push($type_ids_date,$value['type_id']);
+		}
 		$res = array();
 		$pagination_start = SCAN_PERPAGE*($pagination-1);
 		
 		$this->db->start_cache();			
 		$this->db->from('question');
-		if($info['type']!=SEARCH_ALL)     			$this->db->where('type',$info['type']);
+		if($info['type']!=SEARCH_ALL){
+			$this->db->where('type',$info['type']);
+		}else{
+			$this->db->where_in('type',$type_ids_date);
+		}
 		if($info['question_type']!=SEARCH_ALL)      $this->db->where('question_type',$info['question_type']);
 		if($info['user']!=SEARCH_SUPER_ALL) 		$this->db->where('name_origin',$info['user']);
 		if($info['auditer']!=SEARCH_SUPER_ALL) 		$this->db->where('name_audit',$info['auditer']);
@@ -153,10 +178,12 @@ class Questionmodel extends CI_Model {
 	}
 
 	public function getSubmitQuestionList($subindex){
+		$type_ids = $this->m_type->getActiveTypeIds();
 		$result = array();
 		$this->db->start_cache();
 		$start = 16*($subindex-1);
 		$this->db->from('question');
+		$this->db->where_in('type',$type_ids);
 		$this->db->where('status',2);
 
 		$this->db->stop_cache();
@@ -205,12 +232,17 @@ class Questionmodel extends CI_Model {
 		return $result;
 	}
 
-	public function getOffQuestionList($offindex){
+	public function getOffQuestionList($off){
+		$type_ids = $this->m_type->getActiveTypeIds();
+		$offindex = $off['offindex'];
+		$keyword = $off['keyword'];
 		$result = array();
 		$this->db->start_cache();
 		$start = 16*($offindex-1);
+		$this->db->where_in('type',$type_ids);
+		$this->db->where('status',5);
+		if($keyword!='') $this->db->like('question',$keyword);
 		$this->db->from('question');
-		$this->db->where('status',3);
 
 		$this->db->stop_cache();
 		$count = $this->db->count_all_results();	
@@ -265,7 +297,7 @@ class Questionmodel extends CI_Model {
 */
 	public function validateAddQuestionInfo($input,$data){
 		$result = array();
-		//print_r($data);die();
+		//print_r($input);die();
 		if(!isset($input['question_type']) || !validate($input['question_type'])){
 			$this->_CI->response->setSuccess(false);
 			$this->_CI->response->setDetail($this->lang->line('error_username'));
@@ -275,13 +307,22 @@ class Questionmodel extends CI_Model {
 			if($result['update']['question_type']==1||$result['update']['question_type']==3){
 				if(!isset($data['upload_data']['raw_name']) || !validate($data['upload_data']['raw_name'])){
 					$this->_CI->response->setSuccess(false);
-					$this->_CI->response->setDetail($this->lang->line('error_username'));
+					$this->_CI->response->setDetail($this->lang->line('error_raw_name'));
+				}elseif(!isset($data['upload_data']['file_size']) || !validate($data['upload_data']['file_size'])){
+					$this->_CI->response->setSuccess(false);
+					$this->_CI->response->setDetail($this->lang->line('error_file_size'));
 				}else{
 					$result['update']['icon'] = intval($data['upload_data']['raw_name']);
+					$result['update']['pic_size'] = strval($data['upload_data']['file_size']);
 				}
 			}elseif($result['update']['question_type']==2){
-				if(isset($data['upload_data']['raw_name'])) $result['update']['icon'] = intval($data['upload_data']['raw_name']);
-				else $result['update']['icon'] = 0;
+				if(isset($data['upload_data']['raw_name'])){
+					$result['update']['icon'] = intval($data['upload_data']['raw_name']);
+					$result['update']['pic_size'] = strval($data['upload_data']['file_size']);
+				} 
+				else{
+					$result['update']['icon'] = 0;
+				} 
 			}else{
 				$result['update']['icon'] = 0;
 			}
@@ -415,7 +456,6 @@ class Questionmodel extends CI_Model {
 
 	}
 
-
 	public function validateEditQuestionInfo($input,$data){
 		$result = array();
 
@@ -423,7 +463,10 @@ class Questionmodel extends CI_Model {
 			$this->_CI->response->setSuccess(false);
 			$this->_CI->response->setDetail($this->lang->line('error_parameter'));
 		}else{
-			if(isset($data['upload_data']['raw_name'])) $result['icon']=intval($data['upload_data']['raw_name']);
+			if(isset($data['upload_data']['raw_name'])){
+				$result['icon']=intval($data['upload_data']['raw_name']);	
+				$result['pic_size'] = strval($data['upload_data']['file_size']);
+			} 
 		}
 
 		if($input['question_type']==2){
@@ -536,6 +579,16 @@ class Questionmodel extends CI_Model {
 |  Question Extern Functions
 | -------------------------------------------------------------------
 */
+	public function getTypeIdByTypeConfigId($type_config_id){
+		$res = array();
+		$this->db->select('type_id');
+		$this->db->where('type_config_id',$type_config_id);
+		$this->db->from('type_config');
+		$query = $this->db->get();
+		$res = $query->row_array();
+		return $res['type_id'];
+	}
+
 	public function getTypeNameByTypeId($type_ids){
 		$res = array();
 		$this->db->select('type_name');

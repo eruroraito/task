@@ -20,10 +20,10 @@
 	label.option_two{top:30px;}
 	label.option_three{top:58px;}
 	label.option_four{top:85px;}
-	label.question_difficulty{top:526px;left:228px;}
-	#question_difficulty{top:526px;left:316px;width:70px;}
-	label.type{top:526px;}
-	#type{top:526px;left:130px;width:70px;}
+	label.question_difficulty{top:540px;left:228px;}
+	#question_difficulty{top:540px;left:316px;width:70px;}
+	label.type{top:540px;}
+	#type{top:540px;left:130px;width:70px;}
 	label.exam_use{top:553px;}
 	#exam_use{top:553px;left:130px;width:70px;}
 	#optioneight{position: absolute;top:400px;left:100px;}
@@ -43,18 +43,18 @@
 	footer{width:948px;margin:10px auto -10px;text-align: center;}
 	button.button_preview{border:none;background: url(../pics/canvas.png) 0 -114px no-repeat;width:163px;height:40px;text-indent: -1000px;overflow: hidden;margin:21px 0 0 104px;}
 	div.answer1,div.answer2,div.answer3,div.answer4,div.answer5,div.answer6,div.answer7,div.answer8{position:absolute;text-align: center;}
-	div.question{width:14em;height:110px;position:absolute;top:186px;left:90px;font-size:14px;line-height: 24px;}
-	div.answer1{top:375px;left:67px;}
-	div.answer2{top:375px;left:142px;}
-	div.answer3{top:375px;left:217px;}
+	div.question{width:14em;height:110px;position:absolute;top:165px;left:90px;font-size:14px;line-height: 24px;}
+	div.answer1{top:375px;left:82px;}
+	div.answer2{top:375px;left:152px;}
+	div.answer3{top:375px;left:225px;}
 	div.answer4{top:375px;left:291px;}
-	div.answer5{top:433px;left:67px;}
-	div.answer6{top:433px;left:142px;}
-	div.answer7{top:433px;left:217px;}
+	div.answer5{top:433px;left:82px;}
+	div.answer6{top:433px;left:152px;}
+	div.answer7{top:433px;left:225px;}
 	div.answer8{top:433px;left:291px;}
 	div.one,div.two,div.three,div.four{position:absolute;width:6em;text-align: center;}
 	div.one{top:375px;left:77px;}
 	div.two{top:375px;left:219px;}
-	div.three{top:431px;left:77px;}
-	div.four{top:431px;left:219px;}
+	div.three{top:435px;left:77px;}
+	div.four{top:435px;left:219px;}
 	img.img_preview{position:absolute;top:200px;left:78px;width:216px;height:110px;}

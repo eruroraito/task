@@ -11,7 +11,7 @@
 
 	<script type="text/javascript" src="../common/jquery-1.6.2.min.js"></script>
 	<script type="text/javascript" src="../common/jquery.form.js"></script>
-	
+	<link rel="shortcut icon" type="image/x-icon" href="../pics/favicon.ico" media="screen" />
 	<link type="text/css" rel="stylesheet" href="../common/style.css" />
 	<link type="text/css" rel="stylesheet" href="../css/common/header.css" />
 	<link type="text/css" rel="stylesheet" href="../css/login.css" />
@@ -34,7 +34,7 @@
 	  			</div>
 	  			<div class="password">
 	  				<label class="login" for="password">密码<span>*</span>:</label>
-	  				<input class="login" type="password" name="user_password" id="password" placeholder="请输入密码" />
+	  				<input class="login" type="password" name="user_password" id="password" placeholder="请输入密码" maxlength="11" />
 	  			</div>
 	  			<div id="captcha_div">
 	  				<label class="login" for="captcha" id="captcha_label">验证码<span>*</span>:</label>

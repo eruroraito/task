@@ -11,11 +11,12 @@
 
 	<script type="text/javascript" src="../common/jquery-1.6.2.min.js"></script>
 	<script type="text/javascript" src="../common/jquery.form.js"></script>
+	<link rel="shortcut icon" type="image/x-icon" href="../pics/favicon.ico" media="screen" />
 	<link type="text/css" rel="stylesheet" href="../common/style.css" />
 	<link type="text/css" rel="stylesheet" href="../css/common/header.css" />
 	<link type="text/css" rel="stylesheet" href="../css/statistics.css" />
 	<style type="text/css">
-		section.content{background-image:url(../pics/statics_bg.png);height:569px;}
+		section.content{background:#fff;padding-top:12px;border-radius: 5px; -moz-border-radius: 5px;  -webkit-border-radius: 5px;}
 		li.statistics{margin-top: 38px;}
 		span.left{height:746px;}
 		span.right{height:746px;}
@@ -28,7 +29,7 @@
 
 	<article id="body_container" >
 		<section class="middle">
-			<section class="content">
+			<section class="content" id="section_content">
 				<h3>按照题库类型</h3>
 				<ul>
 					<li class="statistics"><a href="statistics" >题库</a></li>
@@ -41,7 +42,7 @@
 					<li class="statistics_theme"><a href="statistics_theme">题目题材</a></li>
 					<li class="statistics_pics"><a href="statistics_pics">图片题目</a></li>
 				</ul>				
-				<table>
+				<table id="table_type">
 					<tr>
 						<th>题库</th>
 						<th>审核题库题目总数</th>
@@ -53,6 +54,7 @@
 					<?php 
 						$i=0;
 						foreach ($details_in_all_exams as $key => $value) {
+							if($value['name']=='not_active') continue;
 							$name='odd';
 							$i++;
 							if($i%2!=0) $name='even';
@@ -77,6 +79,12 @@
 	</article>
 
 <script type="text/javascript">
+	var section_content_height = ($('#table_type').height()+30)+'px';
+	$('#section_content').height(section_content_height);
+
+	var middle_height = ($('#section_content').height()+170)+'px';
+	$('span').height(middle_height);
+
 	$('#statistics').addClass('selected');
 </script>
 

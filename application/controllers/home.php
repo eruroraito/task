@@ -6,6 +6,9 @@ class Home extends PC_controller {
 
 	public function __construct(){
 		parent::__construct();
+		$this->load->model('Appmodel','m_app',true);
+		$this->load->model('Usermodel','m_user',true);
+		$this->load->model('Permissionmodel','m_permission',true);
 	}
 
 	public function index()

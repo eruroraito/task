@@ -11,7 +11,7 @@
 
 	<script type="text/javascript" src="../common/jquery-1.6.2.min.js"></script>
 	<script type="text/javascript" src="../common/jquery.form.js"></script>
-
+	<link rel="shortcut icon" type="image/x-icon" href="../pics/favicon.ico" media="screen" />
 	<link type="text/css" rel="stylesheet" href="../common/style.css" />
 	<link type="text/css" rel="stylesheet" href="../css/common/header.css" />
 	<link type="text/css" rel="stylesheet" href="../css/statistics.css" />
@@ -26,28 +26,7 @@
 			<section class="content" id="permission_content">
 				<?php 
 					if($permission['group_id']==1||$permission['group_id']==2){
-						echo '<h3>按照题库来分</h3>';
-						echo '<ul>';
-							echo '<li class="statistics"><a href="statistics" >题库</a></li>';
-							echo '<li class="statistics_date"><a href="statistics_date" >日期</a></li>';
-							echo '<li class="statistics_auditexam"><a href="statistics_auditexam" >审核题库</a></li>';
-							echo '<li class="statistics_origin"><a href="statistics_origin">出题人</a></li>';
-							echo '<li class="statistics_type"><a href="statistics_type">题库类型</a></li>';
-							echo '<li class="statistics_difficulty"><a href="statistics_difficulty">难度类型</a></li>';
-							echo '<li class="statistics_questiontype"><a href="statistics_questiontype" >题目类型</a></li>';
-							echo '<li class="statistics_theme"><a href="statistics_theme">题目题材</a></li>';
-							echo '<li class="statistics_pics"><a href="statistics_pics">图片题目</a></li>';
-						echo '</ul>';			
-						echo '<table>';
-							echo '<tr>';
-								echo '<th>审核题库中的题目总数</th>';
-								echo '<th>使用题库中的题目总数</th>';
-							echo '</tr>';
-							echo '<tr class="odd">';
-								echo '<td>'.$exam['audit'].'</td>';
-								echo '<td>'.$exam['use'].'</td>';
-							echo '</tr>';
-						echo '</table>';
+						require_once 'admin_statistics.php';
 					}else{
 						echo '您没有相关权限';
 					}

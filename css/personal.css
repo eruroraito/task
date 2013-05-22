@@ -1,4 +1,5 @@
-	section.main{width:946px;height:469px;margin:0 auto; background:#c0c0c0;padding-top: 156px;}
+	section.main{width:946px;height:609px;margin:0 auto; background:#c0c0c0;padding-top: 16px;}
+	section.bg{width:852px;height:469px;margin:0 auto;background: url(../pics/statics_bg.png) no-repeat;padding-top: 100px;}
 	section.password {margin:0 auto;width:272px;height:286px;background:url(../pics/pass_edit.png) no-repeat;}
 	form label.old,form label.new,form label.new_rept {width: 70px;height: 12px;line-height: 12px;display: block;margin:10px 0 5px 0;}
 	form label.old{padding: 40px 0 0 0;}
@@ -9,3 +10,4 @@
 	footer{width:948px;margin:10px auto -10px;text-align: center;}
 	span.left{float:left;width:160px;height:680px;background:url(../pics/home_side.jpg) no-repeat #093d86;}
 	span.right{float:right;width:160px;height:680px;background:url(../pics/home_side.jpg) no-repeat #093d86;}
+	strong{width:100%;text-align: center;color:#f00;display: block;font-size:16px;line-height: 20px;}

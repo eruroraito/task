@@ -31,7 +31,7 @@ class Login extends CI_Controller {
 				$this->response->setDetail($this->lang->line('error_captcha'));
 			}elseif(empty($user)){
 				$this->response->setSuccess(false);
-				$this->response->setDetail($this->lang->line('error_username'));
+				$this->response->setDetail($this->lang->line('error_status_username'));
 			}elseif($user['user_status'] != STATUS_ACTIVE){
 				$this->response->setSuccess(false);
 				$this->response->setDetail($this->lang->line('error_user_status'));
@@ -45,25 +45,8 @@ class Login extends CI_Controller {
 				$this->response->setSuccess(true);
 				$this->response->setDetail($this->lang->line('success_login'));
 			}
-			/*
-			if(!empty($user) && $user['user_status'] == STATUS_ACTIVE && ($user['user_password'] == md5($info['user_password'].SALT) ) &&($captcha==md5($info['captcha'].SALT)) ){
-				
-				unset($user['user_password']);
-				$this->session->set_userdata('user',$user);
-				$this->m_user->setThisLogin($user);
-				$this->response->setSuccess(true);
-				$this->response->setDetail($this->lang->line('success_login'));
-			}else{
-				$this->response->setSuccess(false);
-				$this->response->setDetail($this->lang->line('error_input'));
-			}*/
 		}
-		/*
-		if($this->response->isSuccess()){
-			redirect('home');
-		}else{
-			echo $this->response->generate_json_response();
-		}*/
+
 		echo $this->response->generate_json_response();
 	}
 

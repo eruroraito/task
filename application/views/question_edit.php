@@ -12,7 +12,7 @@
 	<script type="text/javascript" src="../common/jquery-1.6.2.min.js"></script>
 	<script type="text/javascript" src="../common/jquery.form.js"></script>
 	<script type="text/javascript" src="../common/jquery.lightbox-0.5.js"></script> 
-
+	<link rel="shortcut icon" type="image/x-icon" href="../pics/favicon.ico" media="screen" />
 	<link type="text/css" rel="stylesheet" href="../common/style.css" />
 	<link type="text/css" rel="stylesheet" href="../css/common/header.css" />
 	<link type="text/css" rel="stylesheet" href="../css/question_edit.css" />
@@ -22,9 +22,9 @@
 
 <article id="container">
 	<?php require_once 'common/header.php';?>
-	<span class="left"></span>
-	<span class="right"></span>
-	<section class="body">
+	<span class="left" id="left"></span>
+	<span class="right" id="right"></span>
+	<section class="body" id="body">
 		<form  action="question_edit/editQuestion" enctype="multipart/form-data" method="post" id="myForm" class="edit">
 			<h4>修改题目</h4>
 			<input type="hidden" name="question_type" value=<?php echo $edit['question_type'];?> />
@@ -79,22 +79,22 @@
 	  			<label class="fill_optin_1" for="fill_optin_1">选项1:</label>
 	  			<input value=<?php echo $edit['answer_1'];?> type="text" name="fill_option_one" id="fill_optin_1" placeholder="请输入" maxlength="1"/>
 	  			<label class="fill_optin_5" for="fill_optin_5">选项5:</label>
-	  			<input type="text" name="fill_option_five" id="fill_optin_5" placeholder="请输入" maxlength="1" value=<?php echo $edit['answer_5'];?> >
+	  			<input type="text" name="fill_option_five" id="fill_optin_5" placeholder="请输入" maxlength="1" value=<?php echo $edit['answer_5'];?> />
 	 			<br />
 	 			<label class="fill_optin_2" for="fill_optin_2">选项2:</label>
 	  			<input value=<?php echo $edit['answer_2'];?> type="text" name="fill_option_two" id="fill_optin_2" placeholder="请输入" maxlength="1"/>
 	 			<label class="fill_optin_6" for="fill_optin_6">选项6:</label>
-	  			<input  type="text" name="fill_option_six" id="fill_optin_6" placeholder="请输入" maxlength="1" value=<?php echo $edit['answer_6'];?>/>
+	  			<input  type="text" name="fill_option_six" id="fill_optin_6" placeholder="请输入" maxlength="1" value=<?php echo $edit['answer_6'];?> />
 	 			<br />
 	 			<label class="fill_optin_3" for="fill_optin_3">选项3:</label>
 	  			<input value=<?php echo $edit['answer_3'];?> type="text" name="fill_option_three" id="fill_optin_3" placeholder="请输入" maxlength="1"/>
 	  			<label class="fill_optin_7" for="fill_optin_7">选项7:</label>
-	  			<input  type="text" name="fill_option_seven" id="fill_optin_7" placeholder="请输入" maxlength="1" value=<?php echo $edit['answer_7'];?> >
+	  			<input  type="text" name="fill_option_seven" id="fill_optin_7" placeholder="请输入" maxlength="1" value=<?php echo $edit['answer_7'];?> />
 	 			<br />
 	 			<label class="fill_optin_4" for="fill_optin_4">选项4:</label>
 	  			<input value=<?php echo $edit['answer_4'];?> type="text" name="fill_option_four" id="fill_optin_4" placeholder="请输入" maxlength="1"/>
 	 			<label class="fill_optin_8" for="fill_optin_8">选项8:</label>
-	  			<input  type="text" name="fill_option_eight" id="fill_optin_8" placeholder="请输入" maxlength="1" value=<?php echo $edit['answer_8'];?> >
+	  			<input  type="text" name="fill_option_eight" id="fill_optin_8" placeholder="请输入" maxlength="1" value=<?php echo $edit['answer_8'];?> />
 	 			<br />
 		 		<label for="true_num" class="true_num">正确答案字数</label>
 	  			<select id="true_num" name="true_num">
@@ -133,11 +133,6 @@
 				?>					
 			</select>
 			<br />
-			<label for="exam_use" class="exam_use">题库用途:</label>
-			<select disabled="disabled" id="exam_use">
-				<option value ="0">关卡</option>
-			</select>
-			<br />
 			<input class="submit" type="submit" value="修改" />
 	    </form>
 	    <section class="new_preview" id="new_preview">
@@ -170,17 +165,17 @@
 	    	<input type="hidden" name="type" value=<?php echo $edit['type'];?> />
 	    	<input type="submit" value="删除" class="deleteSubmit" />
 	    </form>
-	    <section class="suggestion">
+	    <section class="suggestion" id="sec_suggestion">
 	    	<form action="question_scan/doAudit" method="post" id="suggestion_form">
 		    	<h3>审核不通过(意见)</h3>
 		    	<input type="hidden" name="audit" value="1" />
 		    	<input type="hidden" name="id" value=<?php echo $edit['id'];?> />
 		    	<input type="hidden" name="type" value=<?php echo $edit['type'];?> />
-		    	<textarea class="suggestion" maxlength="200" name="suggestion"></textarea>
+		    	<textarea id="textarea_suggestion" class="suggestion" maxlength="200" name="suggestion"><?php echo $edit['suggestion'];?></textarea>
 		    	<br />
-		    	<input type="submit" value="确定审核" class="suggestion" />
+		    	<input type="submit" value="确定审核" class="suggestion" id="suggestion_submit"/>
 	   		</form>
-	    </section>
+    	</section>
 	</section>
 	
 
@@ -191,13 +186,19 @@
 </article>
 <script type="text/javascript" src="../js/question_edit.js"></script>
 <script type="text/javascript">
-	$('#button_preview').click(function(){
+	$(function(){
+		$('#one').css('top','375px');
+		$('#two').css('top','375px');
+		$('#three').css('top','435px');
+		$('#four').css('top','435px');
 		var type = $("#question_type").val();
 		var icon = <?php echo $edit['icon'];?>;
+		var pic_size = <?php echo $edit['pic_size'];?>;
 		var question = "<?php echo $edit['question'];?>";
 		if(icon!=0){
 			var imagepath = '../uploads/'+icon+'.jpg';
-			$('#img_a').attr('title',question);
+			var a_title = question+'(图片:'+pic_size+'K)';
+			$('#img_a').attr('title',a_title);
 			$('#img_a').attr('href',imagepath);
 			$('#img_img').attr('src',imagepath);
 			$('#img_a').show();
@@ -221,10 +222,186 @@
 		}else{
 			$('#new_eight').hide();
 			$('#new_four').show();
-			$('#one').text($('#optin_1').val());
-			$('#two').text($('#optin_2').val());
-			$('#three').text($('#optin_3').val());
-			$('#four').text($('#optin_4').val());
+			if($('#optin_1').val().length>6){
+				var str1 = new Array();
+				str1 = $('#optin_1').val().split("");
+				var data1 = "";
+				for(var i=0;i<=5;i++){
+					data1 = data1 + str1[i];
+				}
+				data1 = data1 +'<br />';
+				for(var k=6;k<$('#optin_1').val().length;k++){
+					data1 = data1 + str1[k];
+				}
+				$('#one').html(data1);
+				$('#one').css('top','367px');
+			}else{
+				$('#one').html($('#optin_1').val());
+			}
+			if($('#optin_2').val().length>6){
+				var str1 = new Array();
+				str1 = $('#optin_2').val().split("");
+				var data1 = "";
+				for(var i=0;i<=5;i++){
+					data1 = data1 + str1[i];
+				}
+				data1 = data1 +'<br />';
+				for(var k=6;k<$('#optin_2').val().length;k++){
+					data1 = data1 + str1[k];
+				}
+				$('#two').html(data1);
+				$('#two').css('top','367px');
+			}else{
+				$('#two').html($('#optin_2').val());
+			}
+			if($('#optin_3').val().length>6){
+				var str1 = new Array();
+				str1 = $('#optin_3').val().split("");
+				var data1 = "";
+				for(var i=0;i<=5;i++){
+					data1 = data1 + str1[i];
+				}
+				data1 = data1 +'<br />';
+				for(var k=6;k<$('#optin_3').val().length;k++){
+					data1 = data1 + str1[k];
+				}
+				$('#three').html(data1);
+				$('#three').css('top','428px');
+			}else{
+				$('#three').html($('#optin_3').val());
+			}
+			if($('#optin_4').val().length>6){
+				var str1 = new Array();
+				str1 = $('#optin_4').val().split("");
+				var data1 = "";
+				for(var i=0;i<=5;i++){
+					data1 = data1 + str1[i];
+				}
+				data1 = data1 +'<br />';
+				for(var k=6;k<$('#optin_4').val().length;k++){
+					data1 = data1 + str1[k];
+				}
+				$('#four').html(data1);
+				$('#four').css('top','428px');
+			}else{
+				$('#four').html($('#optin_4').val());
+			}
+		}
+		$('#new_question').text($('#question_name').val());
+	});
+
+	var status = <?php echo $edit['status'];?>;
+	var permission  = <?php echo $permission;?>;
+	if(permission==3){
+		if(status==1){
+			$('#suggestion_submit').attr('disabled','disabled').hide();
+			$('#textarea_suggestion').attr('disabled','disabled');	
+		}else if(status==0){
+			$('#suggestion_submit').attr('disabled','disabled').hide();
+			$('#textarea_suggestion').attr('disabled','disabled');
+			$('#sec_suggestion').hide();
+			$('#left').addClass('edit');
+			$('#right').addClass('edit');
+			$('#body').addClass('edit');
+		}
+	}
+
+	$('#button_preview').click(function(){
+		var type = $("#question_type").val();
+		var icon = <?php echo $edit['icon'];?>;
+		var pic_size = <?php echo $edit['pic_size'];?>;
+		var question = "<?php echo $edit['question'];?>";
+		if(icon!=0){
+			var imagepath = '../uploads/'+icon+'.jpg';
+			var a_title = question+'(图片:'+pic_size+'K)';
+			$('#img_a').attr('title',a_title);
+			$('#img_a').attr('href',imagepath);
+			$('#img_img').attr('src',imagepath);
+			$('#img_a').show();
+		}else{
+			$('#img_a').removeAttr('title');
+			$('#img_a').removeAttr('href');
+			$('#img_img').removeAttr('src');
+			$('#img_a').hide();
+		}
+		if(type==2){
+			$('#new_four').hide();
+			$('#new_eight').show();
+			$('#answer1').text($('#fill_optin_1').val());
+			$('#answer2').text($('#fill_optin_2').val());
+			$('#answer3').text($('#fill_optin_3').val());
+			$('#answer4').text($('#fill_optin_4').val());
+			$('#answer5').text($('#fill_optin_5').val());
+			$('#answer6').text($('#fill_optin_6').val());
+			$('#answer7').text($('#fill_optin_7').val());
+			$('#answer8').text($('#fill_optin_8').val());
+		}else{
+			$('#new_eight').hide();
+			$('#new_four').show();
+			if($('#optin_1').val().length>6){
+				var str1 = new Array();
+				str1 = $('#optin_1').val().split("");
+				var data1 = "";
+				for(var i=0;i<=5;i++){
+					data1 = data1 + str1[i];
+				}
+				data1 = data1 +'<br />';
+				for(var k=6;k<$('#optin_1').val().length;k++){
+					data1 = data1 + str1[k];
+				}
+				$('#one').html(data1);
+				$('#one').css('top','367px');
+			}else{
+				$('#one').html($('#optin_1').val());
+			}
+			if($('#optin_2').val().length>6){
+				var str1 = new Array();
+				str1 = $('#optin_2').val().split("");
+				var data1 = "";
+				for(var i=0;i<=5;i++){
+					data1 = data1 + str1[i];
+				}
+				data1 = data1 +'<br />';
+				for(var k=6;k<$('#optin_2').val().length;k++){
+					data1 = data1 + str1[k];
+				}
+				$('#two').html(data1);
+				$('#two').css('top','367px');
+			}else{
+				$('#two').html($('#optin_2').val());
+			}
+			if($('#optin_3').val().length>6){
+				var str1 = new Array();
+				str1 = $('#optin_3').val().split("");
+				var data1 = "";
+				for(var i=0;i<=5;i++){
+					data1 = data1 + str1[i];
+				}
+				data1 = data1 +'<br />';
+				for(var k=6;k<$('#optin_3').val().length;k++){
+					data1 = data1 + str1[k];
+				}
+				$('#three').html(data1);
+				$('#three').css('top','423px');
+			}else{
+				$('#three').html($('#optin_3').val());
+			}
+			if($('#optin_4').val().length>6){
+				var str1 = new Array();
+				str1 = $('#optin_4').val().split("");
+				var data1 = "";
+				for(var i=0;i<=5;i++){
+					data1 = data1 + str1[i];
+				}
+				data1 = data1 +'<br />';
+				for(var k=6;k<$('#optin_4').val().length;k++){
+					data1 = data1 + str1[k];
+				}
+				$('#four').html(data1);
+				$('#four').css('top','423px');
+			}else{
+				$('#four').html($('#optin_4').val());
+			}
 		}
 		$('#new_question').text($('#question_name').val());
 	});

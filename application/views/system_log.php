@@ -11,6 +11,7 @@
 
 	<script type="text/javascript" src="../common/jquery-1.6.2.min.js"></script>
 	<script type="text/javascript" src="../common/jquery.form.js"></script>
+	<link rel="shortcut icon" type="image/x-icon" href="../pics/favicon.ico" media="screen" />
 	<link type="text/css" rel="stylesheet" href="../common/style.css" />
 	<link type="text/css" rel="stylesheet" href="../css/common/header.css" />
 	<link type="text/css" rel="stylesheet" href="../css/system_log.css" />
@@ -29,6 +30,7 @@
 					echo '<li id="submit" class="submit"><a href="system_sub">上架</a></li>';
 					echo '<li id="off" class="off"><a href="system_off">下架</a></li>';
 					echo '<li id="setting" class="setting"><a href="system_user">账户设置</a></li>';	
+					echo '<li id="add" class="add"><a href="system_add">添加类型</a></li>';
 				}else if($permission['group_id'] ==2){
 					echo '<li id="setting" class="setting"><a href="system_user">账户设置</a></li>';	
 				}else{
@@ -70,7 +72,6 @@
 </article>
 
 <script type="text/javascript">
-	$('#system').addClass('selected');
 </script>
 </body>
 </html>

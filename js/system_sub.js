@@ -77,7 +77,7 @@
 		var options = { success: function(responseText) { 
 			var response = eval('(' + responseText + ')'); 
 			if(response.success) {
-				alert("提交到使用题库");
+				alert("提交到准备使用题库");
 				window.location.reload();
 			}
 		} }; 

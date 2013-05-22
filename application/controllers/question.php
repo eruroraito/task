@@ -14,11 +14,9 @@ class Question extends PC_controller {
 	public function index()
 	{
 		$data['type'] = $this->m_question->getQuestionType();
-		//print_r($data);die();
+		//print_r(strlen('测试'));die();
 		$this->load->view('question',$data);
 	}
-
-
 /*
 | -------------------------------------------------------------------
 |  Question Basic Functions

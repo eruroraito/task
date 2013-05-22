@@ -28,7 +28,7 @@ class Download extends PC_controller {
 	{
 		$filename = $this->input->post();
 		$config['upload_path'] = './uploads/help/';
-		$config['allowed_types'] = 'xls';
+		$config['allowed_types'] = 'xlsx';
 		$config['file_name'] = iconv("UTF-8","gb2312",$filename['filename']);
 
 		$this->load->library('upload', $config);
@@ -36,6 +36,7 @@ class Download extends PC_controller {
 		if ( ! $this->upload->do_upload('upload'))
 		{
 			$error = array('error' => $this->upload->display_errors());
+			print_r($error);
 
 			if($error!=''){
 				

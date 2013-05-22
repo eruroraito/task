@@ -15,6 +15,91 @@ class Systemmodel extends CI_Model {
 |  System Basic Functions
 | -------------------------------------------------------------------
 */
+	public function deleteType($info){
+		$user_id = $this->m_app->getCurrentUserId();
+		$this->db->select('user_password');
+		$this->db->where('user_id',$user_id);
+		$this->db->from('user');
+		$query = $this->db->get();
+		$user_password = $query->row_array();
+		if(md5($info['user_password'].SALT)==$user_password['user_password']){
+			$this->db->set('visible',0);
+			$this->db->where('type_id',$info['type_id']);
+			$this->db->update('type_config');
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	public function changeStatus($info){
+		if($info['status']==1){
+			$this->db->set('status',0);
+		}else{
+			$this->db->set('status',1);
+		}		
+		$this->db->set('update_time',NOW);
+		$this->db->where('type_id',$info['type_id']);
+		$this->db->update('type_config');
+	}
+
+	public function getTypeStatus(){
+		$res =  array();
+		$this->db->select('type_id');
+		$this->db->from('type_config');
+		$query = $this->db->get();
+		$type_ids = $query->result_array();
+
+		foreach ($type_ids as $key => $value) {
+			$this->db->select('id');
+			$this->db->where('type',$value['type_id']);
+			$data = array(0,1,2,3);
+			$this->db->where_in('status',$data);
+			$this->db->from('question');
+			$res[$value['type_id']] = $this->db->count_all_results();
+		}
+		//print_r($res);die();
+		return $res;
+	}
+
+	public function editType($info){
+		if($info['type_id']==0){
+			$this->db->set('type_name',$info['type_name']);
+			$this->db->set('section',$info['section']);
+			$this->db->insert('type_config');
+			$this->db->select_max('type_config_id');
+			$this->db->from('type_config');
+			$query = $this->db->get();
+			$num = $query->row_array();
+			$this->db->set('type_id',$num['type_config_id']-2);
+			$this->db->set('update_time',NOW);
+			$this->db->where('type_config_id',$num['type_config_id']);
+			$this->db->update('type_config');
+		}else{
+			$this->db->set('type_name',$info['type_name']);
+			$this->db->set('section',$info['section']);
+			$this->db->set('update_time',NOW);
+			$this->db->where('type_id',$info['type_id']);
+			$this->db->update('type_config');
+		}
+	}
+
+	public function getTypeConfig(){
+		$res= array();
+		$this->db->from('type_config');
+		$query = $this->db->get();
+		$res = $query->result_array();
+		return $res;
+	}
+
+	public function offSearchInfo($info){
+		$this->db->set('keyword',$info);
+		$this->db->set('offindex',1);
+		$user_name = $this->m_app->getCurrentUserName();
+		$this->db->where('user_name',$user_name);
+		$this->db->update('system');
+	}
+
 	public function getPicIndex(){
 		$res= array();
 		$this->db->select('global_pic_index');
@@ -39,6 +124,10 @@ class Systemmodel extends CI_Model {
 		$query = $this->db->get();
 		$res = $query->result_array();
 		//print_r($res);die();
+		foreach ($res as $key => $value) {
+			$res[$key]['name_submit'] = $this->m_user->getUserRealNameByUserName($value['name_submit']);
+		}
+		
 		return $res;
 	}
 
@@ -62,7 +151,7 @@ class Systemmodel extends CI_Model {
 		$detail = '';
 
 		$this->db->where_in('id',$info['question']);
-		$this->db->set('status',3);
+		$this->db->set('status',QUESTION_PREPARE_USE);
 		$this->db->update('question');
 		$num = count($info['question']);
 		$detail_value = '';
@@ -79,31 +168,42 @@ class Systemmodel extends CI_Model {
 		$log_info['time_submit'] = NOW;
 		$log_info['question_detail'] = $detail;
 		$this->db->insert('log',$log_info);
+
+		$this->db->select('global_version');
+		$this->db->where('global_id',1);
+		$this->db->from('global');
+		$query = $this->db->get();
+		$global_version = $query->row_array();
+		$global_version_index = $global_version['global_version']+1;
+		$this->db->set('global_version',$global_version_index);
+		$this->db->update('global');
 	}
 
 	public function offQuestion($info){
 
 		$this->db->where_in('id',$info['question']);
-		$this->db->set('status',0);
+		$this->db->set('status',QUESTION_NOT_USE);
 		$this->db->update('question');
 		
 	}
 
 	//审核题库和使用题库中的题目数量
 	public function getQuestionNumInExam(){
-		
+		$type_ids = $this->m_type->getActiveTypeIds();
 		$res['audit'] = 0;
 		$res['use'] = 0;
 		$data =array(0,1,2);
 	
 		$this->db->select('id');
 		$this->db->where_in('status',$data);
+		$this->db->where_in('type',$type_ids);
 		$this->db->from('question');
 		$num = $this->db->count_all_results();
 		$res['audit'] = $res['audit']+$num;
 		
 		$this->db->select('id');
 		$this->db->where('status',3);
+		$this->db->where_in('type',$type_ids);
 		$this->db->from('question');
 		$num = $this->db->count_all_results();
 		$res['use'] = $res['use']+$num;
@@ -114,7 +214,7 @@ class Systemmodel extends CI_Model {
 	public function getQuestionNumInExamByDate(){
 		$now = time(); 
 		$res =  array();
-
+		$type_ids = $this->m_type->getActiveTypeIds();
 		//今天
 		$today_audit_num = 0;
 		$today_use_num = 0;
@@ -123,6 +223,7 @@ class Systemmodel extends CI_Model {
 
     	$this->db->select('id');
     	$this->db->where_in('status',array(0,1,2));
+    	$this->db->where_in('type',$type_ids);
     	$this->db->where('time_update >',$beginTime);
     	$this->db->where('time_update <',$endTime);
     	$this->db->from('question');
@@ -148,6 +249,7 @@ class Systemmodel extends CI_Model {
 
     	$this->db->select('id');
     	$this->db->where_in('status',array(0,1,2));
+    	$this->db->where_in('type',$type_ids);
     	$this->db->where('time_update >',$beginTime);
     	$this->db->where('time_update <',$endTime);
     	$this->db->from('question');
@@ -172,6 +274,7 @@ class Systemmodel extends CI_Model {
 
     	$this->db->select('id');
     	$this->db->where_in('status',array(0,1,2));
+    	$this->db->where_in('type',$type_ids);
     	$this->db->where('time_update >',$beginTime);
     	$this->db->where('time_update <',$endTime);
     	$this->db->from('question');
@@ -197,6 +300,7 @@ class Systemmodel extends CI_Model {
 
     	$this->db->select('id');
     	$this->db->where_in('status',array(0,1,2));
+    	$this->db->where_in('type',$type_ids);
     	$this->db->where('time_update >',$beginTime);
     	$this->db->where('time_update <',$endTime);
     	$this->db->from('question');
@@ -222,6 +326,7 @@ class Systemmodel extends CI_Model {
 
     	$this->db->select('id');
     	$this->db->where_in('status',array(0,1,2));
+    	$this->db->where_in('type',$type_ids);
     	$this->db->where('time_update >',$beginTime);
     	$this->db->where('time_update <',$endTime);
     	$this->db->from('question');
@@ -246,6 +351,7 @@ class Systemmodel extends CI_Model {
 
     	$this->db->select('id');
     	$this->db->where_in('status',array(0,1,2));
+    	$this->db->where_in('type',$type_ids);
     	$this->db->where('time_update >',$beginTime);
     	$this->db->where('time_update <',$endTime);
     	$this->db->from('question');
@@ -268,19 +374,22 @@ class Systemmodel extends CI_Model {
 
 	//审核题库详情
 	public function getQuestionDetailsInAuditExam(){
-		
+		$type_ids = $this->m_type->getActiveTypeIds();
 		$this->db->select('id');
 		$this->db->where('status',0);
+		$this->db->where_in('type',$type_ids);
 		$this->db->from('question');
 		$res['need'] = $this->db->count_all_results();
 
 		$this->db->select('id');
 		$this->db->where('status',2);
+		$this->db->where_in('type',$type_ids);
 		$this->db->from('question');
 		$res['pass']= $this->db->count_all_results();
 
 		$this->db->select('id');
 		$this->db->where('status',1);
+		$this->db->where_in('type',$type_ids);
 		$this->db->from('question');
 		$res['not_pass'] = $this->db->count_all_results();
 
@@ -290,7 +399,7 @@ class Systemmodel extends CI_Model {
 
 	//出题人详情
 	public function getUserDetailsInExam($user){
-		
+		$type_ids = $this->m_type->getActiveTypeIds();
 		$res = array();
 
 		foreach ($user['users'] as $key => $value) {
@@ -299,18 +408,21 @@ class Systemmodel extends CI_Model {
 
 			$this->db->select('id');
 			$this->db->where('status',0);
+			$this->db->where_in('type',$type_ids);
 			$this->db->where('name_origin',$value['user_name']);
 			$this->db->from('question');
 			$res[$origin_name]['need'] = $this->db->count_all_results();
 		
 			$this->db->select('id');
 			$this->db->where('status',2);
+			$this->db->where_in('type',$type_ids);
 			$this->db->where('name_origin',$value['user_name']);
 			$this->db->from('question');
 			$res[$origin_name]['pass'] = $this->db->count_all_results();
 
 			$this->db->select('id');
 			$this->db->where('status',1);
+			$this->db->where_in('type',$type_ids);
 			$this->db->where('name_origin',$value['user_name']);
 			$this->db->from('question');
 			$res[$origin_name]['not_pass'] = $this->db->count_all_results();
@@ -320,15 +432,16 @@ class Systemmodel extends CI_Model {
 
 	//题库详情
 	public function getQuestionDetailsAllExams(){
+		$total_type =  $this->getTypeTotalNum();
 
-		for($i=1;$i<=TYPE_TOTAL;$i++){
+		for($i=1;$i<=$total_type;$i++){
 			$res[$i]['need'] = 0;
 			$res[$i]['pass'] = 0;
 			$res[$i]['not_pass'] = 0;
 			$res[$i]['use'] = 0;
 
 			$res[$i]['name'] = $this->m_type->getTypeNameByTypeId($i);
-			
+
 			$this->db->select('id');
 			$this->db->where('status',0);
 			$this->db->where('type',$i);
@@ -441,10 +554,10 @@ class Systemmodel extends CI_Model {
 
 	//题目题材详情
 	public function getQuestionDetailsByQuestionTypeAndType(){
-
+		$total_type =  $this->getTypeTotalNum();
 		for($j=0;$j<=3;$j++){//题目类型
 			for($k=1;$k<=3;$k++){//题目难度
-				for($i=1;$i<=TYPE_TOTAL;$i++){//题库类型
+				for($i=1;$i<=$total_type;$i++){//题库类型
 
 					$this->db->select('id');
 					$data = array(0,1,2);
@@ -453,8 +566,7 @@ class Systemmodel extends CI_Model {
 					$this->db->where('type',$i);
 					$this->db->from('question');
 					$num = $this->db->count_all_results();
-					$type_name_info = $this->m_question->getTypeNameByTypeId($i);
-					$type_name = $type_name_info['type_name'];
+					$type_name = $this->m_type->getTypeNameByTypeId($i);
 					$res[$type_name][$j][$k]['audit'] = $num;
 
 					$this->db->select('id');
@@ -463,23 +575,20 @@ class Systemmodel extends CI_Model {
 					$this->db->where('type',$i);
 					$this->db->from('question');
 					$num = $this->db->count_all_results();
-					$type_name_info = $this->m_question->getTypeNameByTypeId($i);
-					$type_name = $type_name_info['type_name'];
+					$type_name = $this->m_type->getTypeNameByTypeId($i);
 					$res[$type_name][$j][$k]['use'] = $num;
-
 				}
 			}
 		}
-		//print_r($res);die();
 		return $res;
 	}
 
 	//图片题目详情	
 	public function getPicQuestionDetails(){
-
+		$total_type =  $this->getTypeTotalNum();
 		for($j=1;$j<=3;$j++){//题目类型
 			for($k=1;$k<=3;$k++){//题目难度
-				for($i=1;$i<=TYPE_TOTAL;$i++){//题库类型
+				for($i=1;$i<=$total_type;$i++){//题库类型
 
 					$this->db->select('id');
 					$data = array(0,1,2);
@@ -490,8 +599,7 @@ class Systemmodel extends CI_Model {
 					$this->db->where('difficulty',$k);
 					$this->db->from('question');
 					$num = $this->db->count_all_results();
-					$type_name_info = $this->m_question->getTypeNameByTypeId($i);
-					$type_name = $type_name_info['type_name'];
+					$type_name = $this->m_type->getTypeNameByTypeId($i);
 					$res[$type_name][$j][$k]['audit'] = $num;
 
 					$this->db->select('id');
@@ -502,92 +610,25 @@ class Systemmodel extends CI_Model {
 					$this->db->where('difficulty',$k);
 					$this->db->from('question');
 					$num = $this->db->count_all_results();
-					$type_name_info = $this->m_question->getTypeNameByTypeId($i);
-					$type_name = $type_name_info['type_name'];
+					$type_name =$this->m_type->getTypeNameByTypeId($i);
 					$res[$type_name][$j][$k]['use'] = $num;
 
 				}
 			}
 		}
-		//print_r($res);die();
 		return $res;
 	}
-	//图片题目详情
-	/*
-	public function getPicQuestionDetails(){
-		$res = array();
-		$res['audit'] = array();
-		$res['use'] = array();
-			for($i=1;$i<=TYPE_TOTAL;$i++){
-				$result['audit'][$i] = array();
-				$db_name = 'question_'.$i;
-				$this->db->select('id,type,difficulty,purpose,question,icon,name_origin,name_update,time_update');
-				$data = array(0,1,2);
-				$this->db->where_in('status',$data);
-				$this->db->where('icon !=',0);
-				$this->db->from($db_name);
-				$query = $this->db->get();
-
-				$result['audit'][$i] = $query->result_array();
-				$res['audit'] = array_merge($res['audit'],$result['audit'][$i]);
-
-				$this->db->select('id,type,difficulty,purpose,question,icon,name_origin,name_update,time_update');
-				$this->db->where('status',3);
-				$this->db->where('icon !=',0);
-				$this->db->from($db_name);
-				$query = $this->db->get();
-				$result['use'][$i] = $query->result_array();
-				$res['use'] = array_merge($res['use'],$result['use'][$i]);
-			}
-
-		foreach ($res['audit'] as $key => $value) {
-			$type_name_info = $this->m_question->getTypeNameByTypeId($value['type']);
-			$type_name = $type_name_info['type_name'];
-			$res['audit'][$key]['type'] = $type_name;
-			switch ($res['audit'][$key]['difficulty']) {
-				case 1:
-					$res['audit'][$key]['difficulty'] ='新手';
-					break;
-				case 2:
-					$res['audit'][$key]['difficulty'] ='熟练';
-					break;
-				case 3:
-					$res['audit'][$key]['difficulty'] ='高手';
-					break;				
-				default:
-					$res['audit'][$key]['difficulty'] ='新手';
-					break;
-			}
-		}
-		foreach ($res['use'] as $key => $value) {
-			$type_name_info = $this->m_question->getTypeNameByTypeId($value['type']);
-			$type_name = $type_name_info['type_name'];
-			$res['use'][$key]['type'] = $type_name;
-			switch ($res['use'][$key]['difficulty']) {
-				case 1:
-					$res['use'][$key]['difficulty'] ='新手';
-					break;
-				case 2:
-					$res['use'][$key]['difficulty'] ='熟练';
-					break;
-				case 3:
-					$res['use'][$key]['difficulty'] ='高手';
-					break;				
-				default:
-					$res['use'][$key]['difficulty'] ='新手';
-					break;
-			}
-		}
-		//print_r($res);die();
-		return $res;
-	}
-	*/
-
 /*
 | -------------------------------------------------------------------
 |  System Validate Functions
 | -------------------------------------------------------------------
 */
+	public function validateOffSearchInfo($input){
+		$result = array();
+		$result['keyword'] = strval($input['keyword']);
+		return $result['keyword'];
+	}
+
 	public function validateSubmitToUseExamInfo($input){
 		$result = array();
 		if(!validate($input)){
@@ -636,5 +677,52 @@ class Systemmodel extends CI_Model {
 		return $result;
 	}
 
+	public function validateEditTypeInfo($input){
+		$result = array();
+		
+		if(!isset($input['type_id']) || !validate($input['type_id'])){
+			$this->_CI->response->setSuccess(false);
+			$this->_CI->response->setDetail($this->lang->line('error_type_id'));
+		}elseif(!isset($input['type_name']) || !validate($input['type_name'])){
+			$this->_CI->response->setSuccess(false);
+			$this->_CI->response->setDetail($this->lang->line('error_type_name'));
+		}elseif(!isset($input['section']) || !validate($input['section'])){
+			$this->_CI->response->setSuccess(false);
+			$this->_CI->response->setDetail($this->lang->line('error_section'));
+		}else{
+			$result['type_id'] = intval($input['type_id']);		
+			$result['type_name'] = strval($input['type_name']);	
+			$result['section'] = strval($input['section']);		
+		}
+		return $result;
+	}
 
+	public function validateDeleteTypeInfo($input){
+		$result = array();
+		
+		if(!isset($input['type_id']) || !validate($input['type_id'])){
+			$this->_CI->response->setSuccess(false);
+			$this->_CI->response->setDetail($this->lang->line('error_type_id'));
+		}elseif(!isset($input['user_password']) || !validate($input['user_password'])){
+			$this->_CI->response->setSuccess(false);
+			$this->_CI->response->setDetail($this->lang->line('error_user_password'));
+		}else{
+			$result['type_id'] = intval($input['type_id']);		
+			$result['user_password'] = strval($input['user_password']);		
+		}
+		return $result;
+	}
+/*
+| -------------------------------------------------------------------
+|  System Extra Functions
+| -------------------------------------------------------------------
+*/
+	public function getTypeTotalNum(){
+		$this->db->select_max('type_config_id');
+		$this->db->from('type_config');
+		$query = $this->db->get();
+		$num = $query->row_array();
+
+		return $num['type_config_id'];
+	}
 }

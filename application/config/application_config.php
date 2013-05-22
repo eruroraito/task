@@ -12,7 +12,6 @@ define('PICTURE', 1);
 define('FILL', 2);
 define('TOUCH', 3);
 
-
 define('TYPE_TOTAL', 20);
 
 //search
@@ -29,6 +28,7 @@ define('DEFAULT_PASSWORD', '888888');
 date_default_timezone_set('PRC');
 define('NOW',date('Y-m-d H:i:s'));
 define('TODAY', date('Y-m-d'));
+define('TODAY_NOW', date('Y-m-d-H-i-s'));
 
 //URL
 define('SITE_BASE_URL', config_item('base_url').'/');
@@ -43,6 +43,15 @@ define('STATUS_DISABLE', 0);
 define('STATUS_PENDING', -1);
 define('STATUS_DELETE', -2);
 
+//question status
+define('QUESTION_DELETE', -1);
+define('QUESTION_NEED_CHECK', 0);
+define('QUESTION_NOT_PASS_CHECK', 1);
+define('QUESTION_PASS_CHECK', 2);
+define('QUESTION_ADDED', 3);
+define('QUESTION_PREPARE_USE', 4);
+define('QUESTION_USE', 5);
+define('QUESTION_NOT_USE', 6);
 //response code
 define('RESPONSE_CODE_UNAUTHORIZED', 401);
 

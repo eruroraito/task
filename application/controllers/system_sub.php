@@ -8,6 +8,8 @@ class System_sub extends PC_controller {
 		parent::__construct();
 		$this->load->model('Questionmodel','m_question',true);
 		$this->load->model('Systemmodel','m_system',true);
+		$this->load->model('Typemodel','m_type',true);
+		$this->load->model('Excelmodel','m_excel',true);
 	}
 
 	public function index()
@@ -16,6 +18,7 @@ class System_sub extends PC_controller {
 		$data['submit'] = $this->m_question->getSubmitQuestionList($data['subindex']);
 		$user_id = $this->m_app->getCurrentUserId();
 		$data['permission'] = $this->m_permission->getUserPermission($user_id);
+		//$this->m_excel->exportQuestionReport();
 		if($data['permission']['group_id']==1||$data['permission']['group_id']==2) $this->load->view('system_sub',$data);
 	}
 
@@ -24,6 +27,10 @@ class System_sub extends PC_controller {
 |  System_sub Basic Functions
 | -------------------------------------------------------------------
 */
+	public function export(){
+		$this->m_excel->exportQuestionReport();
+	}
+
 	public function submitToUseExam(){
 		$info = $this->m_system->validateSubmitToUseExamInfo($this->input->post());
 		if($this->response->isSuccess()){

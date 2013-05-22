@@ -48,13 +48,13 @@ class Usermodel extends CI_Model {
 
 	public function getSystemOffHistory(){
 		$user_name = $this->m_app->getCurrentUserName();
-		$this->db->select('offindex');
+		$this->db->select('offindex,keyword');
 		$this->db->where('user_name',$user_name);
 		$this->db->from('system');
 		$query = $this->db->get();
 		$res = $query->row_array();
 
-		return $res['offindex'];
+		return $res;
 	}
 
 	public function editHistory($info){
@@ -227,6 +227,7 @@ class Usermodel extends CI_Model {
 	public function getUserByName($user_name){
 		$this->db->from('user');
 		$this->db->where('user_name',$user_name);
+		$this->db->where('user_status',STATUS_ACTIVE);
 		$this->db->limit(1);
 		$query = $this->db->get();
 		$res = $query->row_array();
@@ -244,18 +245,32 @@ class Usermodel extends CI_Model {
 		return $res;
 	}
 
-
 	public function addUser($info){
 		$this->db->insert('user',$info);
 
+		//搜索历史
 		$data['user_name'] = $info['user_name'];
 		$this->db->insert('history',$data);
-		return true;
+		//出题详情
+		$this->db->insert('user_details',$data);
+		//上架浏览历史
+		$this->db->insert('system',$data);
 	}
 
 	public function editUser($info){
+		$this->db->select('user_password');
 		$this->db->where('user_id',$info['user_id']);
-		$this->db->update('user',$info['info']);
+		$this->db->from('user');
+		$query = $this->db->get();
+		$former_user_password = $query->row_array();
+		if($former_user_password['user_password']==$info['former_user_password']){
+			$this->db->where('user_id',$info['user_id']);
+			$this->db->set('user_password',$info['user_password']);
+			$this->db->update('user');
+			return true;
+		}else{
+			return false;
+		}	
 	}
 
 	public function getUserStatus(){
@@ -370,6 +385,17 @@ class Usermodel extends CI_Model {
 		return $result;
 	}
 
+	public function getUserHistory(){
+		$res = array();
+		$user_name = $this->m_app->getCurrentUserName();
+		$this->db->where('user_name',$user_name);
+		$this->db->from('history');
+		$query = $this->db->get();
+		$res = $query->row_array();	
+		
+		return $res;
+	}
+
 /*
 | -------------------------------------------------------------------
 |  User Validate Functions
@@ -455,16 +481,20 @@ class Usermodel extends CI_Model {
 
 	public function validateChangePasswordInfo($input){
 		$result = array();
-		if(!isset($input['user_password']) || !validate($input['user_password'])){
+		if(!isset($input['former_user_password']) || !validate($input['former_user_password'])){
 			$this->_CI->response->setSuccess(false);
-			$this->_CI->response->setDetail($this->lang->line('error_change_password'));
+			$this->_CI->response->setDetail($this->lang->line('error_input_password'));
+		}elseif(!isset($input['user_password']) || !validate($input['user_password'])){
+			$this->_CI->response->setSuccess(false);
+			$this->_CI->response->setDetail($this->lang->line('error_input_password'));
 		}elseif(!isset($input['password_confirm']) || !validate($input['password_confirm'])){
 			$this->_CI->response->setSuccess(false);
-			$this->_CI->response->setDetail($this->lang->line('error_change_password'));
+			$this->_CI->response->setDetail($this->lang->line('error_input_password'));
 		}elseif($input['password_confirm'] != $input['user_password']){
 			$this->_CI->response->setSuccess(false);
-			$this->_CI->response->setDetail($this->lang->line('error_change_password'));
+			$this->_CI->response->setDetail($this->lang->line('error_confirm_password'));
 		}else{
+			$result['former_user_password'] = strval($input['former_user_password']);
 			$result['user_password'] = strval($input['user_password']);
 		}
 
@@ -481,22 +511,22 @@ class Usermodel extends CI_Model {
 			$this->_CI->response->setDetail($this->lang->line('repeat_userrealname'));
 		}elseif(!isset($input['user_name']) || !validate($input['user_name'])){
 			$this->_CI->response->setSuccess(false);
-			$this->_CI->response->setDetail($this->lang->line('error_change_password'));
+			$this->_CI->response->setDetail($this->lang->line('error_user_name'));
 		}elseif(!isset($input['user_password']) || !validate($input['user_password'])){
 			$this->_CI->response->setSuccess(false);
-			$this->_CI->response->setDetail($this->lang->line('error_change_password'));
+			$this->_CI->response->setDetail($this->lang->line('error_user_password'));
 		}elseif(!isset($input['user_rept_password']) || !validate($input['user_rept_password'])){
 			$this->_CI->response->setSuccess(false);
-			$this->_CI->response->setDetail($this->lang->line('error_change_password'));
+			$this->_CI->response->setDetail($this->lang->line('error_user_rept_password'));
 		}elseif($input['user_password'] != $input['user_rept_password']){
 			$this->_CI->response->setSuccess(false);
-			$this->_CI->response->setDetail($this->lang->line('error_change_password'));
+			$this->_CI->response->setDetail($this->lang->line('error_user_rept_password'));
 		}elseif(!isset($input['permission']) || !validate($input['permission'])){
 			$this->_CI->response->setSuccess(false);
-			$this->_CI->response->setDetail($this->lang->line('error_change_password'));
+			$this->_CI->response->setDetail($this->lang->line('error_permission'));
 		}elseif(!isset($input['user_realname']) || !validate($input['user_realname'])){
 			$this->_CI->response->setSuccess(false);
-			$this->_CI->response->setDetail($this->lang->line('error_change_password'));
+			$this->_CI->response->setDetail($this->lang->line('error_user_realname'));
 		}else{
 			$result['user_name'] = strval($input['user_name']);
 			$result['user_realname'] = strval($input['user_realname']);
@@ -504,7 +534,6 @@ class Usermodel extends CI_Model {
 			$result['group_id'] = strval($input['permission']);			
 		}
 		
-		//print_r($this->response->generate_json_response());die();
 		return $result;
 	}
 
@@ -527,6 +556,5 @@ class Usermodel extends CI_Model {
 		$res = $this->db->count_all_results();
 		return $res;
 	}
-
 
 }

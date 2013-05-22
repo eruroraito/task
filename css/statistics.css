@@ -22,3 +22,4 @@
 	table td{border-bottom: 2px solid #fff;height:20px;line-height: 20px;padding:0 8px;}
 	table tr.odd{background:#d0d8e8;}
 	table tr.even{background:#e9edf4;}
+	table tr:hover{background-color:yellow;cursor:default;}

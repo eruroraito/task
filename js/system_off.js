@@ -89,3 +89,14 @@
 		$('button').removeClass('selected');
 		$(this).addClass('selected');
 	});
+
+	$('#offSearchForm').submit(function() {
+		var options = { success: function(responseText) { 
+			var response = eval('(' + responseText + ')'); 
+			if(response.success) {
+				window.location.reload();
+			}
+		} }; 
+		$(this).ajaxSubmit(options); 		
+		return false;
+	}); 

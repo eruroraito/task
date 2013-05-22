@@ -84,11 +84,11 @@
 	color: #666; 
 }
 #lightbox-container-image-data #lightbox-image-details { 
-	width: 70%; 
+	width: 80%; 
 	float: left; 
 	text-align: left; 
 }	
-#lightbox-image-details-caption { font-weight: bold;font-size:20px; }
+#lightbox-image-details-caption { font-weight: bold;font-size:16px; }
 #lightbox-image-details-currentNumber {
 	display: block; 
 	clear: left; 
