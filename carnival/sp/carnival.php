@@ -1,10 +1,10 @@
 <?php
-    //ini_set("display_errors", 0);
+    ini_set("display_errors", 0);
 	require_once 'callgs.php';
 	require_once 'config.php';
-	require_once 'question.php';
+	//require_once 'question.php';
 	session_start();	
-	//$qlist = $_SESSION['qlist'];
+	$qlist = $_SESSION['qlist'];
 	//print_r($_SESSION['qlist']);
 	$_SESSION['start_time'] = time();//答题开始时间
 ?>
@@ -12,26 +12,28 @@
 <link type="text/css" rel="stylesheet" href="css/carnival_main.css" />
 </head>
 <body ontouchmove="event.preventDefault()">
-
+	<div class="basic" id='basic'>
+		<aside id="aside">请把机器竖起来哦~亲!</aside>
+	</div>
 	<div class="sky_blue"></div>
 	<div class="dark_blue"></div>
-		<!--
-		<section class="name" id="name">
-			<h2 class="myname">我</h2>
-			<h2 class="challengername">挑战者姓名</h2>
-		</section>
-		-->
+		
 	<form action="carnival_result.php" method="post" id="result_form">
 		<input type ="hidden" name="answer_option" />
 		<input type ="hidden" name="right_number" />
 	</form>
+	<!--
+	<audio autoplay="autoplay" id="audio">
+  		<source src="music/background.mp3" type="audio/mpeg" />
+		Your browser does not support the audio element.
+	</audio>
+	-->
 	<?php 
 		foreach ($qlist['recipient'] as $key => $value) {
 			echo '<div class="main" id="main_'.$key.'">';
 			echo '<section class="blackboard_one" id="blackboard_one_'.$key.'">';
-				
 				if($value['type']==TYPE_WORD){
-					echo '<div class="question" id="question_'.$key.'">'.$value['ques'].'</div>';
+					echo '<div class="question justword" id="question_'.$key.'">'.$value['ques'].'</div>';
 				}elseif($value['type']==TYPE_IMAGE){
 					echo '<div class="question" id="question_'.$key.'">'.$value['ques'].'</div>';
 					echo '<div class="image">';
@@ -40,6 +42,10 @@
 				}elseif($value['type']==TYPE_FILL){
 					if($value['pic_serial']==0){
 						echo '<div class="question" id="question_'.$key.'">'.$value['ques'].'</div>';
+						echo '<div class="image">';
+							echo '<img class="right" id="'.$key.'_image_right" src="material/right.png" alt="图片无法显示" />';
+							echo '<img class="wrong" id="'.$key.'_image_wrong" src="material/wrong.png" alt="图片无法显示" />';
+						echo '</div>';
 					}else{
 						echo '<div class="question" id="question_'.$key.'">'.$value['ques'].'</div>';
 						echo '<div class="image">';
@@ -51,7 +57,7 @@
 					}
 				}elseif($value['type']==TYPE_NON){
 					if($value['pic_serial']==0){
-						echo '<div class="question" id="question_'.$key.'">'.$value['ques'].'</div>';
+						echo '<div class="question justword" id="question_'.$key.'">'.$value['ques'].'</div>';
 					}else{
 						echo '<div class="question" id="question_'.$key.'">'.$value['ques'].'</div>';
 						echo '<div class="image">';
@@ -198,13 +204,15 @@
 	$('.blackboard_one').css('top',separated);
 	$('.blackboard_two').css('top',separated);
 
-	$('.main').hide();
-	$('.right').hide();
-	$('.wrong').hide();
 	$('#main_0').show();
-	$('.word_answer').hide();
-	$('.non_answer').hide();
-    
+
+	//音乐播放
+	function replaymusic(){
+		//document.getElementById("audio").load();
+		//document.getElementById("audio").play();
+	}
+
+    //计时器
     function time(time_id){
     	var first_enter = true;
     	var remain_time =parseInt($(time_id).text());
@@ -223,8 +231,10 @@
 		        	if(answer_option == '') answer_option = qid+"|"+'1';
 					else answer_option = answer_option+"|"+qid+"|"+'1';
 		        	$(main_id).hide('slow').next().show('slow',function(){
+		        		replaymusic();
 		        		current_key++;
 		        		if(current_key<max_number){
+		        			replaymusic();
 		        			var next_time_id = current_key+1;
 		        			next_time_id = '#time_'+next_time_id;
 		        			time(next_time_id);  
@@ -243,11 +253,15 @@
     };
 
     time('#time_1');
-
+    //是非题
+    var non_click = false;
     $('.non_click').click(function(){
+    	if(non_click) return;
+    	$(this).css('background-image','url(material/non_answer_mousedown.png)');
+    	non_click = true;
 		time_stop = true;
 		current_key++;
-		var answer = $(this).parents('.non').attr('id').substring(2);
+		var answer = $(this).parents('.non').attr('id').substring(6);
 		var key = $(this).parents('.non').attr('id').substring(4,5);
 		var choose = $(this).attr('id').substring(2);
 		var image_name = '#'+key+'_'+choose+'_non_answer';
@@ -259,11 +273,15 @@
 		}
 		$(image_name).show('slow',function(){
 			if(current_key<max_number){
-				$(this).parents(main_id).hide('slow').next().show('slow');
-				time_stop = false;
-				key_toInt = parseInt(key)+2;
-				var time_id = '#time_'+key_toInt;
-				time(time_id);
+				$(this).parents(main_id).hide('slow').next().show('slow',function(){
+					replaymusic();
+					non_click = true;
+					time_stop = false;
+					key_toInt = parseInt(key)+2;
+					var time_id = '#time_'+key_toInt;
+					time(time_id);
+				});
+
 			}else{
 				$("form")[0].answer_option.value = answer_option;
     			$("form")[0].right_number.value = right_number;
@@ -271,11 +289,15 @@
 			}
 		});
 	})
-
+    //普通题
+    var word_click = false;
 	$('.word_click').click(function(){
+		if(word_click) return;
+		$(this).css('background-image','url(material/word_answer_mousedown.png)');
+		word_click = true;
 		time_stop = true;
 		current_key++;
-		var answer = $(this).parents('.word').attr('id').substring(2);
+		var answer = $(this).parents('.word').attr('id').substring(7);
 		var key = $(this).parents('.word').attr('id').substring(5,6);
 		var choose = $(this).attr('id').substring(2);
 		var image_name = '#'+key+'_'+choose+'_word_answer';
@@ -287,11 +309,15 @@
 		}
 		$(image_name).show('slow',function(){
 			if(current_key<max_number){
-				$(this).parents(main_id).hide('slow').next().show('slow');
-				time_stop = false;
-				key_toInt = parseInt(key)+2;
-				var time_id = '#time_'+key_toInt;
-				time(time_id);
+				$(this).parents(main_id).hide('slow').next().show('slow',function(){
+					replaymusic();
+					word_click = false;
+					time_stop = false;
+					key_toInt = parseInt(key)+2;
+					var time_id = '#time_'+key_toInt;
+					time(time_id);
+				});
+
 			}else{
 				$("form")[0].answer_option.value = answer_option;
     			$("form")[0].right_number.value = right_number;
@@ -299,13 +325,15 @@
 			}
 		});
 	});
-
+	//填空题
 	var fill_click_num =0;
 	var fill_choose = '';
 	var fill_choose_value = '';
 	$('.fill_click').click(function(){
 		fill_click_num++;
 		var fill_answer = $(this).parents('.fill').attr('id').substring(2);
+		if(fill_click_num>fill_answer.toString().length) return;
+		$(this).css('background-image','url(material/fill_answer_mousedown.png)');
 		var fill_key = $(this).parents('.fill').attr('id').substring(0,1);
 		fill_choose = fill_choose+$(this).attr('id').substring(2);
 		fill_choose_value = fill_choose_value+$(this).text();
@@ -329,14 +357,16 @@
 			}
 			$(image_name).show('slow',function(){
 				if(current_key<max_number){
-					$(this).parents('.main').hide('slow').next().show('slow');
-					time_stop = false;
-					key_toInt = parseInt(fill_key)+2;
-					var time_id = '#time_'+key_toInt;
-					time(time_id);
-					fill_click_num=0;
-					fill_choose='';
-					fill_choose_value='';
+					$(this).parents('.main').hide('slow').next().show('slow',function(){
+							replaymusic();
+							time_stop = false;
+							key_toInt = parseInt(fill_key)+2;
+							var time_id = '#time_'+key_toInt;
+							time(time_id);
+							fill_click_num=0;
+							fill_choose='';
+							fill_choose_value='';
+						});
 				}else{
 					$("form")[0].answer_option.value = answer_option;
     				$("form")[0].right_number.value = right_number;
@@ -348,6 +378,7 @@
 		}else{
 			//重选
 		    $('.rechoose').click(function(){
+		    	$('.fill_click').css('background-image','url(material/fill_answer.png)');
 		    	fill_click_num = 0;//重置点击次数
 		    	fill_choose_value = '';//重置选择的内容
 		    	fill_choose = '';//重置选择的答案编号
@@ -359,7 +390,11 @@
 		    });
 		}
 	});
-
+	
+	$('.fill_click').mousedown(function(){
+		return;
+	});
+	//触摸题初始化
 	$(function(){	
 		var canvas_id = '';
 		for(var key=0;key<10;key++){
@@ -437,6 +472,7 @@
 			} 
 		}
 	});
+
 </script>
 
 </body>

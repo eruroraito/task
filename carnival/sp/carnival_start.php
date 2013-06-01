@@ -1,5 +1,5 @@
 <?php
-    //ini_set("display_errors", 0);
+    ini_set("display_errors", 0);
 	require_once 'callgs.php';
 	require_once 'config.php';
 	session_start();	
@@ -10,7 +10,7 @@
 	    $aid = 1;
 	$param_nv['qtitleid'] = $aid;
 	$cmdcode = "qlist";	
-	$voteall = $gdp->execGmCmd($param_nv,$cmdcode);
+	$voteall = $gdp->execGmCmd($param_nv,$cmdcode);//print_r($voteall);
     $_SESSION['qlist']= $voteall;
 ?>
 <?php require_once 'header.php';?>
@@ -28,9 +28,16 @@
 		img.start{width:262px;height:104px;position:absolute;left:50%;margin-left:-122px;top:50%;margin-top:120px;}
 
 		div.finished{display:none;}
+
+		div.basic{width:100%;height:100%;background:#667fa1;position:absolute;z-index:1000000000;display:none;}
+		div.basic aside{top:50%;left:50%;position:absolute;font-size:50px;color:#fff;width:10em;line-height:50px;margin:-25px 0 0 -250px;}
 	</style>
 </head>
-<body>
+
+<body ontouchmove="event.preventDefault()">
+	<div class="basic" id='basic'>
+		<aside id="aside">请把机器竖起来哦~亲!</aside>
+	</div>
 	<div class="sky_blue"></div>
 	<div class="dark_blue"></div>
 	<img class="main" src="material/login.jpg" alt="图片加载失败" />
@@ -44,9 +51,21 @@
 		<img class="start" id="start" src="material/start.jpg" alt="图片加载失败"/>
 	</div>
 
-
-
 <script type="text/javascript">
+	function orientationChange(){  
+		switch(window.orientation) {   
+			case 0: $('#basic').hide();
+			case 180: $('#basic').hide();  
+			// Javascript to setup Portrait view   
+			break;   
+			case -90: $('#basic').show();			  
+			case 90: $('#basic').show();
+			// Javascript to steup Landscape view   
+			break;   
+		}   
+	}
+	window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", orientationChange, false);
+
 	$(function(){
 		$("#pb1").progressBar();
 		var x=0;
@@ -60,9 +79,9 @@
 	      $('#pb1').progressBar(x);
 	    },50);
 	});
-	var exchange = <?php echo array_key_exists('challenger', $voteall);?>
+	var exchange = <?php if(array_key_exists('challenger', $voteall)) echo 1;else echo 0;?>;
 	$('#start').click(function(){
-		if(exchange) location.href='carnival.php';
+		if(!exchange) location.href='carnival.php';
 		else location.href='carnival_exchange.php';
 	});
 </script>

@@ -1,4 +1,4 @@
-	div.main{position: relative;}
+	div.main{position: relative;display: none;}
 	div.sky_blue{background:#50badc;width:100%;height:77%;position: absolute;}
 	div.dark_blue{background:#074d83;width:100%;height:23%;position: absolute;top:77%;}
 	section.name{position: absolute;width:100%;height:60px;margin-top:5px;}
@@ -20,9 +20,10 @@
 	section.blackboard_two h3{font-size:30px;width:100px;line-height: 30px;margin:32px auto;padding-left:22px;}
 	section.blackboard_two strong{font-size:26px;width:80px;line-height: 30px;margin:344px auto;padding-left:35px;display: block;color:#fff;font-weight:normal;}
 	div.question{font-size:30px;line-height: 30px;color:#430707;width:420px;margin:88px auto 14px;}
+	div.justword{margin-top:132px;}
 	div.image{width:500px;height:266px;margin: 0px 44px;position: relative;}
 	canvas{position: absolute;z-index:999999;}
-	img.right,img.wrong{position: absolute;width: 215px;height:204px;top:30px;left:0;margin-left:150px;}
+	img.right,img.wrong{position: absolute;width: 215px;height:204px;top:30px;left:0;margin-left:150px;display: none;}
 	img.word_answer{position: absolute;width: 98px;height:72px;z-index:999;}
 	img.one{top:30px;left:85px;}
 	img.two{top:30px;left:375px;}
@@ -32,4 +33,7 @@
 	img.non_answer_one,img.non_answer_two{position: absolute;width: 98px;height:72px;z-index:999;}
 	img.non_answer_one{top:56px;left:85px;}
 	img.non_answer_two{top:56px;left:375px;}
+	img.word_answer,img.non_answer{display:none;}
 	button.rechoose{border:none;width:88px;height:47px;background:url(../material/rechoose.png) no-repeat;position: absolute;z-index:99999;text-indent: -10000px;overflow: hdiden;bottom:17px;left:385px;}
+	div.basic{width:100%;height:100%;background:#667fa1;position:absolute;z-index:1000000000;display:none;}
+	div.basic aside{top:50%;left:50%;position:absolute;font-size:50px;color:#fff;width:10em;line-height:50px;margin:-25px 0 0 -250px;}

@@ -4,12 +4,12 @@ $qlist = array(
             		0 =>array(
                         'qid' => '0',
         	            'titleid'=>'1',
-        	            'ques'=>'以下图片表示什么＿＿＿',
-        	            'ptime'=>'5',
+        	            'ques'=>'以下图片表示什么＿＿＿＿',
+        	            'ptime'=>'50',
         	            'type'  =>'2',
-        	            'pic_serial' =>'1001',
-        	            'fill_num'=> '3',
-        	            'answer'=>'123', 
+        	            'pic_serial' =>'0',
+        	            'fill_num'=> '4',
+        	            'answer'=>'1234', 
         	            'sellist'=>array(
                             '1' =>'一',
                             '2' =>'清',
@@ -26,12 +26,15 @@ $qlist = array(
                         'titleid'=>'2',
                         'ques'=>'以下图片表示什么?＿＿＿＿',
                         'ptime'=>'50',
-                        'type'  =>'4',
+                        'type'  =>'1',
                         'pic_serial' =>'1004',
                         'fill_num'=> '1',
                         'answer'=>'1',                                       
                         'sellist'=>array(
-
+                            '1' =>'一心一意',
+                            '2' =>'马踏飞燕',
+                            '3' =>'走马观花',
+                            '4' =>'不知所踪',
                         )
                     ),
                     2 =>array(

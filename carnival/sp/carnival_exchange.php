@@ -2,10 +2,10 @@
     //ini_set("display_errors", 0);
 	require_once 'callgs.php';
 	require_once 'config.php';
-	require_once 'question.php';
+	//require_once 'question.php';
 	session_start();	
-	$_SESSION['qlist'] = $qlist;
-	//$qlist = $_SESSION['qlist'];
+	//$_SESSION['qlist'] = $qlist;
+	$qlist = $_SESSION['qlist'];
 	//print_r($_SESSION['qlist']);
 	$_SESSION['start_time'] = time();//答题开始时间
 ?>
@@ -19,7 +19,9 @@
 	</style>
 </head>
 <body ontouchmove="event.preventDefault()">
-
+	<div class="basic" id='basic'>
+		<aside id="aside">请把机器竖起来哦~亲!</aside>
+	</div>
 	<div class="sky_blue"></div>
 	<div class="dark_blue"></div>
 
@@ -38,7 +40,7 @@
 			echo '<section class="blackboard_one" id="blackboard_one_'.$key.'">';
 				
 				if($value['type']==TYPE_WORD){
-					echo '<div class="question" id="question_'.$key.'">'.$value['ques'].'</div>';
+					echo '<div class="question justword" id="question_'.$key.'">'.$value['ques'].'</div>';
 				}elseif($value['type']==TYPE_IMAGE){
 					echo '<div class="question" id="question_'.$key.'">'.$value['ques'].'</div>';
 					echo '<div class="image">';
@@ -47,6 +49,10 @@
 				}elseif($value['type']==TYPE_FILL){
 					if($value['pic_serial']==0){
 						echo '<div class="question" id="question_'.$key.'">'.$value['ques'].'</div>';
+						echo '<div class="image">';
+							echo '<img class="right" id="'.$key.'_image_right" src="material/right.png" alt="图片无法显示" />';
+							echo '<img class="wrong" id="'.$key.'_image_wrong" src="material/wrong.png" alt="图片无法显示" />';
+						echo '</div>';
 					}else{
 						echo '<div class="question" id="question_'.$key.'">'.$value['ques'].'</div>';
 						echo '<div class="image">';
@@ -58,7 +64,7 @@
 					}
 				}elseif($value['type']==TYPE_NON){
 					if($value['pic_serial']==0){
-						echo '<div class="question" id="question_'.$key.'">'.$value['ques'].'</div>';
+						echo '<div class="question justword" id="question_'.$key.'">'.$value['ques'].'</div>';
 					}else{
 						echo '<div class="question" id="question_'.$key.'">'.$value['ques'].'</div>';
 						echo '<div class="image">';
@@ -191,7 +197,7 @@
 			echo '<section class="blackboard_one" id="challenger_blackboard_one_'.$key.'">';
 				
 				if($value['type']==TYPE_WORD){
-					echo '<div class="question" id="challenger_question_'.$key.'">'.$value['ques'].'</div>';
+					echo '<div class="question justword" id="challenger_question_'.$key.'">'.$value['ques'].'</div>';
 				}elseif($value['type']==TYPE_IMAGE){
 					echo '<div class="question" id="challenger_question_'.$key.'">'.$value['ques'].'</div>';
 					echo '<div class="image">';
@@ -200,6 +206,10 @@
 				}elseif($value['type']==TYPE_FILL){
 					if($value['pic_serial']==0){
 						echo '<div class="question" id="challenger_question_'.$key.'">'.$value['ques'].'</div>';
+						echo '<div class="image">';
+							echo '<img class="right" id="challenger_'.$key.'_image_right" src="material/right.png" alt="图片无法显示" />';
+							echo '<img class="wrong" id="challenger_'.$key.'_image_wrong" src="material/wrong.png" alt="图片无法显示" />';
+						echo '</div>';
 					}else{
 						echo '<div class="question" id="challenger_question_'.$key.'">'.$value['ques'].'</div>';
 						echo '<div class="image">';
@@ -210,7 +220,7 @@
 					}
 				}elseif($value['type']==TYPE_NON){
 					if($value['pic_serial']==0){
-						echo '<div class="question" id="challenger_challenger_question_'.$key.'">'.$value['ques'].'</div>';
+						echo '<div class="question justword" id="challenger_challenger_question_'.$key.'">'.$value['ques'].'</div>';
 					}else{
 						echo '<div class="question" id="challenger_question_'.$key.'">'.$value['ques'].'</div>';
 						echo '<div class="image">';
@@ -220,7 +230,6 @@
 				}elseif($value['type']==TYPE_TOUCH){
 					echo '<div class="question" id="challenger_question_'.$key.'">'.$value['ques'].'</div>';
 					echo '<div class="image">';
-						echo '<canvas id="challenger_canvas_'.$key.'" width="500" height="266">浏览器不支持html5</canvas>';
 						echo '<img src="../mr/icon/'.$value['pic_serial'].'.jpg" alt="图片无法显示" />';
 					echo '</div>';
 				}
@@ -369,6 +378,13 @@
 			}
 		?>
 	});
+
+	//音乐播放
+	function replaymusic(){
+		//document.getElementById("audio").load();
+		//document.getElementById("audio").play();
+	}
+
 	//宽高自适应
 	var height = $(document).height();
 	var thingsheight = 707;
@@ -405,6 +421,7 @@
 					$(main_id).hide('slow',function(){
 						var challenger_id = '#challenger_main_'+challenger_current_key;
 						$(challenger_id).show('slow',function(){
+							replaymusic();
 							var type=challenger_types[challenger_current_key];
 							var challenger_time_id = challenger_current_key+1;
 							challenger_time_id = '#challenger_time_'+challenger_time_id;
@@ -417,14 +434,21 @@
 										var challenger_main_id = '#challenger_main_'+challenger_current_key;
 										$(challenger_main_id).hide('slow',function(){
 											challenger_current_key++;
-											current_key++;
-											var next_main_id = '#main_'+current_key;
-											$(next_main_id).show('slow',function(){
-												time_stop = false;
-												key_toInt = parseInt(current_key)+1;
-												var time_id = '#time_'+key_toInt;
-												time(time_id);
-											});
+											if(challenger_current_key>=max_number){
+												$("form")[0].answer_option.value = answer_option;
+						    					$("form")[0].right_number.value = right_number;
+						    					$("form")[0].submit(); 
+											}else{
+												current_key++;
+												var next_main_id = '#main_'+current_key;
+												$(next_main_id).show('slow',function(){
+													replaymusic();
+													time_stop = false;
+													key_toInt = parseInt(current_key)+1;
+													var time_id = '#time_'+key_toInt;
+													time(time_id);
+												});
+											}
 										});
 									});									
 								},5000);
@@ -436,14 +460,21 @@
 										var challenger_main_id = '#challenger_main_'+challenger_current_key;
 										$(challenger_main_id).hide('slow',function(){
 											challenger_current_key++;
-											current_key++;
-											var next_main_id = '#main_'+current_key;
-											$(next_main_id).show('slow',function(){
-												time_stop = false;
-												key_toInt = parseInt(current_key)+1;
-												var time_id = '#time_'+key_toInt;
-												time(time_id);
-											});
+											if(challenger_current_key>=max_number){
+												$("form")[0].answer_option.value = answer_option;
+						    					$("form")[0].right_number.value = right_number;
+						    					$("form")[0].submit(); 
+											}else{
+												current_key++;
+												var next_main_id = '#main_'+current_key;
+												$(next_main_id).show('slow',function(){
+													replaymusic();
+													time_stop = false;
+													key_toInt = parseInt(current_key)+1;
+													var time_id = '#time_'+key_toInt;
+													time(time_id);
+												});
+											}
 										});
 									});									
 								},5000);
@@ -455,36 +486,27 @@
 										var challenger_main_id = '#challenger_main_'+challenger_current_key;
 										$(challenger_main_id).hide('slow',function(){
 											challenger_current_key++;
-											current_key++;
-											var next_main_id = '#main_'+current_key;
-											$(next_main_id).show('slow',function(){
-												time_stop = false;
-												key_toInt = parseInt(current_key)+1;
-												var time_id = '#time_'+key_toInt;
-												time(time_id);
-											});
+											if(challenger_current_key>=max_number){
+												$("form")[0].answer_option.value = answer_option;
+						    					$("form")[0].right_number.value = right_number;
+						    					$("form")[0].submit(); 
+											}else{
+												current_key++;
+												var next_main_id = '#main_'+current_key;
+												$(next_main_id).show('slow',function(){
+													replaymusic();
+													time_stop = false;
+													key_toInt = parseInt(current_key)+1;
+													var time_id = '#time_'+key_toInt;
+													time(time_id);
+												});
+											}
 										});
 									});									
 								},5000);
 							}
 						});
-
 					});
-
-					/*
-		        	$(main_id).hide('slow').next().show('slow',function(){
-		        		current_key++;
-		        		if(current_key<max_number){
-		        			var next_time_id = current_key+1;
-		        			next_time_id = '#time_'+next_time_id;
-		        			time(next_time_id);  
-		        		}else{
-		        			$("form")[0].answer_option.value = answer_option;
-    						$("form")[0].right_number.value = right_number;
-    						$("form")[0].submit(); 
-		        		}
-      		
-		        	});*/
 		        }
     		}else{
     			window.clearInterval(set_id);
@@ -495,10 +517,14 @@
     time('#time_1');
 
     //是非题
+    var non_click = false;
     $('.non_click').click(function(){
+    	if(non_click) return;
+    	$(this).css('background-image','url(material/non_answer_mousedown.png)');
+    	non_click = true;
 		time_stop = true;
 		current_key++;
-		var answer = $(this).parents('.non').attr('id').substring(2);
+		var answer = $(this).parents('.non').attr('id').substring(6);
 		var key = $(this).parents('.non').attr('id').substring(4,5);
 		var choose = $(this).attr('id').substring(2);
 		var image_name = '#'+key+'_'+choose+'_non_answer';
@@ -515,21 +541,39 @@
 				var challenger_current_main_id = '#challenger_main_'+challenger_current_key;
 				var current_main_id = '#main_'+current_key;
 				$(challenger_current_main_id).show('slow',function(){
-					var challenger_answer_choose_id = '#challenger_'+challenger_current_key+'_'+challenger_answers[challenger_current_key]+'_non_answer';
+					non_click = false;
+					replaymusic();
+					var type=challenger_types[challenger_current_key];
+					if(type==2){
+						var challenger_answer = '#challenger_'+challenger_current_key+'_image_wrong';
+					}else if(type==4){
+						var challenger_answer = '#challenger_'+challenger_current_key+'_'+challenger_answers[challenger_current_key]+'_non_answer';
+					}else{
+						var challenger_answer = '#challenger_'+challenger_current_key+'_'+challenger_answers[challenger_current_key]+'_word_answer';
+					}
+					
 					var challenger_time_id  = challenger_current_key+1;
 					challenger_time_id = '#challenger_time_'+challenger_time_id;
 					time(challenger_time_id);
 					challenger_current_key++;
+
 					setTimeout(function(){
 						time_stop=true;
-						$(challenger_answer_choose_id).show('slow',function(){
+						$(challenger_answer).show('slow',function(){
 							$(challenger_current_main_id).hide('slow',function(){
-								$(current_main_id).show('slow',function(){
-									time_stop = false;
-									key_toInt = parseInt(key)+2;
-									var time_id = '#time_'+key_toInt;
-									time(time_id);
-								});
+								if(challenger_current_key>=max_number){
+									$("form")[0].answer_option.value = answer_option;
+			    					$("form")[0].right_number.value = right_number;
+			    					$("form")[0].submit(); 
+								}else{
+									$(current_main_id).show('slow',function(){
+										replaymusic();
+										time_stop = false;
+										key_toInt = parseInt(key)+2;
+										var time_id = '#time_'+key_toInt;
+										time(time_id);
+									});
+								}
 							});
 						});
 					},4000);
@@ -542,10 +586,14 @@
 		});
 	})
 	//普通题
+	var word_click = false;
 	$('.word_click').click(function(){
+		if(word_click) return;
+		$(this).css('background-image','url(material/word_answer_mousedown.png)');
+		word_click = true;
 		time_stop = true;
 		current_key++;
-		var answer = $(this).parents('.word').attr('id').substring(2);
+		var answer = $(this).parents('.word').attr('id').substring(7);
 		var key = $(this).parents('.word').attr('id').substring(5,6);
 		var choose = $(this).attr('id').substring(2);
 		var image_name = '#'+key+'_'+choose+'_word_answer';
@@ -562,20 +610,38 @@
 				var challenger_current_main_id = '#challenger_main_'+challenger_current_key;
 				var current_main_id = '#main_'+current_key;
 				$(challenger_current_main_id).show('slow',function(){
-					var challenger_answer_choose_id = '#challenger_'+challenger_current_key+'_'+challenger_answers[challenger_current_key]+'_word_answer';
+					word_click = false;
+					replaymusic();
+					var type=challenger_types[challenger_current_key];
+					if(type==2){
+						var challenger_answer = '#challenger_'+challenger_current_key+'_image_wrong';
+					}else if(type==4){
+						var challenger_answer = '#challenger_'+challenger_current_key+'_'+challenger_answers[challenger_current_key]+'_non_answer';
+					}else{
+						var challenger_answer = '#challenger_'+challenger_current_key+'_'+challenger_answers[challenger_current_key]+'_word_answer';
+					}
+
 					challenger_current_key++;
+
 					var challenger_time_id = '#challenger_time_'+challenger_current_key;
 					time(challenger_time_id);
 					setTimeout(function(){
 						time_stop=true;
-						$(challenger_answer_choose_id).show('slow',function(){
-							$(challenger_current_main_id).hide('fast',function(){
-								$(current_main_id).show('slow',function(){
-									time_stop = false;
-									key_toInt = parseInt(key)+2;
-									var time_id = '#time_'+key_toInt;
-									time(time_id);
-								});
+						$(challenger_answer).show('slow',function(){
+							$(challenger_current_main_id).hide('slow',function(){
+								if(challenger_current_key>=max_number){
+									$("form")[0].answer_option.value = answer_option;
+			    					$("form")[0].right_number.value = right_number;
+			    					$("form")[0].submit(); 
+								}else{
+									$(current_main_id).show('slow',function(){
+										replaymusic();
+										time_stop = false;
+										key_toInt = parseInt(key)+2;
+										var time_id = '#time_'+key_toInt;
+										time(time_id);
+									});
+								}
 							});
 						});
 					},5000);
@@ -594,6 +660,8 @@
 	$('.fill_click').click(function(){
 		fill_click_num++;
 		var fill_answer = $(this).parents('.fill').attr('id').substring(2);
+		if(fill_click_num>fill_answer.toString().length) return;
+		$(this).css('background-image','url(material/fill_answer_mousedown.png)');
 		var fill_key = $(this).parents('.fill').attr('id').substring(0,1);
 		var main_id = '#main_'+fill_key;
 		fill_choose = fill_choose+$(this).attr('id').substring(2);
@@ -624,23 +692,41 @@
 					var challenger_current_main_id = '#challenger_main_'+challenger_current_key;
 					var current_main_id = '#main_'+current_key;
 					$(challenger_current_main_id).show('slow',function(){
-						var challenger_answer_choose_id = '#challenger_'+challenger_current_key+'_image_wrong';
+						replaymusic();
+						var type=challenger_types[challenger_current_key];
+						if(type==2){
+							var challenger_answer = '#challenger_'+challenger_current_key+'_image_wrong';
+						}else if(type==4){
+							var challenger_answer = '#challenger_'+challenger_current_key+'_'+challenger_answers[challenger_current_key]+'_non_answer';
+						}else{
+							var challenger_answer = '#challenger_'+challenger_current_key+'_'+challenger_answers[challenger_current_key]+'_word_answer';
+						}
+
+						//var challenger_answer_choose_id = '#challenger_'+challenger_current_key+'_image_wrong';
 						challenger_current_key++;
+
 						var challenger_time_id = '#challenger_time_'+challenger_current_key;
 						time(challenger_time_id);
 						setTimeout(function(){
 							time_stop=true;
-							$(challenger_answer_choose_id).show('slow',function(){
+							$(challenger_answer).show('slow',function(){
 								$(challenger_current_main_id).hide('slow',function(){
-									$(current_main_id).show('slow',function(){
-										time_stop = false;
-										var key_toInt = parseInt(fill_key)+2;
-										var time_id = '#time_'+key_toInt;
-										time(time_id);
-										fill_click_num=0;
-										fill_choose='';
-										fill_choose_value='';
-									});
+									if(challenger_current_key>=max_number){
+										$("form")[0].answer_option.value = answer_option;
+			    						$("form")[0].right_number.value = right_number;
+			    						$("form")[0].submit(); 
+									}else{
+										replaymusic();
+										$(current_main_id).show('slow',function(){
+											time_stop = false;
+											var key_toInt = parseInt(fill_key)+2;
+											var time_id = '#time_'+key_toInt;
+											time(time_id);
+											fill_click_num=0;
+											fill_choose='';
+											fill_choose_value='';
+										});
+									}
 								});
 							});
 						},5000);
@@ -666,6 +752,7 @@
 		}else{
 			//重选
 		    $('.rechoose').click(function(){
+		    	$('.fill_click').css('background-image','url(material/fill_answer.png)');
 		    	fill_click_num = 0;//重置点击次数
 		    	fill_choose_value = '';//重置选择的答案内容
 		    	fill_choose = '';//重置选择的答案编号
@@ -677,6 +764,7 @@
 		    });
 		}
 	});
+
 	//触摸题覆盖层初始化
 	$(function(){	
 		var canvas_id = '';
@@ -755,6 +843,7 @@
 			} 
 		}
 	});
+
 </script>
 
 </body>

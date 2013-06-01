@@ -72,9 +72,14 @@
 		table.result tr td.red{color:#ce1313;}
 		a.android{background:url(material/android_download.png) no-repeat;width:259px;height: 102px;position: absolute;left:50%;margin-left:-129px;text-indent: -1000px;overflow: hidden;}
 		a.iphone{background-image:url(material/iphone_download.png);}
+		div.basic{width:100%;height:100%;background:#667fa1;position:absolute;z-index:1000000000;display:none;}
+		div.basic aside{top:50%;left:50%;position:absolute;font-size:50px;color:#fff;width:10em;line-height:50px;margin:-25px 0 0 -250px;}
 	</style>
 </head>
-<body>
+<body ontouchmove="event.preventDefault()">
+	<div class="basic" id='basic'>
+		<aside id="aside">请把机器竖起来哦~亲!</aside>
+	</div>
 	<div class="main" id="main">
 		<div class="sky_blue"></div>
 		<div class="dark_blue"></div>
@@ -87,9 +92,9 @@
 				</tr>
 				<tr>
 					<td>答对:</td>
-					<td class="red"><?php echo $challenger_right_number;?></td>
+					<td class="red"><?php echo $challenger_right_number;?>/10题</td>
 					<td>答对:</td>
-					<td class="red"><?php echo $right_number;?></td>
+					<td class="red"><?php echo $right_number;?>/10题</td>
 				</tr>
 				<tr>
 					<td>时间:</td>
@@ -134,6 +139,20 @@
 	if(browser.versions.ios){
 		$('#download_icon').addClass('iphone');
 	}
+
+	function orientationChange(){  
+		switch(window.orientation) {   
+			case 0: $('#basic').hide();
+			case 180: $('#basic').hide();  
+			// Javascript to setup Portrait view   
+			break;   
+			case -90: $('#basic').show();			  
+			case 90: $('#basic').show();
+			// Javascript to steup Landscape view   
+			break;   
+		}   
+	}
+	window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", orientationChange, false);
   </script> 
 </body>
 </html>
